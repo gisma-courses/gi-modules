@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Legal on gi-modules</title>
-    <link>https://gisma-courses.github.io/gi-modules/categories/legal/</link>
-    <description>Recent content in Legal on gi-modules</description>
+    <title>Basics on gi-modules</title>
+    <link>https://gisma-courses.github.io/gi-modules/categories/basics/</link>
+    <description>Recent content in Basics on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Mon, 15 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/legal/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/basics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About GI-Modules</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-15-howto-gi-modules/</link>

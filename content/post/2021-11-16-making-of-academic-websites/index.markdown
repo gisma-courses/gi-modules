@@ -11,7 +11,7 @@ toc: yes
 output:
   blogdown::html_page:
     keep_md: yes
-weight: 30
+weight: 210
 ---
 
 ## Setting up the blogdown Project

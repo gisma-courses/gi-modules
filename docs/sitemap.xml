@@ -2,25 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-15-howto-gi-modules/</loc>
-    <lastmod>2021-11-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-13-learning-environment/</loc>
-    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-13-assignments/</loc>
-    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-21-impressum/</loc>
-    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/top/archive/</loc>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</loc>
     <lastmod>2021-11-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-16-making-of-academic-websites/</loc>
-    <lastmod>2021-11-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</loc>
     <lastmod>2021-11-16T00:00:00+00:00</lastmod>
@@ -30,6 +15,21 @@
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-16-agis-ressourcen/</loc>
     <lastmod>2021-11-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-15-howto-gi-modules/</loc>
+    <lastmod>2021-11-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-16-making-of-academic-websites/</loc>
+    <lastmod>2021-11-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-13-learning-environment/</loc>
+    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-13-assignments/</loc>
+    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/post/2021-11-21-impressum/</loc>
+    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/categories/agis/</loc>
     <lastmod>2021-11-20T00:00:00+00:00</lastmod>
@@ -70,10 +70,10 @@
     <loc>https://gisma-courses.github.io/gi-modules/tags/scidoc/</loc>
     <lastmod>2021-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/tags/basics/</loc>
+    <loc>https://gisma-courses.github.io/gi-modules/categories/basics/</loc>
     <lastmod>2021-11-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/categories/legal/</loc>
+    <loc>https://gisma-courses.github.io/gi-modules/tags/basics/</loc>
     <lastmod>2021-11-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/tags/scripts/</loc>

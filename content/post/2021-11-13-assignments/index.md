@@ -3,13 +3,13 @@ title: About Assignments
 author: Chris Reudenbach
 date: '2021-11-13'
 slug: []
-categories: ["Legal"]
+categories: ["Basics"]
 tags: ["basics"]
 description: 'The exercises and assignments are submitted via markdown/rmarkdown files and PDF documents created from them in a private Github repository.'
 image: '/assets/images/hinterland-sp.jpg'
 toc: true
 toc_label: Content
-weight: 3
+weight: 250
 ---
 
 To start with, get yourself a GitHub account if you have not one already and create your learning log repository. Be aware that once the learning log repository is created, you will stick to this until the end of the course.
