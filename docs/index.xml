@@ -108,16 +108,6 @@ Creating a Canopy Height Model (CHM) reloaded After successful application of th
     </item>
     
     <item>
-      <title>Setting up a project-oriented workflow - Part 1</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-11-13-setting-up-a-project-oriented-workflow-part-1/</link>
-      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-13-setting-up-a-project-oriented-workflow-part-1/</guid>
-      <description>To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.
-If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</description>
-    </item>
-    
-    <item>
       <title></title>
       <link>https://gisma-courses.github.io/gi-modules/search/placeholder/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
