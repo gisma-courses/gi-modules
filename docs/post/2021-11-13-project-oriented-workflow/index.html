@@ -372,21 +372,53 @@ Several errors are likely to pop up during this installation and setup process. 
   margin: 4px 2px;
   transition-duration: 0.5s;
   cursor: pointer;
+  background-color: #4CAF50; 
+  border-radius: 4px 4px; 
 }
-
-.button1 {
+.button1 a:link {
+  color: #FFF;
   border-radius: 4px 4px;        
   background-color: #4CAF50; 
-  border: 2px solid #4CAF50;
+  
+}
+
+.button1 a:visited {
+  color: white;
+    border-radius: 4px 4px;        
+  background-color: #4CAF50; 
+  
+}
+
+.button1 a:hover {
+  color: white;
+    border-radius: 4px 4px;        
+  background-color: #4CAF50; 
+  
+}
+
+.button1 a:active {
+  color: white;
+    border-radius: 4px 4px;        
+  background-color: #4CAF50; 
+  
+}
+}
+
+
+.button1 {
+  color: white;
+  border-radius: 4px 4px;        
+  background-color: #4CAF50; 
+  
 }
 
 .button1:hover {
   background-color: #4CAF60;
-  
-  box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+    box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
 }
 
 .button2 {
+  
   background-color: white; 
   color: black; 
   border: 2px solid #008CBA;
@@ -396,12 +428,14 @@ Several errors are likely to pop up during this installation and setup process. 
   background-color: #008CBA;
   color: white;
 }
-
+a:link {
+  color: red;
+}
 </style>
 
 
 <div class="col-12 col-lg-10ish article-style">     
-<p>Please use  <button class="button button1"> <a href="https://api.utteranc.es/authorize?redirect_uri=https%3a%2f%2fgisma-courses.github.io%2fgi-modules%2fpost%2f2021-11-13-project-oriented-workflow%2f"></a>Sign in with GitHub</button> button if the below Sign in button doesn't work. <br> Questions and mistakes but also suggestions and solutions are welcome.</p>
+<p>Please use  <button class="button button1"> <a href="https://api.utteranc.es/authorize?redirect_uri=https%3a%2f%2fgisma-courses.github.io%2fgi-modules%2fpost%2f2021-11-13-project-oriented-workflow%2f">Sign in with GitHub</a></button> button if the below Sign in button doesn't work. <br> Questions and mistakes but also suggestions and solutions are welcome.</p>
 <script src="https://utteranc.es/client.js"
         repo="gisma-courses/gi-modules"
         issue-term="title"
