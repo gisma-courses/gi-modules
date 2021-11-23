@@ -1,0 +1,26 @@
+{
+  "name": "gi-modules",
+  "version": "1.0.0",
+  "description": "gi",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "atomic-algolia": "^0.3.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "algolia": "atomic-algolia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gisma-courses/gi-modules.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gisma-courses/gi-modules/issues"
+  },
+  "homepage": "https://github.com/gisma-courses/gi-modules#readme"
+}

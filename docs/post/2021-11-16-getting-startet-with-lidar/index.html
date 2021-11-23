@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en-us^">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="gi-modules">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://gisma-courses.github.io/gi-modules///assets/images/final2-sp.jpg">
+    <meta property="twitter:image" content="https://gisma-courses.github.io/gi-modules///assets/images/final2-sp.jpg" />
+    
+
+    
+    <meta name="title" content="Getting startet with LiDAR" />
+    <meta property="og:title" content="Getting startet with LiDAR" />
+    <meta property="twitter:title" content="Getting startet with LiDAR" />
+    
+
+    
+    <meta name="description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.">
+    <meta property="og:description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations." />
+    <meta property="twitter:description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations." />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+    
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/gi-modules/css/hugo-cite.css" />
+<link rel="stylesheet" href="https://gisma-courses.github.io/gi-modules/css/stackoverflow-light.min.css" rel="stylesheet" id="theme-stylesheet">
+<script src="https://gisma-courses.github.io/gi-modules/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+    <meta name="keyword"  content="gisma">
+    <link rel="shortcut icon" href="/gi-modules/img/favicon.ico">
+
+    <title>Getting startet with LiDAR-your title</title>
+
+    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
+    
+
+  <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
+    
+    <link href="https://gisma-courses.github.io/gi-modules/css/boxes.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/gi-modules/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/gi-modules/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/gi-modules/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/gi-modules/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/gi-modules/js/jquery.min.js"></script>
+
+    
+    <script src="/gi-modules/js/bootstrap.min.js"></script>
+
+    
+    <script src="/gi-modules/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/gi-modules/"> HOME </a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                   
+                    
+                        
+                        <li>
+                            <a href="/gi-modules/categories/agis">agis</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/gi-modules/categories/legal">legal</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/gi-modules/categories/prerequisites">prerequisites</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/gi-modules/top/archive/">CONTENT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/gi-modules/assets/images/bayern-religion-sp.jpg');
+  max-height: 350px
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
+                <div class="post-heading">
+                   
+                    <h1>Getting startet with LiDAR</h1>
+                   
+            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h2 id="lidar-data-and-las-data-format">LiDAR data and LAS data format</h2>
+<p>Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the <a href="https://www.asprs.org/a/society/committees/standards/LAS_1_4_r13.pdf">American Society for Photogrammetry &amp; Remote Sensing LAS documentation file</a>). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</p>
+<h2 id="brief-overview-of-lidar-software-tools">Brief Overview of LiDAR Software Tools</h2>
+<p>The development of the software is rapid. A few years ago, it was only possible to manipulate, manage and analyze LiDAR data with complex special tools.  Especially the (partly (commercial) <a href="https://rapidlasso.com/lastools/">LAStools</a> software was unrivaled for many years. Many remote sensing and remote sensing software tools have acquired licenses on this basis or developed components independently. Examples are <a href="http://grasswiki.osgeo.org/wiki/LIDAR">GRASS GIS</a> and <a href="https://desktop.arcgis.com/en/arcmap/10.3/manage-data/las-dataset/a-quick-tour-of-lidar-in-arcgis.htm">ArcGIS</a>.
+Beside the GIS packages there are a number of powerful specialists.  Two important and typical representatives are <a href="https://www.3dforest.eu/#about">3D forest</a> and <a href="http://forsys.cfr.washington.edu/FUSION/fusion_overview.html">FUSION</a>.</p>
+<p>However all solution can be linked to R (we did it over the years) the <code>lidr</code> package has revolutionized the processing of LiDAR data in the R ecotop and is definitely by far the best choice (and even faster an more reliable than commercial tools). Extensive documentation and workflow examples can be found in the Wiki of the respective <a href="https://github.com/Jean-Romain/lidR">GitHub repository</a>. A very recent publication is avaiblable at Remote Sensing of Environment <a href="https://www.sciencedirect.com/science/article/pii/S0034425720304314#f0015">idR: An R package for analysis of Airborne Laser Scanning (ALS) data</a>.</p>
+<h2 id="start-up-test">Start up test</h2>
+<p>For the following, make sure these libraries are part of your setup (should be the case if you follow <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/">project oriented workflow post</a>).</p>
+<p>We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. First load the tutorial data to an appropriate data folder of your project. Then add the following libraries.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># define  additional packages comment if not needed</span>
+appendpackagesToLoad <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;lidR&#34;</span>, <span style="color:#e6db74">&#34;mapview&#34;</span>, <span style="color:#e6db74">&#34;raster&#34;</span>, <span style="color:#e6db74">&#34;rlas&#34;</span>, <span style="color:#e6db74">&#34;sp&#34;</span>, <span style="color:#e6db74">&#34;sf&#34;</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
+<span style="color:#75715e"># NOTE file size is about 12MB</span>
+utils<span style="color:#f92672">::</span><span style="color:#a6e22e">download.file</span>(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&#34;</span>,
+                     destfile<span style="color:#f92672">=</span><span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>))
+<span style="color:#a6e22e">unzip</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>),
+      exdir <span style="color:#f92672">=</span> envrmt<span style="color:#f92672">$</span>path_tmp,  
+      overwrite <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+
+las_files <span style="color:#f92672">=</span> <span style="color:#a6e22e">list.files</span>(envrmt<span style="color:#f92672">$</span>path_tmp,
+                       pattern <span style="color:#f92672">=</span> <span style="color:#a6e22e">glob2rx</span>(<span style="color:#e6db74">&#34;*.las&#34;</span>),
+                       full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+
+</code></pre></div><p>If you want to read a single (not to big) LAS file, you can use the <code>readLAS</code> function. Plotting the data set results in a 3D interactive screen which opens from within R.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">lidar_file <span style="color:#f92672">=</span> <span style="color:#a6e22e">readLAS</span>(las_files[1])
+<span style="color:#a6e22e">plot</span>(lidar_file, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Z&#34;</span>,colorPalette <span style="color:#f92672">=</span> <span style="color:#a6e22e">mvTop</span>(<span style="color:#ae81ff">256</span>),backend<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rgl&#34;</span>)
+</code></pre></div><p>
+  <img src="/gi-modules/assets/videos/las_mof_plot.gif" alt="">
+
+</p>
+<figure>
+  <figcaption> 
+  Example forest LiDAR data set.
+  </figcaption>
+</figure>
+<p>If this works, you&rsquo;re <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/">good to go</a> for LiDAR data analysis.</p>
+<h2 id="comments--suggestions">Comments &amp; Suggestions</h2>
+
+                
+
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 2px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+.button1 {
+  border-radius: 4px 4px;        
+  background-color: #4CAF50; 
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF60;
+  
+  box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+</style>
+
+
+<div class="col-12 col-lg-10ish article-style">     
+<p>Please use  <button class="button button1"> <a href="https://api.utteranc.es/authorize?redirect_uri=https%3a%2f%2fgisma-courses.github.io%2fgi-modules%2fpost%2f2021-11-16-getting-startet-with-lidar%2f"></a>Sign in with GitHub</button> button if the below Sign in button doesn't work. <br> Questions and mistakes but also suggestions and solutions are welcome.</p>
+<script src="https://utteranc.es/client.js"
+        repo="gisma-courses/gi-modules"
+        issue-term="title"
+        label="comments"
+        theme="github-light"
+        crossorigin="anonymous" 
+        async>
+</script>
+    
+</div>
+
+                
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/gi-modules/post/2021-11-20-forest-information-from-lidar-data/" data-toggle="tooltip" data-placement="top" title="Forest Information from LiDAR data">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/gi-modules/post/2021-11-16-making-of-academic-websites/" data-toggle="tooltip" data-placement="top" title="Academic writing made easy">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">Content</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+            
+            
+
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                col-md-3 col-md-offset-1
+                sidebar-container
+                catalog-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">Tag Nav</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/basics" title="basics">
+                            basics
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/ecology" title="ecology">
+                            ecology
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/forest" title="forest">
+                            forest
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/forestry" title="forestry">
+                            forestry
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/lidar" title="lidar">
+                            lidar
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/project-management" title="project-management">
+                            project-management
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/reproducibility" title="reproducibility">
+                            reproducibility
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/resources" title="resources">
+                            resources
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/scidoc" title="scidoc">
+                            scidoc
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/scripts" title="scripts">
+                            scripts
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/setup" title="setup">
+                            setup
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                 
+
+                
+                
+                      
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="gi-modules" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:creuden@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/gisma">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; gi-modules 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/gi-modules\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

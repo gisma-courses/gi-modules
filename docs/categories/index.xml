@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on gi-modules</title>
+    <link>https://gisma-courses.github.io/gi-modules/categories/</link>
+    <description>Recent content in Categories on gi-modules</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us^</language>
+    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>aGIS</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/agis/</link>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/categories/agis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Legal</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/legal/</link>
+      <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/categories/legal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Prerequisites</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/prerequisites/</link>
+      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/categories/prerequisites/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

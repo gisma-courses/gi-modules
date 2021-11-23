@@ -1,0 +1,94 @@
+baseurl: https://gisma-courses.github.io/gi-modules/
+publishDir: docs
+title: gi-modules
+theme: hugo-theme-cleanwhite
+taxonomies:
+  category: categories
+  tag: tags
+  author: authorsS
+languageCode: en-us^
+disqusShortname: ''
+googleAnalytics: ''
+preserveTaxonomyNames: yes
+#paginate: 10
+hasCJKLanguage: yes
+outputs:
+  home:
+    - HTML
+    - RSS
+    - Algolia
+params:
+  SEOTitle: your title
+  about_me: no
+  addtional_menus:
+    - href: /top/archive/
+      title: CONTENT
+#    - href: /top/about/
+#      title: About
+  algolia:
+    params:
+      - categories
+      - tags
+    vars:
+      - title
+      - summary
+      - date
+      - publishdate
+      - expirydate
+      - permalink
+  algolia_apiKey: ''
+  algolia_appId: ''
+  algolia_indexName: ''
+  algolia_search: no
+  ba_track_id: ''
+  bookmark_link:
+    - href: http://www.uni-marburg.de/en
+      title: Philipps-University Marburg
+    - href: https://gisma-courses.github.io/modules
+      title: giswerk
+    - href: https://r-spatial.github.io
+      title: r-spatial
+  featured_condition_size: 0
+  featured_tags: yes
+  friend_link:
+    - href: ''
+      title: ''
+  friends: false
+  bookmarks: false
+  header_image: /assets/images/final2-sp.jpg
+  image_404: img/404-bg.jpg
+  keyword: gisma
+  leancloud_app_id: ''
+  leancloud_app_key: ''
+  omit_categories: no
+  page_view_conter: no
+  reward: no
+  sidebar_about_description:  The responsibility for the content rests with the instructors. Statements, opinions and/or conclusions are the ones from the instructors and do not necessarily reflect the opinion of the representatives of Marburg University. Contact creuden@gmail.com  
+  sidebar_avatar: /assets/images/authors/logo.png
+  slogan: 
+  social:
+    email: creuden@gmail.com
+    github: https://github.com/gisma
+    linkedin: 
+    rss: yes
+    stackoverflow: 
+    wechat: 
+  title_404:  :(
+  MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
+  MathJaxVersion: 2.7.5
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    extensions:
+      footnote: true
+    renderer:
+      unsafe: yes
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4      
+outputFormats:
+  Algolia:
+    baseName: algolia
+    isPlainText: yes
+    mediaType: application/json
+    notAlternative: yes 
