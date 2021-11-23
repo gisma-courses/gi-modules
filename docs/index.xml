@@ -6,7 +6,7 @@
     <description>Recent content on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gi-moduls Content</title>
       <link>https://gisma-courses.github.io/gi-modules/top/archive/</link>
@@ -44,6 +44,17 @@ If you also need to access additional software, like GIS, the appropriate binari
       <description>How to get started? For this first example we take a typical situation:
  we have no idea about the software and possible solutions we have no idea about LiDAR data processing and analysis we just google something like lidR package tutorial  Among the top ten is The lidR package book . So let’s follow the white rabbit…
 Creating a Canopy Height Model (CHM) reloaded After successful application of the tutorial we will transfer it into a suitable script for our workflow.</description>
+    </item>
+    
+    <item>
+      <title>Indices and More</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-11-23-indices-and-more/</link>
+      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-23-indices-and-more/</guid>
+      <description>A few snippets to practice he following snippets fit in principle with the logic of the previous approach. They are adapted to tree level. However, we have already learned that we can also choose other aggregation concepts. Then they have to be adapted accordingly.
+Above all, they show how sub-scaled satellite land use and LidAr data can be merged into one parameter set.
+ </description>
     </item>
     
     <item>
