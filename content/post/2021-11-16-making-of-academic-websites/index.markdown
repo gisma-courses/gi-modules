@@ -39,7 +39,7 @@ After some seconds you will see the new website project.
 
 Basically all content is placed in the `content` folder and all ressources that you want to serve manually is put under `static`.
 
-Please check if the `Git` tab is alredy visible. If so please navigate to Project Options-&gt;Git/SVN-&gt; and set `Version control systems` to `none`. this will avoid later on some hazzles.
+Please check if the `Git` tab is alredy visible. If so please navigate to Project Options->Git/SVN-> and set `Version control systems` to `none`. this will avoid later on some hazzles.
 
 ### Mandatory Adaptions
 
@@ -87,7 +87,7 @@ git config --global user.name "your github name"
 ### Track all project files.
 
 *Solution 1: *
-Tick all files in the git pane of RStudio -&gt; click on `Commit` add “**First commit**” in the text field and click again on `commit`.
+Tick all files in the git pane of RStudio -> click on `Commit` add “**First commit**” in the text field and click again on `commit`.
 
 *Solution 2: *
 switch to the terminal tab (beside the console tab) and type:

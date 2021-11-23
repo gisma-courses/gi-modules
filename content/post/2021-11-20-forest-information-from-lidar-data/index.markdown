@@ -6,7 +6,7 @@ slug: []
 categories: ["aGIS"]
 tags: ["forest", "lidar","ecology","forestry"]
 description: ''
-image: '/assets/images/bayern-religion-sp.jpg'
+image: '/assets/images/forest-sp.jpg'
 toc: true
 output:
   blogdown::html_page:
@@ -48,7 +48,7 @@ If not already done download the course related [LiDAR data set of the MOF area]
 
 Please note that dealing with `lidR` catalogs is pretty stressful for the memory administration of your `rsession`. So best practices is to **Restart your Rsesseion and clean up your environment**. This will help you to avoid frustrating situation like restarting your PC after hours of waiting…
 
-Take the setup section of the above script and exchange the code part as found under *\#— start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.
+Take the setup section of the above script and exchange the code part as found under *#— start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.
 
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
 

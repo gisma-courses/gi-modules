@@ -6,7 +6,7 @@ slug: []
 categories: ["aGIS"]
 tags: ["forest", "lidar","ecology","forestry"]
 description: ''
-image: '/assets/images/bayern-religion-sp.jpg'
+image: '/assets/images/forest-sp.jpg'
 toc: true
 output:
   blogdown::html_page:
