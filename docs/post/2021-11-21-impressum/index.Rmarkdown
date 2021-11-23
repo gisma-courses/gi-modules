@@ -8,6 +8,7 @@ tags: ["basics"]
 image: '/assets/images/hinterland-sp.jpg'
 toc: true
 toc_label: Content
+description: 'This course is brought with the background of Open Educational Resources initiative coordinated by the Leibniz-Institut für Bildungsforschung und Bildungsinformation and integrated in the official teaching framework of the Marburg University, Germany'
 weight: 300
 ---
 
