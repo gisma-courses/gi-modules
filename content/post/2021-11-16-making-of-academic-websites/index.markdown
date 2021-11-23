@@ -4,7 +4,7 @@ author: Chris Reudenbach
 date: '2021-11-16'
 slug: []
 categories: ["aGIS"]
-tags: ["scidoc","reproducibility","project management"]
+tags: ["scidoc","reproducibility","project management","Rmarkdown"]
 description: 'The blogdown package provides a fully functional blogging tool from setting up websites to editing and discussing content. It is abel to handle both  markdown and R markdown content. The chosen hugo-theme-minima-gisma theme is a slightly adapted version of the hugo-theme-minima.It provides basic functionality and an incredible straightforward design.'
 image: '/assets/images/head-assign.jpg'
 toc: yes
@@ -37,36 +37,50 @@ After some seconds you will see the new website project.
 
 ![folder of website](images/folder.png)
 
-Basically all content is placed in the `content` folder and all ressources that you want to serve manually is put under `static`.
+Basically all content is placed in the `content` folder and all resources that you want to serve manually, is put under the `static` folder.
 
-Please check if the `Git` tab is alredy visible. If so please navigate to Project Options->Git/SVN-> and set `Version control systems` to `none`. this will avoid later on some hazzles.
+Please **first** check if the `Git` tab is already visible. If so, please navigate to `Project Options -> Git/SVN` and set `Version control systems` to `none`. this will avoid later hazzles.
 
 ### Mandatory Adaptions
 
-In the beginning you must once open the `config.yaml` file which is located in the root folder of the new course and adapt at least `title` and `URL`:
+You must once open the `config.yaml` file which is located in the root folder of the new course and adapt at least `title`, `URL` and `publishDir`. This settings are found at the beginning of the yaml file:
 
 ``` r
-title: my fancy website                               # Website Name 
-baseurl: https://your-github-name.github.io/your-repo # Website URL
+baseurl: https://your-github-name.github.io/your-repo-name # Website URL
+publishDir: docs
+title: name-of-my-blog  # Website Name 
 ```
 
 ### Build the pages
 
-With the following command you build the site for publishing. The argument `build_rmd = TRUE` forces `blogdown` all Rmarkdownfiles to be rebuild.
-
-{{% alert "Warning" "warning" "black" "black" "It is highly recommended to rebuilt the pages ALWAYS before pushing them to GitHub" %}}
+Now build the site for publishing.
 
 ``` r
 blogdown::build_site(build_rmd = TRUE)
 ```
 
+The argument `build_rmd = TRUE` **forces** a rebuild of all Rmarkdown files.
+
+{{% alert "Warning" "warning" "black" "black" "You must rebuilt your pages ALWAYS before pushing them to GitHub" %}}
+
+### Seerve the site locally
+
 With `blogdown::build_serve()` you start the local server and the compiled site is shown in the viewer pane. Alternatively you may also use the GUI via `RStudio toolbar -> Serve -> Addins -> Serve Site`.
 
-Basically you start serving the website on localhost (means on the webserver as provided by RStudio) what opens the site in the viewer pane. You easily can extend it to your default browser by clicking on the symbol next right to the cleaning brush.
+Basically you start serving the website on localhost (means on the web-server as provided by RStudio). You notice that the site is visualized in the viewer pane. You easily can shift the view to your default browser by clicking on the symbol next right to the cleaning brush.
 
 {{% alert "Hint" "info" "black" "black" "Sometimes after the rebuild of the site it is neccessary to restart the rsession. You may use Ctrl+Shift+F10. After that you must restart the local server using the above command." %}}
 
 ## Setting up the version control
+
+Up to now you are fine with a locally running website for ducumentation purposes. To get it on air you need to push this whole site to a GitHub repository. So you need to do the following steps:
+2. Initialize Git localy
+2. Setup Git for Rstudio
+3. Setup git for Rstudio
+2. Mark (track) and commit all files in the project
+2. Set up the corresponding GitHub repository and push the files
+
+Step 4 and 5 are the typical steps running a version control system
 
 ### Initialize Git
 
@@ -109,14 +123,6 @@ git push -u origin main
 
 You obviously Have to sign in with either a webbased login or with your token.
 
-### GitHub Pitfalls
-
-For windows it is assumed that you use the [current client](https://git-scm.com/download/win). It is strongly suggested to use [`notepad++`](https://notepad-plus-plus.org/) as editor which will be asked to choose during installation. To initialize this version of ``` git`` with ```RStudio``` you need to navigate  to ``Tools->Global Options->Git/SVN ``` tick `Enable version control interface for RStudio projects` and navigate to the `Git executables` which is commonly found under `C:/Program Files/Git/bin/git.exe`.
-
-{{% alert "Note" "warning" "black" "black" "There are a lot of possible pitfalls using git with RStudio especially with Windows. If so please use the comments to address them. " %}}
-
-{{% alert "Warning" "danger" "black" "black" "I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown project." %}}
-
 ### If you want - publish your Website on Github
 
 1.  Navigate on GitHub to `Repository -> Settings -> Pages`
@@ -131,6 +137,14 @@ You will get a message like:
 If everything is fine it will switch over to green (takes some minutes).
 
 {{% alert "" "success" "black" "black" "Your site is ready to be published at https://gisma-courses.github.io/myBlog/" %}}
+
+### GitHub Pitfalls
+
+For windows it is assumed that you use the [current client](https://git-scm.com/download/win). It is strongly suggested to use [`notepad++`](https://notepad-plus-plus.org/) as editor which will be asked to choose during installation. To initialize this version of ``` git`` with ```RStudio``` you need to navigate  to ``Tools->Global Options->Git/SVN ``` tick `Enable version control interface for RStudio projects` and navigate to the `Git executables` which is commonly found under `C:/Program Files/Git/bin/git.exe`.
+
+{{% alert "Note" "warning" "black" "black" "There are a lot of possible pitfalls using git with RStudio especially with Windows. If so please use the comments to address them. " %}}
+
+{{% alert "Warning" "danger" "black" "black" "I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown project." %}}
 
 ## Adding Content
 
