@@ -163,7 +163,7 @@ You start the common GUI for creating a so called *post* which means an article 
 -   The `subdirectory` should also remain at default (`post`).
 -   `Categories`, `Tags` and `Archetypes` shape the navigation and organisational structure and they are crucial.
     -   `Categories` can be freely assigned. However, it should be noted that they are automatically listed in the menu under the Menu Categories in order to structure the blogs. This also applies to the `Tags`. I suggest always using the same category for this course (e.g. `aGIS`) and using `Exercises` as Tag for exercises. Each typing error will of course be converted into its own tag or category.
--   There are templates, the so-called `Archetypes` from which you should used sci.md for all exercises.
+-   There are templates, the so-called `Archetypes` from which you should used `sci-report.md` for all exercises if not otherwise stated.
 -   The last step is to select the `Format`. For all R-related content, I highly recommend selecting `Rmarkdown`.
 
 After clicking `Done` you have generated your new article with some structural information and in addition some hints how to deal with R-commands. Please delete this exemplary content when you edit this file. If you are finished you easily can use the RStudio Git MEnu to Commit and Push the content to GitHub.
