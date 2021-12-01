@@ -67,12 +67,12 @@ params:
   sidebar_avatar: /assets/images/authors/logo.png
   slogan: 
   social:
-    email: creuden@gmail.com
-    github: https://github.com/gisma
-    linkedin: 
-    rss: yes
-    stackoverflow: 
-    wechat: 
+  email: creuden@gmail.com
+  github: https://github.com/gisma
+  linkedin: no
+  rss: yes
+  stackoverflow : no
+  wechat: no
   title_404:  :(
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5

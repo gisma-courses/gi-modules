@@ -28,7 +28,7 @@ To initialize a blogdown website I strongly recommend to use the menu bar of RSt
 
 
 - `RStudio toolbar -> File -> New Project -> New Directory -> blogdown website`
-- Copy `gisma-courses/hugo-theme-minima-gisma` into the Hugo theme field 
+- Copy `gisma-courses/hugo-theme-cleanwhite-gc` into the Hugo theme field 
 - activate `Open in new session`
 - Click on `Create Project`
 
@@ -49,6 +49,7 @@ publishDir: docs
 title: name-of-my-blog  # Website Name 
 ```
 
+Now please delete the folder `public`
 
 ### Build the pages
 
@@ -57,16 +58,18 @@ Now build the site for publishing.
 
 ```r
 blogdown::build_site(build_rmd = TRUE)
+# for singele pages you may use 
+blogdown::build_site(build_rmd = "page-name")
 ```
 
 The argument `build_rmd = TRUE` **forces** a rebuild of all Rmarkdown files. 
 
 
 ```{r echo=FALSE}
-blogdown::shortcode("alert", "Warning", "warning" ,"black", "black", "You must rebuilt your pages ALWAYS before pushing them to GitHub")
+blogdown::shortcode("alert", "Warning", "warning" ,"black", "black", "Please keep in mind that you must rebuilt your pages ALWAYS before pushing them  to GitHub")
 ```
 
-### Seerve the site locally
+### Serve the site locally
 
 With `blogdown::build_serve()` you start the local server and the compiled site is shown in the viewer pane. Alternatively you may also use the GUI via `RStudio toolbar -> Serve -> Addins -> Serve Site`.
 

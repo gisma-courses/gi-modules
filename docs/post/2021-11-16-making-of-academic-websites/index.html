@@ -210,7 +210,7 @@ blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">install
 </code></pre></div><p>To initialize a blogdown website I strongly recommend to use the menu bar of RStudio.</p>
 <ul>
 <li><code>RStudio toolbar -&gt; File -&gt; New Project -&gt; New Directory -&gt; blogdown website</code></li>
-<li>Copy <code>gisma-courses/hugo-theme-minima-gisma</code> into the Hugo theme field</li>
+<li>Copy <code>gisma-courses/hugo-theme-cleanwhite-gc</code> into the Hugo theme field</li>
 <li>activate <code>Open in new session</code></li>
 <li>Click on <code>Create Project</code></li>
 </ul>
@@ -226,9 +226,12 @@ blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">install
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">baseurl<span style="color:#f92672">:</span> https<span style="color:#f92672">://</span>your<span style="color:#f92672">-</span>github<span style="color:#f92672">-</span>name.github.io<span style="color:#f92672">/</span>your<span style="color:#f92672">-</span>repo<span style="color:#f92672">-</span>name <span style="color:#75715e"># Website URL</span>
 publishDir<span style="color:#f92672">:</span> docs
 title<span style="color:#f92672">:</span> name<span style="color:#f92672">-</span>of<span style="color:#f92672">-</span>my<span style="color:#f92672">-</span>blog  <span style="color:#75715e"># Website Name </span>
-</code></pre></div><h3 id="build-the-pages">Build the pages</h3>
+</code></pre></div><p>Now please delete the folder <code>public</code></p>
+<h3 id="build-the-pages">Build the pages</h3>
 <p>Now build the site for publishing.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#75715e"># for singele pages you may use </span>
+blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;page-name&#34;</span>)
 </code></pre></div><p>The argument <code>build_rmd = TRUE</code> <strong>forces</strong> a rebuild of all Rmarkdown files.</p>
 <style>
 .headline{
@@ -246,10 +249,10 @@ title<span style="color:#f92672">:</span> name<span style="color:#f92672">-</spa
 Warning
 </div>  
 <div class="textline">
-You must rebuilt your pages ALWAYS before pushing them to GitHub
+Please keep in mind that you must rebuilt your pages ALWAYS before pushing them  to GitHub
 </div>
 </div>
-<h3 id="seerve-the-site-locally">Seerve the site locally</h3>
+<h3 id="serve-the-site-locally">Serve the site locally</h3>
 <p>With <code>blogdown::build_serve()</code> you start the local server and the compiled site is shown in the viewer pane. Alternatively you may also use the GUI via <code>RStudio toolbar -&gt; Serve -&gt; Addins -&gt; Serve Site</code>.</p>
 <p>Basically you start serving the website on localhost (means on the web-server as provided by RStudio). You notice that the site is visualized in the viewer pane. You easily can shift the view to your default browser by clicking on the symbol next right to the cleaning brush.</p>
 <style>
@@ -636,25 +639,7 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
                    
-                   <li>
-                       <a href='' rel="alternate" type="application/rss+xml" title="gi-modules" >
-                           <span class="fa-stack fa-lg">
-                               <i class="fas fa-circle fa-stack-2x"></i>
-                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                           </span>
-                       </a>
-                   </li>
-                   
                     
-                    <li>
-                        <a href="mailto:creuden@gmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
 
                     
                     
@@ -665,15 +650,6 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
 		    
                     
                     
-                    <li>
-                        <a target="_blank" href="https://github.com/gisma">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
                     
                     
                     
