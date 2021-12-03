@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="Getting startet with LiDAR" />
-    <meta property="og:title" content="Getting startet with LiDAR" />
-    <meta property="twitter:title" content="Getting startet with LiDAR" />
+    <meta name="title" content="R-Spatial in der Nussschale" />
+    <meta property="og:title" content="R-Spatial in der Nussschale" />
+    <meta property="twitter:title" content="R-Spatial in der Nussschale" />
     
 
     
-    <meta name="description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.">
-    <meta property="og:description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations." />
-    <meta property="twitter:description" content="Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations." />
+    <meta name="description" content="">
+    <meta property="og:description" content="" />
+    <meta property="twitter:description" content="" />
     
 
     
@@ -41,9 +41,9 @@
     <meta name="keyword"  content="gisma">
     <link rel="shortcut icon" href="/gi-modules/img/favicon.ico">
 
-    <title>Getting startet with LiDAR-your title</title>
+    <title>R-Spatial in der Nussschale-your title</title>
 
-    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
+    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/">
     
 
   <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
@@ -163,7 +163,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/assets/images/bayern-religion-sp.jpg');
+        background-image: url('/gi-modules/assets/images/final2-sp.jpg');
   max-height: 350px
     }
 </style>
@@ -175,7 +175,7 @@
             <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
                 <div class="post-heading">
                    
-                    <h1>Getting startet with LiDAR</h1>
+                    <h1>R-Spatial in der Nussschale</h1>
                    
             
                             
@@ -200,43 +200,53 @@
                 post-container">
 
                 
-                <h2 id="lidar-data-and-las-data-format">LiDAR data and LAS data format</h2>
-<p>Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the <a href="https://www.asprs.org/a/society/committees/standards/LAS_1_4_r13.pdf">American Society for Photogrammetry &amp; Remote Sensing LAS documentation file</a>). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</p>
-<h2 id="brief-overview-of-lidar-software-tools">Brief Overview of LiDAR Software Tools</h2>
-<p>The development of the software is rapid. A few years ago, it was only possible to manipulate, manage and analyze LiDAR data with complex special tools.  Especially the (partly (commercial) <a href="https://rapidlasso.com/lastools/">LAStools</a> software was unrivaled for many years. Many remote sensing and remote sensing software tools have acquired licenses on this basis or developed components independently. Examples are <a href="http://grasswiki.osgeo.org/wiki/LIDAR">GRASS GIS</a> and <a href="https://desktop.arcgis.com/en/arcmap/10.3/manage-data/las-dataset/a-quick-tour-of-lidar-in-arcgis.htm">ArcGIS</a>.
-Beside the GIS packages there are a number of powerful specialists.  Two important and typical representatives are <a href="https://www.3dforest.eu/#about">3D forest</a> and <a href="http://forsys.cfr.washington.edu/FUSION/fusion_overview.html">FUSION</a>.</p>
-<p>However all solution can be linked to R (we did it over the years) the <code>lidr</code> package has revolutionized the processing of LiDAR data in the R ecotop and is definitely by far the best choice (and even faster an more reliable than commercial tools). Extensive documentation and workflow examples can be found in the Wiki of the respective <a href="https://github.com/Jean-Romain/lidR">GitHub repository</a>. A very recent publication is avaiblable at Remote Sensing of Environment <a href="https://www.sciencedirect.com/science/article/pii/S0034425720304314#f0015">idR: An R package for analysis of Airborne Laser Scanning (ALS) data</a>.</p>
-<h2 id="start-up-test">Start up test</h2>
-<p>For the following, make sure these libraries are part of your setup (should be the case if you follow <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/">project oriented workflow post</a>).</p>
-<p>We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. First load the tutorial data to an appropriate data folder of your project. Then add the following libraries.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># define  additional packages comment if not needed</span>
-appendpackagesToLoad <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;lidR&#34;</span>, <span style="color:#e6db74">&#34;mapview&#34;</span>, <span style="color:#e6db74">&#34;raster&#34;</span>, <span style="color:#e6db74">&#34;rlas&#34;</span>, <span style="color:#e6db74">&#34;sp&#34;</span>, <span style="color:#e6db74">&#34;sf&#34;</span>)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e"># NOTE file size is about 12MB</span>
-utils<span style="color:#f92672">::</span><span style="color:#a6e22e">download.file</span>(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&#34;</span>,
-                     destfile<span style="color:#f92672">=</span><span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>))
-<span style="color:#a6e22e">unzip</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>),
-      exdir <span style="color:#f92672">=</span> envrmt<span style="color:#f92672">$</span>path_tmp,  
-      overwrite <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+                <h2 id="vektordaten">Vektordaten</h2>
+<p>Natürlich können in <code>R</code> auch Vektordaten verarbeitet werden. Das Paket, <code>sf</code> ist da Arbeitspferd um Vektordaten vieler Typen zu lesen, schreiben und analysieren. FürÜbungszwecke werden wir einige Daten aus der <a href="https://www.openstreetmap.de/">Openstreetmap</a> (OSM) Datenbank herunterladen. Einen Überblick über die verfügbaren <a href="https://wiki.openstreetmap.org/wiki/Map_features">Features</a> finden sie unter dem Link.
+Mit dem folgenden R-Quellcode laden und visualisieren wir die Gebäude im Verwaltungsbereich Marburg:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Example Polygons</span>
+<span style="color:#75715e"># OSM public data buildings marburg</span>
+<span style="color:#75715e"># do not forget to add the osmdata package to your header section of the script</span>
 
-las_files <span style="color:#f92672">=</span> <span style="color:#a6e22e">list.files</span>(envrmt<span style="color:#f92672">$</span>path_tmp,
-                       pattern <span style="color:#f92672">=</span> <span style="color:#a6e22e">glob2rx</span>(<span style="color:#e6db74">&#34;*.las&#34;</span>),
-                       full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#a6e22e">library</span>(osmdata)
+<span style="color:#75715e"># loading OSM data for the Marburg region </span>
+buildings <span style="color:#f92672">=</span> <span style="color:#a6e22e">opq</span>(bbox <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;marburg de&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">add_osm_feature</span>(key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;building&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">osmdata_sf</span>()
 
-</code></pre></div><p>If you want to read a single (not to big) LAS file, you can use the <code>readLAS</code> function. Plotting the data set results in a 3D interactive screen which opens from within R.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">lidar_file <span style="color:#f92672">=</span> <span style="color:#a6e22e">readLAS</span>(las_files[1])
-<span style="color:#a6e22e">plot</span>(lidar_file, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Z&#34;</span>,colorPalette <span style="color:#f92672">=</span> <span style="color:#a6e22e">mvTop</span>(<span style="color:#ae81ff">256</span>),backend<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rgl&#34;</span>)
-</code></pre></div><p>
-  <img src="/gi-modules/assets/videos/las_mof_plot.gif" alt="">
+buildings <span style="color:#f92672">=</span> buildings<span style="color:#f92672">$</span>osm_polygons
 
-</p>
-<figure>
-  <figcaption> 
-  Example forest LiDAR data set.
-  </figcaption>
-</figure>
-<p>If this works, you&rsquo;re <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/">good to go</a> for LiDAR data analysis.</p>
-<h2 id="comments--suggestions">Comments &amp; Suggestions</h2>
+mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">mapview</span>(buildings)
+</code></pre></div><h2 id="sentinel-satellitendaten">Sentinel-Satellitendaten</h2>
+<p>Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich. Ein Beispiel für solche Satellitendaten, die häufig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission] (<a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2">https://sentinel.esa.int/web/sentinel/missions/sentinel-2</a>) der Europäischen Weltraumorganisation.</p>
+<h3 id="das-paket-sen2r">Das Paket <code>sen2r</code></h3>
+<p>Mit dem Paket <code>sen2r</code> können Sie Sentinel-2-Bilder direkt in <code>R</code> herunterladen und vorverarbeiten.</p>
+<p>Um <code>sen2r</code> zu installieren, müssen Sie <code>Rtools</code> installiert haben.</p>
+<ol>
+<li>Gehe zu <a href="http://cran.r-project.org/bin/windows/Rtools/">http://cran.r-project.org/bin/windows/Rtools/</a></li>
+<li>Wählen Sie den Download-Link, der Ihrer Version von <code>R</code> entspricht</li>
+<li>Öffnen Sie die .exe-Datei und verwenden Sie die Standardeinstellungen</li>
+<li><strong>Vergewissern Sie sich, dass Sie das Kästchen ankreuzen, damit das Installationsprogramm Ihren PATH bearbeiten kann</strong></li>
+<li>Führen Sie <code>library(devtools)</code> in <code>R</code> aus</li>
+<li>Führen Sie <code>find_rtools()</code> aus &ndash; wenn <code>TRUE</code>, hat die Installation richtig funktioniert</li>
+</ol>
+<p>Dann muss das Paket nur noch wie jedes andere Paket installiert werden.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;sen2r&#34;</span>)
+<span style="color:#a6e22e">library</span>(sen2r)
+</code></pre></div><h3 id="die-sen2r-gui">Die <code>sen2r</code>-GUI</h3>
+<p>Der einfachste Weg, <code>sen2r</code> zu benutzen, ist, die grafische Benutzeroberfläche (GUI) zu öffnen und sie im interaktiven Modus zu benutzen. Allerdings muss man hier in den Einstellungen aus einer Vielzahl von Optionen wählen. Die dafür erforderlichen Kenntnisse sind auch für die unten vorgestellte Kommandozeilenversion notwendig. Beide Schnittstellen können automatisiert werden. Wir empfehlen die API, aber letztlich bleibt es Ihnen überlassen. Verwenden Sie dazu die gleichnamige Funktion.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sen2r<span style="color:#f92672">::</span><span style="color:#a6e22e">sen2r</span>()
+</code></pre></div><h3 id="die-sen2r-api">Die <code>sen2r</code> API</h3>
+<p>Damit Sie Sentinel Daten benutzen können müssen Sie bei SciHub ein <a href="https://scihub.copernicus.eu/dhus/#/self-registration">Konto anlegen</a>!</p>
+<p>Im folgenden Skript werden die Sentinel-2-Daten zur Berechnung der Oberflächenalbedo verwendet. Dazu sind die folgenden Schritte notwendig:</p>
+<ol>
+<li>Festlegen einger Parameter wie z.B. Datum Bildausschnitt usw.</li>
+<li>Herunterladen der Daten durch Konfigurieren und Ausführen von <code>sen2r</code> über die API</li>
+<li>Berechnen Sie die Oberflächenalbedo (beispielhaft)</li>
+</ol>
+<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
+<p>Die <a href="https://sen2r.ranghetti.info/">sen2r vignette</a> bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von <code>sen2r</code> aus <code>R</code> heraus.</p>
+<h4 id="raster-daten">Raster Daten</h4>
+<p>Konkret verwenden wir die Funktion <code>stack</code> aus dem Paket <code>raster</code>, um eine sog. Geo-TIF-Datei zu importieren. Also ein <em>Rasterbild</em> mit räumlichen Eigenschaften wie einer Georeferenzierung. Durch die Verwendung der <code>::</code>-Syntax, d.h. <code>Paket::Funktion</code>, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).</p>
 
                 <style>
 .button {
@@ -309,7 +319,7 @@ las_files <span style="color:#f92672">=</span> <span style="color:#a6e22e">list.
         crossorigin="anonymous" 
         async>
 </script>
-<p>Due to an occasionally faulty page redirection, a 404 error may occur. please use the alternative <button class="button button1"> <a href="https://api.utteranc.es/authorize?redirect_uri=https%3a%2f%2fgisma-courses.github.io%2fgi-modules%2fpost%2f2021-11-16-getting-startet-with-lidar%2f">Sign in with GitHub</a></button></p>
+<p>Due to an occasionally faulty page redirection, a 404 error may occur. please use the alternative <button class="button button1"> <a href="https://api.utteranc.es/authorize?redirect_uri=https%3a%2f%2fgisma-courses.github.io%2fgi-modules%2fpost%2f2021-12-03-r-spatial-in-der-nussschale%2f">Sign in with GitHub</a></button></p>
     
 </div>
 
@@ -319,13 +329,13 @@ las_files <span style="color:#f92672">=</span> <span style="color:#a6e22e">list.
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/gi-modules/post/2021-11-20-forest-information-from-lidar-data/" data-toggle="tooltip" data-placement="top" title="Forest Information from LiDAR data">&larr;
+                        <a href="/gi-modules/post/2021-11-16-getting-startet-with-lidar/" data-toggle="tooltip" data-placement="top" title="Getting startet with LiDAR">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/" data-toggle="tooltip" data-placement="top" title="R-Spatial in der Nussschale">Next
+                        <a href="/gi-modules/post/2021-11-13-project-oriented-workflow/" data-toggle="tooltip" data-placement="top" title="Project-Oriented Workflow">Next
                             Post &rarr;</a>
                     </li>
                     

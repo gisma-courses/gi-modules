@@ -227,6 +227,24 @@
 <hr>
 
 <div class="post-preview">
+    <a href="https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/">
+        <h2 class="post-title">
+            R-Spatial in der Nussschale
+        </h2>
+	
+        <div class="post-content-preview">
+	
+            Vektordaten Natürlich können in R auch Vektordaten verarbeitet werden. Das Paket, sf ist da Arbeitspferd um Vektordaten vieler Typen zu lesen, schreiben und analysieren. FürÜbungszwecke werden wir einige Daten aus der Openstreetmap (OSM) Datenbank herunterladen. Einen Überblick über die verfügbaren Features finden sie unter dem Link. Mit dem folgenden R-Quellcode laden und visualisieren wir die Gebäude im Verwaltungsbereich Marburg:
+# Example Polygons # OSM public data buildings marburg # do not forget to add the osmdata package to your header section of the script library(osmdata) # loading OSM data for the Marburg region  buildings = opq(bbox = &#34;marburg de&#34;) %&gt;% add_osm_feature(key = &#34;building&#34;) %&gt;% osmdata_sf() buildings = buildings$osm_polygons mapview::mapview(buildings) Sentinel-Satellitendaten Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich.
+       
+        </div>
+    </a>
+
+
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
         <h2 class="post-title">
             Getting startet with LiDAR
@@ -341,23 +359,6 @@ Above all, they show how sub-scaled satellite land use and LidAr data can be mer
         <div class="post-content-preview">
 	
             We offer weekly input with a new course unit. After a brief input, the exercises are presented, which should be worked on to successfully complete the assignments.
-        
-        </div>
-    </a>
-
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-13-assignments/">
-        <h2 class="post-title">
-            About Assignments
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            The exercises and assignments are submitted via markdown/rmarkdown files and PDF documents created from them in a private Github repository.
         
         </div>
     </a>
