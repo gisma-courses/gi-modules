@@ -214,28 +214,26 @@
 </span><span style="color:#e6db74"># Install envimaR
 </span><span style="color:#e6db74">devtools::install_github(&#34;</span>envima<span style="color:#f92672">/</span>envimaR<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
 </code></pre></div><p>Wir benötigen dieses Paket um bequem eine definierte Areitsumgebung zu erzeugen.</p>
-<p>Nach der Installation navigieren Sie zu <code>File-&gt;New Project-&gt;New Directory</code>. Dann scrollen Sie nach unten bis zur Auswahl <code>Project structure with envimaR</code>. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. <code>geoinfo</code>. Sie werden in einem neuen Projekt &ldquo;abgesetzt&rdquo; das wie folgt aussieht:</p>
+<p>Nach der Installation navigieren Sie zu <code>File-&gt;New Project-&gt;New Directory</code>. Dann scrollen Sie nach unten bis zur Auswahl <code>Project structure with envimaR</code>. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. <code>geoinfo</code>. Das Projekt wird im angegebenen Ordner geöffnet und sollte im Reiter <code>Files</code> so aussehen:</p>
 <p>
   <img src="images/folder.png" alt="">
 
 </p>
-<p>Doppelklicken sie auf das Verzeichnis <code>src</code> Sie sehen eine Datei namens <code>main.R</code> oöffen Sie diese durch Doppelklick.. Dann öffnen Sie in den Ordner <code>function</code>. Hier öffnen Sie die Datei <code>000_setup.R</code>. Ersetzen Sie den Inhalt des folgenden Scripts:</p>
+<p>Doppelklicken Sie auf das Verzeichnis <code>src</code> und dann den Unterordner <code>functions</code>. Hier öffnen Sie die Datei <code>000_setup.R</code> durch Doppelklick. Ersetzen Sie den kompletten Inhalt dieser Datei durch den Inhalt des folgenden Scripts:</p>
 <script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
-<p>Dann speichern und schliessen sie die Datei. Fürs erste ist die Vorbereitung abgeschlossen.</p>
-<h2 id="sentinel-satellitendaten">Sentinel-Satellitendaten</h2>
-<p>Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich. Ein Beispiel für solche Satellitendaten, die häufig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission] (<a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2">https://sentinel.esa.int/web/sentinel/missions/sentinel-2</a>) der Europäischen Weltraumorganisation.</p>
-<h3 id="das-paket-sen2r">Das Paket <code>sen2r</code></h3>
-<p>Mit dem Paket <code>sen2r</code> können Sie Sentinel-2-Bilder direkt in <code>R</code> herunterladen und vorverarbeiten.</p>
+<p>Dann speichern und schliessen Sie bitte die Datei. Fürs Erste ist damit die Vorbereitung abgeschlossen.</p>
+<h2 id="sentinel-satellitendaten---sen2r">Sentinel-Satellitendaten - sen2r</h2>
+<p>Satellitendaten sind mittlerweile prinzipiell sowohl als Rohdaten als auch in den unterschiedlichsten Produkten leicht zugänglich. Ein Beispiel für eine Satelliten Mission, deren Daten standardmäßig in der Umwelt-Fernerkundung verwendet werden, ist die <a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2">Sentinel-2-Mission</a> der Europäischen Weltraumorganisation. In R sind diese Daten dank des Pakets <code>sen2r</code> sehr einfach verfügbar.</p>
 <p>Um <code>sen2r</code> zu installieren, müssen Sie <code>Rtools</code> installiert haben.</p>
 <ol>
-<li>Gehe zu <a href="http://cran.r-project.org/bin/windows/Rtools/">http://cran.r-project.org/bin/windows/Rtools/</a></li>
+<li>Öffnen Sie <a href="http://cran.r-project.org/bin/windows/Rtools/">http://cran.r-project.org/bin/windows/Rtools/</a></li>
 <li>Wählen Sie den Download-Link, der Ihrer Version von <code>R</code> entspricht</li>
 <li>Öffnen Sie die .exe-Datei und verwenden Sie die Standardeinstellungen</li>
 <li><strong>Vergewissern Sie sich, dass Sie das Kästchen ankreuzen, damit das Installationsprogramm Ihren PATH bearbeiten kann</strong></li>
 <li>Führen Sie <code>library(devtools)</code> in <code>R</code> aus</li>
-<li>Führen Sie <code>find_rtools()</code> aus &ndash; wenn <code>TRUE</code>, hat die Installation richtig funktioniert</li>
+<li>Führen Sie <code>find_rtools()</code> aus &ndash; wenn <code>TRUE</code>, hat die Installation korrekt funktioniert</li>
 </ol>
-<p>Dann muss das Paket nur noch wie jedes andere Paket installiert werden.</p>
+<p>Dann muss das Paket nur noch wie jedes andere Paket installiert werden:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;sen2r&#34;</span>)
 <span style="color:#a6e22e">library</span>(sen2r)
 </code></pre></div><h3 id="die-sen2r-gui">Die <code>sen2r</code>-GUI</h3>
@@ -243,20 +241,23 @@
 <p>Der einfachste Weg, <code>sen2r</code> zu benutzen, ist, die grafische Benutzeroberfläche (GUI) zu öffnen und sie im interaktiven Modus zu benutzen. Allerdings muss man hier in den Einstellungen aus einer Vielzahl von Optionen wählen. Die dafür erforderlichen Kenntnisse sind auch für die unten vorgestellte Kommandozeilenversion notwendig. Beide Schnittstellen können automatisiert werden. Wir empfehlen die API, aber letztlich bleibt es Ihnen überlassen. Verwenden Sie dazu die gleichnamige Funktion.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sen2r<span style="color:#f92672">::</span><span style="color:#a6e22e">sen2r</span>()
 </code></pre></div><h2 id="change-detection-mit-sentinel-daten">Change Detection mit Sentinel Daten</h2>
-<p>Wir planen eine Veränderung der Waldbedeckung im Harz zu berechnen. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es losgehen.</p>
+<p>Wir eingangs bereits angesprochen planen wir die Veränderung der Waldbedeckung im Harz zu quantifizieren. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es nun losgehen.</p>
 <p>Was zu tun ist:</p>
 <ol>
 <li>Festlegen der zentralen Parameter wie z.B. Datum (Zeitreihe), Bildausschnitt (AOI),sowie weiterer Parameter wie zb. verschiedene Verzeichnisse.</li>
 <li>Herunterladen der Daten durch Aufruf der konfigurierten <code>sen2r::sen2r()</code> Funktion. Diese lädt dann über die sogenannte API von Copernicus die Daten herunter oder sendet eine email, falls die angeforderten Daten  erst aus dem <em>Langzeitspeicher</em> geladen werden müssen.</li>
 <li>Berechnen der Oberflächenalbedo  (beipielhaft)</li>
 </ol>
-<p>Im folgenden Skript werden auf der Grundlage der oben gezeigten Projekteinrichtung Sentinel-2-Daten für den Juni 2019 heruntergeladen und exemplarisch zuätzlich die Oberflächenalbedo berechnet.</p>
-<p>Achtung zu Beginn muss ein Ausschnitt digitalisiert werden (<code>harz = mapedit::editMap()</code>). Das Interface ist selbsterklärend und schaut etwas wie folgt aus:</p>
+<p>Öffnen Sie die Datei <code>main.R</code> im Ordner <code>src</code> durch Doppelklick. Ersetzen sie den Inhalt des Skriptes durch das das nachfolgnden Skript:</p>
+<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
+<p>Speichen Sie die <code>main.R</code></p>
+<p>Im diesem Skript werden Sentinel-2-Daten für den Juni 2019 und ein spezielles Gebiet (Area of Interest AOI) heruntergeladen. Zusätzlich wird exemplarisch die Oberflächenalbedo berechnet.</p>
+<p>Zu Beginn muss ein Ausschnitt digitalisiert werden. Nutzen Sie hierzu den Befehl <code>harz = mapedit::editMap()</code>. Das Interface ist selbsterklärend und schaut (nachdem sie auf den Harz gezoomed haben und die Karte auf Openstreetmap umgesetellt haben) wie folgt aus:</p>
 <p>
   <img src="images/HARZ.png" alt="">
 
 </p>
-<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
+<p>Klicken sie auf das Viereck und ziehen sie den Ausschnitt für den sie Sentinel Daten suchen. Beenden sie den Vorgang mit <code>Done</code>.</p>
 <p>Die <a href="https://sen2r.ranghetti.info/">sen2r vignette</a> bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von <code>sen2r</code> aus <code>R</code> heraus.</p>
 <p>Für die Bereechnung nutzen wir eine Formel und  die Funktion <code>stack</code> aus dem Paket <code>raster</code>.  Durch die Verwendung der <code>::</code>-Syntax, d.h. <code>Paket::Funktion</code>, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).</p>
 

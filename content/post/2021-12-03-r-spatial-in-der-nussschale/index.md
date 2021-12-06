@@ -34,34 +34,30 @@ devtools::install_github("envima/envimaR")
 
 Wir benötigen dieses Paket um bequem eine definierte Areitsumgebung zu erzeugen.
 
-Nach der Installation navigieren Sie zu `File->New Project->New Directory`. Dann scrollen Sie nach unten bis zur Auswahl `Project structure with envimaR`. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. `geoinfo`. Sie werden in einem neuen Projekt "abgesetzt" das wie folgt aussieht:
+Nach der Installation navigieren Sie zu `File->New Project->New Directory`. Dann scrollen Sie nach unten bis zur Auswahl `Project structure with envimaR`. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. `geoinfo`. Das Projekt wird im angegebenen Ordner geöffnet und sollte im Reiter `Files` so aussehen:
 
 ![](images/folder.png)
 
-Doppelklicken sie auf das Verzeichnis `src` Sie sehen eine Datei namens `main.R` oöffen Sie diese durch Doppelklick.. Dann öffnen Sie in den Ordner `function`. Hier öffnen Sie die Datei `000_setup.R`. Ersetzen Sie den Inhalt des folgenden Scripts:
+Doppelklicken Sie auf das Verzeichnis `src` und dann den Unterordner `functions`. Hier öffnen Sie die Datei `000_setup.R` durch Doppelklick. Ersetzen Sie den kompletten Inhalt dieser Datei durch den Inhalt des folgenden Scripts:
 <script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
 
-Dann speichern und schliessen sie die Datei. Fürs erste ist die Vorbereitung abgeschlossen.
+Dann speichern und schliessen Sie bitte die Datei. Fürs Erste ist damit die Vorbereitung abgeschlossen.
 
 
-## Sentinel-Satellitendaten
+## Sentinel-Satellitendaten - sen2r
 
-Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich. Ein Beispiel für solche Satellitendaten, die häufig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission] (https://sentinel.esa.int/web/sentinel/missions/sentinel-2) der Europäischen Weltraumorganisation.
-
-### Das Paket `sen2r` 
-
-Mit dem Paket `sen2r` können Sie Sentinel-2-Bilder direkt in `R` herunterladen und vorverarbeiten.
+Satellitendaten sind mittlerweile prinzipiell sowohl als Rohdaten als auch in den unterschiedlichsten Produkten leicht zugänglich. Ein Beispiel für eine Satelliten Mission, deren Daten standardmäßig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) der Europäischen Weltraumorganisation. In R sind diese Daten dank des Pakets `sen2r` sehr einfach verfügbar.
 
 Um `sen2r` zu installieren, müssen Sie `Rtools` installiert haben.
 
-1. Gehe zu [http://cran.r-project.org/bin/windows/Rtools/](http://cran.r-project.org/bin/windows/Rtools/) 
+1. Öffnen Sie [http://cran.r-project.org/bin/windows/Rtools/](http://cran.r-project.org/bin/windows/Rtools/) 
 1. Wählen Sie den Download-Link, der Ihrer Version von `R` entspricht
 1. Öffnen Sie die .exe-Datei und verwenden Sie die Standardeinstellungen
 1. **Vergewissern Sie sich, dass Sie das Kästchen ankreuzen, damit das Installationsprogramm Ihren PATH bearbeiten kann**
 1. Führen Sie `library(devtools)` in `R` aus
-1. Führen Sie `find_rtools()` aus -- wenn `TRUE`, hat die Installation richtig funktioniert
+1. Führen Sie `find_rtools()` aus -- wenn `TRUE`, hat die Installation korrekt funktioniert
 
-Dann muss das Paket nur noch wie jedes andere Paket installiert werden.
+Dann muss das Paket nur noch wie jedes andere Paket installiert werden:
 
 ```r
 install.packages("sen2r")
@@ -80,7 +76,8 @@ sen2r::sen2r()
 
 
 ## Change Detection mit Sentinel Daten
-Wir planen eine Veränderung der Waldbedeckung im Harz zu berechnen. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es losgehen.
+
+Wir eingangs bereits angesprochen planen wir die Veränderung der Waldbedeckung im Harz zu quantifizieren. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es nun losgehen.
 
 Was zu tun ist:
 
@@ -89,15 +86,20 @@ Was zu tun ist:
 3. Berechnen der Oberflächenalbedo  (beipielhaft)
 
 
-Im folgenden Skript werden auf der Grundlage der oben gezeigten Projekteinrichtung Sentinel-2-Daten für den Juni 2019 heruntergeladen und exemplarisch zuätzlich die Oberflächenalbedo berechnet. 
+Öffnen Sie die Datei `main.R` im Ordner `src` durch Doppelklick. Ersetzen sie den Inhalt des Skriptes durch das das nachfolgnden Skript:
 
-Achtung zu Beginn muss ein Ausschnitt digitalisiert werden (`harz = mapedit::editMap()`). Das Interface ist selbsterklärend und schaut etwas wie folgt aus:
+<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
+
+Speichen Sie die `main.R`
+
+Im diesem Skript werden Sentinel-2-Daten für den Juni 2019 und ein spezielles Gebiet (Area of Interest AOI) heruntergeladen. Zusätzlich wird exemplarisch die Oberflächenalbedo berechnet. 
+
+Zu Beginn muss ein Ausschnitt digitalisiert werden. Nutzen Sie hierzu den Befehl `harz = mapedit::editMap()`. Das Interface ist selbsterklärend und schaut (nachdem sie auf den Harz gezoomed haben und die Karte auf Openstreetmap umgesetellt haben) wie folgt aus:
 
 ![](images/HARZ.png)
 
 Klicken sie auf das Viereck und ziehen sie den Ausschnitt für den sie Sentinel Daten suchen. Beenden sie den Vorgang mit `Done`.
 
-<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
 
 Die [sen2r vignette](https://sen2r.ranghetti.info/) bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von `sen2r` aus `R` heraus.
 
