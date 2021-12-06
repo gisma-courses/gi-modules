@@ -104,4 +104,10 @@ Klicken sie auf das Viereck und ziehen sie den Ausschnitt für den sie Sentinel 
 Die [sen2r vignette](https://sen2r.ranghetti.info/) bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von `sen2r` aus `R` heraus.
 
 
-Für die Bereechnung nutzen wir eine Formel und  die Funktion `stack` aus dem Paket `raster`.  Durch die Verwendung der `::`-Syntax, d.h. `Paket::Funktion`, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).
+Für die Berechnung nutzen wir eine Transferfunktion (lineare Regression) und  die Funktion `stack` aus dem Paket `raster`.  Durch die Verwendung der `::`-Syntax, d.h. `Paket::Funktion`, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).
+
+## Zusammenfassung
+
+* Das Projekt-Setup mit envimaR und das Auswerte Skript bietet Ihnen einen vollständigen organisatorischen Rahmen zur Bearabeitung aller auch  komplexerer und aufwendigerer Aufgaben
+* sen2r liefert Ihnen einen sehr komfortablen und reproduzierbaren Zugriff auf umfangreiche Sentinel Daten
+* Prinzipiell kennen Sie nun die zentralen Werkezeuge und Vorgehensweisen um mit Hilfe von R automatisiert und reproduzierbar räumliche Analysen durchzuführen
