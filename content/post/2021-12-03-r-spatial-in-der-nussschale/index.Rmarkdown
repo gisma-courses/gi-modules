@@ -95,6 +95,7 @@ Achtung zu Beginn muss ein Ausschnitt digitalisiert werden (`harz = mapedit::edi
 
 ![](images/HARZ.png)
 
+Klicken sie auf das Viereck und ziehen sie den Ausschnitt für den sie Sentinel Daten suchen. Beenden sie den Vorgang mit `Done`.
 
 <script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
 
