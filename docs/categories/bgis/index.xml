@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bGIS on gi-modules</title>
+    <link>https://gisma-courses.github.io/gi-modules/categories/bgis/</link>
+    <description>Recent content in bGIS on gi-modules</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us^</language>
+    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/bgis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>R-Spatial in der Nussschale</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
+      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
+      <description>Change Detection Trockenstress Fichten im Harz Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
+Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -27,16 +27,6 @@ If you also need to access additional software, like GIS, the appropriate binari
     </item>
     
     <item>
-      <title>R-Spatial in der Nussschale</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
-      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
-      <description>Vektordaten Natürlich können in R auch Vektordaten verarbeitet werden. Das Paket, sf ist da Arbeitspferd um Vektordaten vieler Typen zu lesen, schreiben und analysieren. FürÜbungszwecke werden wir einige Daten aus der Openstreetmap (OSM) Datenbank herunterladen. Einen Überblick über die verfügbaren Features finden sie unter dem Link. Mit dem folgenden R-Quellcode laden und visualisieren wir die Gebäude im Verwaltungsbereich Marburg:
-# Example Polygons # OSM public data buildings marburg # do not forget to add the osmdata package to your header section of the script library(osmdata) # loading OSM data for the Marburg region  buildings = opq(bbox = &amp;#34;marburg de&amp;#34;) %&amp;gt;% add_osm_feature(key = &amp;#34;building&amp;#34;) %&amp;gt;% osmdata_sf() buildings = buildings$osm_polygons mapview::mapview(buildings) Sentinel-Satellitendaten Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich.</description>
-    </item>
-    
-    <item>
       <title>Getting startet with LiDAR</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
@@ -126,6 +116,16 @@ Once you have a GitHub account, you can create as many repositories as you like 
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-21-impressum/</guid>
       <description>Teaching Framework This course is brought with the background of Open Educational Resources initiative coordinated by the Leibniz-Institut für Bildungsforschung und Bildungsinformation and integrated in the official teaching framework of the Marburg University, Germany. It is developed at the Department of Geography under responsibility of the gisma-courses site.
 Content Responsibility The responsibility for the content rests with the instructors. Statements, opinions and/or conclusions are the ones from the instructors and do not necessarily reflect the opinion of the representatives of Marburg University.</description>
+    </item>
+    
+    <item>
+      <title>R-Spatial in der Nussschale</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
+      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
+      <description>Change Detection Trockenstress Fichten im Harz Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
+Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
     </item>
     
     <item>

@@ -115,6 +115,10 @@
                             <a href="/gi-modules/categories/basics">basics</a>
                         </li>
                         
+                        <li>
+                            <a href="/gi-modules/categories/bgis">bgis</a>
+                        </li>
+                        
                     
                     
 		    
@@ -200,23 +204,25 @@
                 post-container">
 
                 
-                <h2 id="vektordaten">Vektordaten</h2>
-<p>Natürlich können in <code>R</code> auch Vektordaten verarbeitet werden. Das Paket, <code>sf</code> ist da Arbeitspferd um Vektordaten vieler Typen zu lesen, schreiben und analysieren. FürÜbungszwecke werden wir einige Daten aus der <a href="https://www.openstreetmap.de/">Openstreetmap</a> (OSM) Datenbank herunterladen. Einen Überblick über die verfügbaren <a href="https://wiki.openstreetmap.org/wiki/Map_features">Features</a> finden sie unter dem Link.
-Mit dem folgenden R-Quellcode laden und visualisieren wir die Gebäude im Verwaltungsbereich Marburg:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Example Polygons</span>
-<span style="color:#75715e"># OSM public data buildings marburg</span>
-<span style="color:#75715e"># do not forget to add the osmdata package to your header section of the script</span>
+                <h2 id="change-detection-trockenstress-fichten-im-harz">Change Detection Trockenstress Fichten im Harz</h2>
+<p>Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.</p>
+<p>Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket <code>envimaR</code>. Da das Paket auf <code>Github</code> zur Verfügung gestellt wird müssen wir es wie folgt installieren:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
+<span style="color:#75715e"># first install the utility package devtools</span>
+<span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;devtools)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"># Install envimaR
+</span><span style="color:#e6db74">devtools::install_github(&#34;</span>envima<span style="color:#f92672">/</span>envimaR<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</code></pre></div><p>Wir benötigen dieses Paket um bequem eine definierte Areitsumgebung zu erzeugen.</p>
+<p>Nach der Installation navigieren Sie zu <code>File-&gt;New Project-&gt;New Directory</code>. Dann scrollen Sie nach unten bis zur Auswahl <code>Project structure with envimaR</code>. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. <code>geoinfo</code>. Sie werden in einem neuen Projekt &ldquo;abgesetzt&rdquo; das wie folgt aussieht:</p>
+<p>
+  <img src="images/folder.png" alt="">
 
-<span style="color:#a6e22e">library</span>(osmdata)
-<span style="color:#75715e"># loading OSM data for the Marburg region </span>
-buildings <span style="color:#f92672">=</span> <span style="color:#a6e22e">opq</span>(bbox <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;marburg de&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">add_osm_feature</span>(key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;building&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">osmdata_sf</span>()
-
-buildings <span style="color:#f92672">=</span> buildings<span style="color:#f92672">$</span>osm_polygons
-
-mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">mapview</span>(buildings)
-</code></pre></div><h2 id="sentinel-satellitendaten">Sentinel-Satellitendaten</h2>
+</p>
+<p>Doppelklicken sie auf das Verzeichnis <code>src</code> Sie sehen eine Datei namens <code>main.R</code> oöffen Sie diese durch Doppelklick.. Dann öffnen Sie in den Ordner <code>function</code>. Hier öffnen Sie die Datei <code>000_setup.R</code>. Ersetzen Sie den Inhalt des folgenden Scripts:</p>
+<script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
+<p>Dann speichern und schliessen sie die Datei. Fürs erste ist die Vorbereitung abgeschlossen.</p>
+<h2 id="sentinel-satellitendaten">Sentinel-Satellitendaten</h2>
 <p>Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich. Ein Beispiel für solche Satellitendaten, die häufig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission] (<a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2">https://sentinel.esa.int/web/sentinel/missions/sentinel-2</a>) der Europäischen Weltraumorganisation.</p>
 <h3 id="das-paket-sen2r">Das Paket <code>sen2r</code></h3>
 <p>Mit dem Paket <code>sen2r</code> können Sie Sentinel-2-Bilder direkt in <code>R</code> herunterladen und vorverarbeiten.</p>
@@ -233,20 +239,26 @@ mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">mapview<
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;sen2r&#34;</span>)
 <span style="color:#a6e22e">library</span>(sen2r)
 </code></pre></div><h3 id="die-sen2r-gui">Die <code>sen2r</code>-GUI</h3>
+<p>Damit Sie Sentinel Daten benutzen können müssen Sie bei SciHub ein <a href="https://scihub.copernicus.eu/dhus/#/self-registration">Konto anlegen</a>!</p>
 <p>Der einfachste Weg, <code>sen2r</code> zu benutzen, ist, die grafische Benutzeroberfläche (GUI) zu öffnen und sie im interaktiven Modus zu benutzen. Allerdings muss man hier in den Einstellungen aus einer Vielzahl von Optionen wählen. Die dafür erforderlichen Kenntnisse sind auch für die unten vorgestellte Kommandozeilenversion notwendig. Beide Schnittstellen können automatisiert werden. Wir empfehlen die API, aber letztlich bleibt es Ihnen überlassen. Verwenden Sie dazu die gleichnamige Funktion.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sen2r<span style="color:#f92672">::</span><span style="color:#a6e22e">sen2r</span>()
-</code></pre></div><h3 id="die-sen2r-api">Die <code>sen2r</code> API</h3>
-<p>Damit Sie Sentinel Daten benutzen können müssen Sie bei SciHub ein <a href="https://scihub.copernicus.eu/dhus/#/self-registration">Konto anlegen</a>!</p>
-<p>Im folgenden Skript werden die Sentinel-2-Daten zur Berechnung der Oberflächenalbedo verwendet. Dazu sind die folgenden Schritte notwendig:</p>
+</code></pre></div><h2 id="change-detection-mit-sentinel-daten">Change Detection mit Sentinel Daten</h2>
+<p>Wir planen eine Veränderung der Waldbedeckung im Harz zu berechnen. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es losgehen.</p>
+<p>Was zu tun ist:</p>
 <ol>
-<li>Festlegen einger Parameter wie z.B. Datum Bildausschnitt usw.</li>
-<li>Herunterladen der Daten durch Konfigurieren und Ausführen von <code>sen2r</code> über die API</li>
-<li>Berechnen Sie die Oberflächenalbedo (beispielhaft)</li>
+<li>Festlegen der zentralen Parameter wie z.B. Datum (Zeitreihe), Bildausschnitt (AOI),sowie weiterer Parameter wie zb. verschiedene Verzeichnisse.</li>
+<li>Herunterladen der Daten durch Aufruf der konfigurierten <code>sen2r::sen2r()</code> Funktion. Diese lädt dann über die sogenannte API von Copernicus die Daten herunter oder sendet eine email, falls die angeforderten Daten  erst aus dem <em>Langzeitspeicher</em> geladen werden müssen.</li>
+<li>Berechnen der Oberflächenalbedo  (beipielhaft)</li>
 </ol>
+<p>Im folgenden Skript werden auf der Grundlage der oben gezeigten Projekteinrichtung Sentinel-2-Daten für den Juni 2019 heruntergeladen und exemplarisch zuätzlich die Oberflächenalbedo berechnet.</p>
+<p>Achtung zu Beginn muss ein Ausschnitt digitalisiert werden (<code>harz = mapedit::editMap()</code>). Das Interface ist selbsterklärend und schaut etwas wie folgt aus:</p>
+<p>
+  <img src="images/HARZ.png" alt="">
+
+</p>
 <script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
 <p>Die <a href="https://sen2r.ranghetti.info/">sen2r vignette</a> bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von <code>sen2r</code> aus <code>R</code> heraus.</p>
-<h4 id="raster-daten">Raster Daten</h4>
-<p>Konkret verwenden wir die Funktion <code>stack</code> aus dem Paket <code>raster</code>, um eine sog. Geo-TIF-Datei zu importieren. Also ein <em>Rasterbild</em> mit räumlichen Eigenschaften wie einer Georeferenzierung. Durch die Verwendung der <code>::</code>-Syntax, d.h. <code>Paket::Funktion</code>, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).</p>
+<p>Für die Bereechnung nutzen wir eine Formel und  die Funktion <code>stack</code> aus dem Paket <code>raster</code>.  Durch die Verwendung der <code>::</code>-Syntax, d.h. <code>Paket::Funktion</code>, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).</p>
 
                 <style>
 .button {
@@ -328,14 +340,9 @@ mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">mapview<
                 <hr>
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/gi-modules/post/2021-11-16-getting-startet-with-lidar/" data-toggle="tooltip" data-placement="top" title="Getting startet with LiDAR">&larr;
-                            Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/gi-modules/post/2021-11-13-project-oriented-workflow/" data-toggle="tooltip" data-placement="top" title="Project-Oriented Workflow">Next
+                        <a href="/gi-modules/post/2021-11-21-impressum/" data-toggle="tooltip" data-placement="top" title="Impressum">Next
                             Post &rarr;</a>
                     </li>
                     

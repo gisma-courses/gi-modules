@@ -6,7 +6,7 @@
     <description>Recent content in aGIS on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/agis/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/agis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Project-Oriented Workflow</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</link>
@@ -15,16 +15,6 @@
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</guid>
       <description>Flexible but reproducible setup To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.
 If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</description>
-    </item>
-    
-    <item>
-      <title>R-Spatial in der Nussschale</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
-      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
-      <description>Vektordaten Natürlich können in R auch Vektordaten verarbeitet werden. Das Paket, sf ist da Arbeitspferd um Vektordaten vieler Typen zu lesen, schreiben und analysieren. FürÜbungszwecke werden wir einige Daten aus der Openstreetmap (OSM) Datenbank herunterladen. Einen Überblick über die verfügbaren Features finden sie unter dem Link. Mit dem folgenden R-Quellcode laden und visualisieren wir die Gebäude im Verwaltungsbereich Marburg:
-# Example Polygons # OSM public data buildings marburg # do not forget to add the osmdata package to your header section of the script library(osmdata) # loading OSM data for the Marburg region  buildings = opq(bbox = &amp;#34;marburg de&amp;#34;) %&amp;gt;% add_osm_feature(key = &amp;#34;building&amp;#34;) %&amp;gt;% osmdata_sf() buildings = buildings$osm_polygons mapview::mapview(buildings) Sentinel-Satellitendaten Satellitendaten hingegen sind mittlerweile prinzipiell leicht zugänglich.</description>
     </item>
     
     <item>
