@@ -119,10 +119,7 @@ In addition, we can use the setup function to define project related  useful set
 
 If we put everything together in one script, it looks like this:
 
-
- 
-<script src="https://gist.github.com/gisma/d523b154cd5320d51d11de1cee15a85c.js"></script>
-
+<script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
 
 `{{% alert "IMPORTANT" "danger" "black" "black" "During the course it is mandantory to save this script in the *<src>* folder named *<course-name-provided-by-the-instructor_setup.R>*. Best practise is to source this script each time when you run an analysis etc. that is connected with this project." %}}`{=html}
 
