@@ -32,6 +32,8 @@ After successful application of the tutorial we will transfer it into a suitable
 
 After revisiting the tutorial is seems to be a good choice to follow the tutorial of the `lidR` developer that is [Digital Surface Model and Canopy Height model](https://jean-romain.github.io/lidRbook/chm.html) in the above tutorial. Why? because for the first Jean-Romain Roussel explains 6 ways how to create in a very simple approach a CHM, second to show up that it makes sense to read and third to loop back because it does not work with bigger files. Let us start with the new script structure.
 
+## Start Script
+
 <script src="https://gist.github.com/gisma/89881e23f5c2da91d161a9668386b715.js"></script>
 
 {{% hp5 "/gi-modules/assets/misc/chm_one_tile.html" "700" "680" "center" "Canopy Height Model map" %}}
@@ -48,7 +50,7 @@ If not already done download the course related [LiDAR data set of the MOF area]
 
 Please note that dealing with `lidR` catalogs is pretty stressful for the memory administration of your `rsession`. So best practices is to **Restart your Rsesseion and clean up your environment**. This will help you to avoid frustrating situation like restarting your PC after hours of waiting…
 
-Take the setup section of the above script and exchange the code part as found under *#— start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.
+Take the setup section of the above script and exchange the code part as found under *start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.
 
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
 

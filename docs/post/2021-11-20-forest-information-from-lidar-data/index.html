@@ -219,6 +219,7 @@
 <li>with a hands on example for creating a canopy height model.</li>
 </ul>
 <p>After revisiting the tutorial is seems to be a good choice to follow the tutorial of the <code>lidR</code> developer that is <a href="https://jean-romain.github.io/lidRbook/chm.html">Digital Surface Model and Canopy Height model</a> in the above tutorial. Why? because for the first Jean-Romain Roussel explains 6 ways how to create in a very simple approach a CHM, second to show up that it makes sense to read and third to loop back because it does not work with bigger files. Let us start with the new script structure.</p>
+<h2 id="start-script">Start Script</h2>
 <script src="https://gist.github.com/gisma/89881e23f5c2da91d161a9668386b715.js"></script>
 <style>
 div.b {
@@ -258,7 +259,7 @@ figcaption {
 <p>The <code>lidR</code> package comes with a feature called catalog and a set of catalog functions which make tile-based life easier. A catalog meta object also holds information on e.g. the cartographic reference system of the data or the cores used for parallel processing. So we start over again - this time with a <strong>real</strong> data set.</p>
 <p>If not already done download the course related <a href="http://gofile.me/3Z8AJ/c6m5CfvWZ">LiDAR data set of the MOF area</a> . Store the the data to the <strong><code>envrmt$path_l_raw</code></strong> folder.</p>
 <p>Please note that dealing with <code>lidR</code> catalogs is pretty stressful for the memory administration of your <code>rsession</code>. So best practices is to <strong>Restart your Rsesseion and clean up your environment</strong>. This will help you to avoid frustrating situation like restarting your PC after hours of waiting…</p>
-<p>Take the setup section of the above script and exchange the code part as found under <em>#— start script</em> with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.</p>
+<p>Take the setup section of the above script and exchange the code part as found under <em>start script</em> with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.</p>
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
 <h3 id="the-visualization-of-an-operating-lidr-catalog-action">The visualization of an operating lidR catalog action.</h3>
 <p>The <code>mof_ctg</code> catalog is shows the extent of the original las file as provided by the the data server. The vector that is visualized is the resulting <code>lidR</code> catalog containing all extracted parameters. Same with the <code>mof100_ctg</code> here you see the extracted maximum Altitude of each tile used for visualization. Feel free to investigate the catalog parameters by clicking on the tiles.</p>
