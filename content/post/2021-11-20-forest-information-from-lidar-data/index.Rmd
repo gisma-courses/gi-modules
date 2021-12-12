@@ -31,7 +31,7 @@ After successful application of the tutorial we will transfer it into a suitable
 After revisiting the tutorial is seems to be a good choice to follow the tutorial of the `lidR` developer that is  [Digital Surface Model and Canopy Height model](https://jean-romain.github.io/lidRbook/chm.html)  in the above tutorial. Why? because for the first Jean-Romain Roussel explains 6 ways how to create in a very simple approach a CHM, second to show up that it makes sense to read and third to loop back because it does not work with bigger files. Let us start with the new script structure.
 
 
-## Start Script
+## Basic Script to derive a Canopy Height Model
 
 <script src="https://gist.github.com/gisma/89881e23f5c2da91d161a9668386b715.js"></script>
 
@@ -49,32 +49,27 @@ The above example is based on a las-tile of 250 by 250 meter. That means a fairl
 
 The `lidR` package comes with a feature called catalog and a set of catalog functions which make tile-based life easier. A catalog meta object also holds information on e.g. the cartographic reference system of the data or the cores used for parallel processing. So we start over again - this time with a **real** data set.
 
-If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/c6m5CfvWZ) . Store the the data to the **`envrmt$path_l_raw`** folder. 
-
-
-
 Please note that dealing with `lidR` catalogs is pretty stressful for the memory administration of your `rsession`. So best practices is to **Restart your Rsesseion and clean up your environment**. This will help you to avoid frustrating situation like restarting your PC after hours of waiting...
 
 
-Take the setup section of the above script and exchange the code part as found under *start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. 
 
-### Helper script
 
-```{r echo=FALSE}
-blogdown::shortcode("alert", "NOTE", "info" ,"black", "black", "Please copy the following script into the subfolder *functions*. It might be necessary to work around a unexpected behaviour with the returnd vrt files.")
+### lidR catalog script to derive a canopy height model
+The following scripts will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/c6m5CfvWZ) . Store the the data to the e.g. `envrmt$path_l_raw` folder. 
+
+
+
+```{r echo=FALSE} 
+blogdown::shortcode("collapse", "Workaround for the IO error problem with the lidR catalog",
+                    "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files",
+                    .type = "html")
 ```
 
 
-<script src="https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475.js"></script>
 
-```{r echo=FALSE}
-blogdown::shortcode("alert", "NOTE", "danger" ,"black", "black", "The below script is **not** using the original course data. It downloads a small sample. Please download the original data and **adapt** the below script! Please also enlarge the chunksize at least to 250!")
-```
+<script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
 
-
-
-
-```{r warmup,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
+```{r warmup, include= FALSE,echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
 knitr::knit_global()
 require(envimaR)
 
@@ -105,6 +100,7 @@ source(file.path(envimaR::alternativeEnvi(root_folder = root_folder),"src/000-rs
 # 1 - start script
 #-----------------------------
 #--- create path link to the original las file
+if (!file.exists(paste0(envrmt$path_tmp,"/chm.zip")))
 utils::download.file(url="https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip",
                      destfile=paste0(envrmt$path_tmp,"/chm.zip"))
 unzip(paste0(envrmt$path_tmp,"/chm.zip"),
@@ -130,15 +126,15 @@ ctg@output_options$drivers$Raster$param$overwrite <- TRUE
 
 lidR::opt_output_files(ctg) <- paste0(envrmt$path_l_norm,"/{ID}","_norm_height")
 norm_ctg <- lidR::normalize_height(ctg,lidR::tin())
-
-# check new ctg
-las_check(norm_ctg)
 # calculate chm
 chm <- grid_canopy(norm_ctg, res = 1.0, lidR::pitfree(thresholds = c(0,2,5,10,15), c(0,1.5)))
 chm = get_vrt_img("chm",envrmt$path_l_norm,"_norm_height")
+```
 
-#--- plots
-mapview::mapview(norm_ctg)
+### Check the catalog
+```{r check-ctg,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
+# check new ctg
+las_check(norm_ctg)
 ```
 
 ### The visualization of an operating lidR catalog action.
@@ -146,9 +142,23 @@ mapview::mapview(norm_ctg)
 The `ctg` catalog  shows the extent of the original las file as provided by the the data server. The vector that is visualized is the resulting `lidR` catalog containing all extracted parameters. Same with the `ctg` here you see the extracted maximum Altitude of each tile used for visualization. Feel free to investigate the catalog parameters by clicking on the tiles.  
 
 
+```{r vis-ctg,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
+#--- plots
+mapview::mapview(norm_ctg, zcol="Max.Z")
+```
+
+
 
 
 ## Let's plot the results
+
+### mapview 
+```{r mapview,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
+#- mapview plot
+mapview::mapview(chm[[1]],layer.name = "pitfree chm 1 m² cells height [m]",col.regions=lidR::height.colors(20))
+```
+
+
 
 ### Classical plot 
 ```{r classic_plot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
@@ -160,41 +170,35 @@ plot( chm,
       cex.main = 1) 
 ```
 
-### Tmap plot 
+### tmap plot 
 ```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- tmap plot
-tm_shape(chm) +
-  tm_raster( title = "pitfree chm 1 m² cells", 
-             palette = lidR::height.colors(20)) +
+tmap::tm_shape(chm) +
+tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.colors(20)) +
   tm_grid()+
   tm_layout(legend.outside = TRUE)
 ```
 
-### mapview 
-```{r mapview,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
-#- mapview plot
-mapview::mapview(chm[[1]],layer.name = "pitfree chm 1 m² cells height [m]",col.regions=lidR::height.colors(20))
-```
-
-### gglpot 
+### ggplpot 
 ```{r ggplot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- ggplot plot with stars
-ggplot() + 
-  geom_stars(data = stars::st_as_stars(chm)) + 
-  scale_fill_gradientn(colours=lidR::height.colors(20)) +
-  coord_equal()+
-  guides(fill=guide_legend(title="pitfree chm 1 m² cells"))
+ggplot2::ggplot() + 
+stars::geom_stars(data = stars::st_as_stars(chm)) + 
+ggplot2::scale_fill_gradientn(colours=lidR::height.colors(20)) +
+ggplot2::coord_equal()+
+ggplot2::guides(fill=guide_legend(title="pitfree chm 1 m² cells"))
   
 ```
 
+
+
 [Download Script](https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587)
 
-## Heading on
+## The real challenge
 
-
-Assuming the above script (or the script you have adapted) runs without any technical errors, the exciting part of the data preprocessing comes now. In addition we ave to cross check and answer a lot of questions:
+Assuming the above script (or the scripts you have adapted) runs without any technical errors, the exciting part of the data preprocessing comes now. In addition we ave to cross check and answer a lot of questions:
 
 - Which algorithms did I use and why? 
 - 45m high trees - does that make sense? 
