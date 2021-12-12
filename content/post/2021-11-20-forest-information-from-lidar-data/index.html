@@ -31,7 +31,7 @@ weight: 101
 <script src="{{< blogdown/postref >}}index_files/clipboard/setClipboardText.js"></script>
 <link href="{{< blogdown/postref >}}index_files/mapviewCSS/mapview-popup.css" rel="stylesheet" />
 <link href="{{< blogdown/postref >}}index_files/mapviewCSS/mapview.css" rel="stylesheet" />
-<script src="{{< blogdown/postref >}}index_files/pitfree chm 1 m² cells height [m]_d076e8/data_stars_pitfreechm1mcellsheightm503b14.txt"></script>
+<script src="{{< blogdown/postref >}}index_files/pitfree chm 1 m² cells height [m]_fa365e/data_stars_pitfreechm1mcellsheightm09f831.txt"></script>
 <script src="{{< blogdown/postref >}}index_files/joda/joda.js"></script>
 <script src="{{< blogdown/postref >}}index_files/joda/addImageQuery-bindings.js"></script>
 
@@ -58,16 +58,20 @@ weight: 101
 <h2>Start Script</h2>
 <script src="https://gist.github.com/gisma/89881e23f5c2da91d161a9668386b715.js"></script>
 <p>{{% hp5 "/gi-modules/assets/misc/chm_one_tile.html" "700" "680" "center" "Canopy Height Model map" %}}</p>
-<div id="lidr-catalog---coping-with-computer-memory-resources" class="section level3">
-<h3>lidR catalog - coping with computer memory resources</h3>
+</div>
+<div id="lidr-catalog---coping-with-computer-memory-resources" class="section level2">
+<h2>lidR catalog - coping with computer memory resources</h2>
 <p>The above example is based on a las-tile of 250 by 250 meter. That means a fairly <strong>small</strong> tile size. If you did not run in memory or CPU problems you can deal with these tiles by simple looping.</p>
 <p><strong>But</strong> you have to keep in mind that even if a tile based processing can easily be handled with loops but has some pitfalls. E.g. if you compute some focal operations, you have to make sure that if the filter is close to the boundary of the tile that data from the neighboring tile is loaded in addition. Also the tile size may be a problem for your memory availability.</p>
 <p>The <code>lidR</code> package comes with a feature called catalog and a set of catalog functions which make tile-based life easier. A catalog meta object also holds information on e.g. the cartographic reference system of the data or the cores used for parallel processing. So we start over again - this time with a <strong>real</strong> data set.</p>
 <p>If not already done download the course related <a href="http://gofile.me/3Z8AJ/c6m5CfvWZ">LiDAR data set of the MOF area</a> . Store the the data to the <strong><code>envrmt$path_l_raw</code></strong> folder.</p>
 <p>Please note that dealing with <code>lidR</code> catalogs is pretty stressful for the memory administration of your <code>rsession</code>. So best practices is to <strong>Restart your Rsesseion and clean up your environment</strong>. This will help you to avoid frustrating situation like restarting your PC after hours of waiting…</p>
 <p>Take the setup section of the above script and exchange the code part as found under <em>start script</em> with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM.</p>
+<div id="helper-script" class="section level3">
+<h3>Helper script</h3>
 <p>{{% alert "NOTE" "info" "black" "black" "Please copy the following script into the subfolder *functions*. It might be necessary to work around a unexpected behaviour with the returnd vrt files." %}}</p>
 <script src="https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475.js"></script>
+<p>{{% alert "NOTE" "danger" "black" "black" "The below script is **not** using the original course data. It downloads a small sample. Please download the original data and **adapt** the below script! Please also enlarge the chunksize at least to 250!" %}}</p>
 <pre class="r"><code>knitr::knit_global()</code></pre>
 <pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
 <pre class="r"><code>require(envimaR)
@@ -184,6 +188,7 @@ plot( chm,
 tm_shape(chm) +
   tm_raster( title = &quot;pitfree chm 1 m² cells&quot;, 
              palette = lidR::height.colors(20)) +
+  tm_grid()+
   tm_layout(legend.outside = TRUE)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/tmap-1.png" width="672" /></p>
 </div>

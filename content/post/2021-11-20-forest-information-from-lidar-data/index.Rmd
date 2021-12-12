@@ -41,7 +41,7 @@ After revisiting the tutorial is seems to be a good choice to follow the tutoria
 blogdown::shortcode("hp5", "/gi-modules/assets/misc/chm_one_tile.html","700", "680","center", "Canopy Height Model map")
 ```
 
-### lidR catalog - coping with computer memory resources
+## lidR catalog - coping with computer memory resources
 
 The above example is based on a las-tile of 250 by 250 meter. That means a fairly **small** tile size. If you did not run in memory or CPU problems you can deal with these tiles by simple looping.  
 
@@ -58,7 +58,7 @@ Please note that dealing with `lidR` catalogs is pretty stressful for the memory
 
 Take the setup section of the above script and exchange the code part as found under *start script* with the following code chunk. This will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. 
 
-
+### Helper script
 
 ```{r echo=FALSE}
 blogdown::shortcode("alert", "NOTE", "info" ,"black", "black", "Please copy the following script into the subfolder *functions*. It might be necessary to work around a unexpected behaviour with the returnd vrt files.")
@@ -66,6 +66,13 @@ blogdown::shortcode("alert", "NOTE", "info" ,"black", "black", "Please copy the 
 
 
 <script src="https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475.js"></script>
+
+```{r echo=FALSE}
+blogdown::shortcode("alert", "NOTE", "danger" ,"black", "black", "The below script is **not** using the original course data. It downloads a small sample. Please download the original data and **adapt** the below script! Please also enlarge the chunksize at least to 250!")
+```
+
+
+
 
 ```{r warmup,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 knitr::knit_global()
@@ -160,6 +167,7 @@ plot( chm,
 tm_shape(chm) +
   tm_raster( title = "pitfree chm 1 m² cells", 
              palette = lidR::height.colors(20)) +
+  tm_grid()+
   tm_layout(legend.outside = TRUE)
 ```
 
