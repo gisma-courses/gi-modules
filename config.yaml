@@ -2,6 +2,7 @@ baseurl: https://gisma-courses.github.io/gi-modules/
 publishDir: docs
 title: gi-modules
 theme: hugo-theme-cleanwhite
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
 taxonomies:
   category: categories
   tag: tags

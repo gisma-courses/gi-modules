@@ -6,7 +6,7 @@ slug: []
 categories: ["aGIS"]
 tags: ["forest", "lidar","ecology","forestry"]
 description: 'Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.'
-image: '/assets/images/bayern-religion-sp.jpg'
+image: '/img/bayern-religion-sp.jpg'
 toc: true
 output:
   blogdown::html_page:
@@ -35,21 +35,42 @@ However all solution can be linked to R (we did it over the years) the `lidr` pa
 
 For the following, make sure these libraries are part of your setup (should be the case if you follow [project oriented workflow post]( {{< ref "2021-11-13-project-oriented-workflow" >}})).
 
-We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. First load the tutorial data to an appropriate data folder of your project. Then add the following libraries.
+We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. first set up your project environment:
 
 
-```r
+
+
+```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
+
+# 0 - specific setup
+#-----------------------------
+
+require(envimaR)
+
+# MANDANTORY: defining the root folder DO NOT change this line
+rootDIR = "~/edu/agis"
 # define  additional packages comment if not needed
-appendpackagesToLoad = c("lidR", "mapview", "raster", "rlas", "sp", "sf")
+appendpackagesToLoad = c("lidR","future")
+# define additional subfolders comment if not needed
+appendProjectDirList =  c("data/lidar/","data/lidar/l_raster","data/lidar/l_raw","data/lidar/l_norm")
+
+## define current projection (It is not magic you need to check the meta data or ask your instructor) 
+## ETRS89 / UTM zone 32N
+proj4 = "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+epsg_number = 25832
+
+# MANDANTORY: calling the setup script also DO NOT change this line
+source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),"src/agis_setup.R"), echo = FALSE,verbose = FALSE)
+
 ```
 
 
-```r
+```{r data1, comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE}
 
 # NOTE file size is about 12MB
 utils::download.file(url="https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip",
-                     destfile=paste0(envrmt$path_tmp,"chm.zip"))
-unzip(paste0(envrmt$path_tmp,"chm.zip"),
+                     destfile=paste0(envrmt$path_tmp,"/chm.zip"))
+unzip(paste0(envrmt$path_tmp,"/chm.zip"),
       exdir = envrmt$path_tmp,  
       overwrite = TRUE)
 
@@ -61,9 +82,11 @@ las_files = list.files(envrmt$path_tmp,
 
 If you want to read a single (not to big) LAS file, you can use the `readLAS` function. Plotting the data set results in a 3D interactive screen which opens from within R.
 
-```r
+```{r plot1, comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = TRUE}
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
 lidar_file = readLAS(las_files[1])
-plot(lidar_file, bg = "green", color = "Z",colorPalette = mvTop(256),backend="rgl")
+plot(lidar_file, bg = "green", color = "Z",colorPalette = mvTop(256))
 ```
 
 ![](/gi-modules/assets/videos/las_mof_plot.gif)

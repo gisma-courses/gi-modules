@@ -167,7 +167,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/assets/images/bayern-religion-sp.jpg');
+        background-image: url('/gi-modules/img/bayern-religion-sp.jpg');
   max-height: 350px
     }
 </style>
@@ -212,24 +212,42 @@ Beside the GIS packages there are a number of powerful specialists.  Two importa
 <p>However all solution can be linked to R (we did it over the years) the <code>lidr</code> package has revolutionized the processing of LiDAR data in the R ecotop and is definitely by far the best choice (and even faster an more reliable than commercial tools). Extensive documentation and workflow examples can be found in the Wiki of the respective <a href="https://github.com/Jean-Romain/lidR">GitHub repository</a>. A very recent publication is avaiblable at Remote Sensing of Environment <a href="https://www.sciencedirect.com/science/article/pii/S0034425720304314#f0015">idR: An R package for analysis of Airborne Laser Scanning (ALS) data</a>.</p>
 <h2 id="start-up-test">Start up test</h2>
 <p>For the following, make sure these libraries are part of your setup (should be the case if you follow <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/">project oriented workflow post</a>).</p>
-<p>We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. First load the tutorial data to an appropriate data folder of your project. Then add the following libraries.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># define  additional packages comment if not needed</span>
-appendpackagesToLoad <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;lidR&#34;</span>, <span style="color:#e6db74">&#34;mapview&#34;</span>, <span style="color:#e6db74">&#34;raster&#34;</span>, <span style="color:#e6db74">&#34;rlas&#34;</span>, <span style="color:#e6db74">&#34;sp&#34;</span>, <span style="color:#e6db74">&#34;sf&#34;</span>)
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e"># NOTE file size is about 12MB</span>
+<p>We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. first set up your project environment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># 0 - specific setup</span>
+<span style="color:#75715e">#-----------------------------</span>
+
+<span style="color:#a6e22e">require</span>(envimaR)
+
+<span style="color:#75715e"># MANDANTORY: defining the root folder DO NOT change this line</span>
+rootDIR <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~/edu/agis&#34;</span>
+<span style="color:#75715e"># define  additional packages comment if not needed</span>
+appendpackagesToLoad <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;lidR&#34;</span>,<span style="color:#e6db74">&#34;future&#34;</span>)
+<span style="color:#75715e"># define additional subfolders comment if not needed</span>
+appendProjectDirList <span style="color:#f92672">=</span>  <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;data/lidar/&#34;</span>,<span style="color:#e6db74">&#34;data/lidar/l_raster&#34;</span>,<span style="color:#e6db74">&#34;data/lidar/l_raw&#34;</span>,<span style="color:#e6db74">&#34;data/lidar/l_norm&#34;</span>)
+
+<span style="color:#75715e">## define current projection (It is not magic you need to check the meta data or ask your instructor) </span>
+<span style="color:#75715e">## ETRS89 / UTM zone 32N</span>
+proj4 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0&#34;</span>
+epsg_number <span style="color:#f92672">=</span> <span style="color:#ae81ff">25832</span>
+
+<span style="color:#75715e"># MANDANTORY: calling the setup script also DO NOT change this line</span>
+<span style="color:#a6e22e">source</span>(<span style="color:#a6e22e">file.path</span>(envimaR<span style="color:#f92672">::</span><span style="color:#a6e22e">alternativeEnvi</span>(root_folder <span style="color:#f92672">=</span> rootDIR),<span style="color:#e6db74">&#34;src/agis_setup.R&#34;</span>), echo <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,verbose <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># NOTE file size is about 12MB</span>
 utils<span style="color:#f92672">::</span><span style="color:#a6e22e">download.file</span>(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&#34;</span>,
-                     destfile<span style="color:#f92672">=</span><span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>))
-<span style="color:#a6e22e">unzip</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;chm.zip&#34;</span>),
+                     destfile<span style="color:#f92672">=</span><span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;/chm.zip&#34;</span>))
+<span style="color:#a6e22e">unzip</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_tmp,<span style="color:#e6db74">&#34;/chm.zip&#34;</span>),
       exdir <span style="color:#f92672">=</span> envrmt<span style="color:#f92672">$</span>path_tmp,  
       overwrite <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 
 las_files <span style="color:#f92672">=</span> <span style="color:#a6e22e">list.files</span>(envrmt<span style="color:#f92672">$</span>path_tmp,
                        pattern <span style="color:#f92672">=</span> <span style="color:#a6e22e">glob2rx</span>(<span style="color:#e6db74">&#34;*.las&#34;</span>),
                        full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
-
 </code></pre></div><p>If you want to read a single (not to big) LAS file, you can use the <code>readLAS</code> function. Plotting the data set results in a 3D interactive screen which opens from within R.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">lidar_file <span style="color:#f92672">=</span> <span style="color:#a6e22e">readLAS</span>(las_files[1])
-<span style="color:#a6e22e">plot</span>(lidar_file, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Z&#34;</span>,colorPalette <span style="color:#f92672">=</span> <span style="color:#a6e22e">mvTop</span>(<span style="color:#ae81ff">256</span>),backend<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rgl&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(rgl)
+knitr<span style="color:#f92672">::</span>knit_hooks<span style="color:#f92672">$</span><span style="color:#a6e22e">set</span>(webgl <span style="color:#f92672">=</span> hook_webgl)
+lidar_file <span style="color:#f92672">=</span> <span style="color:#a6e22e">readLAS</span>(las_files[1])
+</code></pre></div><pre tabindex="0"><code>Warning: Invalid data: ScanAngleRank greater than 90 degrees
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(lidar_file, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Z&#34;</span>,colorPalette <span style="color:#f92672">=</span> <span style="color:#a6e22e">mvTop</span>(<span style="color:#ae81ff">256</span>))
 </code></pre></div><p>
   <img src="/gi-modules/assets/videos/las_mof_plot.gif" alt="">
 

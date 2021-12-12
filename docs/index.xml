@@ -41,9 +41,8 @@ If you also need to access additional software, like GIS, the appropriate binari
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</guid>
-      <description>How to get started? For this first example we take a typical situation:
- we have no idea about the software and possible solutions we have no idea about LiDAR data processing and analysis we just google something like lidR package tutorial  Among the top ten is The lidR package book . So let’s follow the white rabbit…
-Creating a Canopy Height Model (CHM) reloaded After successful application of the tutorial we will transfer it into a suitable script for our workflow.</description>
+      <description>How to get started? For this first example we take a typical situation: - we have no idea about the software and possible solutions - we have no idea about LiDAR data processing and analysis - we just google something like lidR package tutorial
+Among the top ten is The lidR package book .</description>
     </item>
     
     <item>
