@@ -1,5 +1,5 @@
 ---
-title: R-Spatial in der Nussschale
+title: Fichten im Harz
 author: Chris Reudenbach
 date: '2021-12-03'
 slug: []
@@ -9,7 +9,7 @@ tags:
   - basics
 subtitle: ''
 description: ''
-image: ''
+image: '/assets/images/harz-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
