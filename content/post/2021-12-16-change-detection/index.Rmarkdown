@@ -135,21 +135,47 @@ if (get_sen)
   )
 
 #--- Einlesen der Daten aus den Verzeichnissen
-# RGB stack der beiden Jahre
-rgb = raster::stack(file.path(envrmt$path_data_lev1,"RGB432B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20190724"))),
-                      file.path(envrmt$path_data_lev1,"RGB432B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20200730"))))
-# Übergabe des RGB stacks an den Prädiktoren-Stack
-pred_stack = rgb
 
-# Loop über die Tage und Daten
-for (dat in c("20190724","20200730")){
-  for (pat in c("EVI","NDVI","MSAVI2","MSI","NDVI","SAVI")){
-    pred_stack = raster::stack(pred_stack,file.path(envrmt$path_data_lev1,pat,basename(list.files(file.path(envrmt$path_data_lev1,pat),pattern = dat))))
-  }
+#--- laden der notwendigen Bibliotheken
+# Achtung Pakete müssen evtl. manuell installiert werden
+library(envimaR)
+library(rprojroot)
+library(sen2r)
+#--- Schalter für Download
+get_sen = FALSE
+
+
+## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
+#root_folder = find_rstudio_root_file()
+root_folder = "~/edu/geoinfo/"
+
+# einlesen des zuvor erstellten Setup-Skripts
+source(file.path(root_folder, "src/functions/000_setup.R"))
+
+#--- Download der Daten
+# gui = TRUE ruft die GUI zur Kontrolle auf
+if (get_sen)
+  out_paths_3 <- sen2r(
+    gui = TRUE,
+    param_list = "~/edu/geoinfo/data/harz.json",
+    tmpdir = envrmt$path_tmp,
+  )
+
+#--- Einlesen der Daten aus den Verzeichnissen
+# RGB stack 2019 + 2020
+pred_stack_2019 = raster::stack(file.path(envrmt$path_data_lev1,"RGB843B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20190724"))))
+pred_stack_2020 = raster::stack(file.path(envrmt$path_data_lev1,"RGB843B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20200730"))))
+
+# Stack-Loop über die Daten
+for (pat in c("RGB432B","EVI","MSAVI2","NDVI","SAVI")){
+  pred_stack_2019 = raster::stack(pred_stack_2019,file.path(envrmt$path_data_lev1,pat,basename(list.files(file.path(envrmt$path_data_lev1,pat),pattern = "20190724"))))
+  pred_stack_2020 = raster::stack(pred_stack_2020,file.path(envrmt$path_data_lev1,pat,basename(list.files(file.path(envrmt$path_data_lev1,pat),pattern = "20200730"))))
 }
-# Zuweisen von leserlichen Namen auf die Datenebenen
-names(rgb) = c("R_2019","G_2019","B_2019","R_2020","G_2020","B_2020")
-names(pred_stack) = c("R_2019","G_2019","B_2019","R_2020","G_2020","B_2020","EVI_2019","NDVI_2019","MSAVI2_2019","MSI_2019","NDVI_2019","SAVI_2019","EVI_2020","NDVI_2020","MSAVI2_2020","MSI_2020","NDVI_2020","SAVI_2020")
+# Zuweisen von vereinfachter Datenebenen-Namen 
+names(pred_stack_2019) = c("nir","red","green","red","green","blue","EVI","MSAVI2","NDVI","SAVI")
+names(pred_stack_2020) = c("nir","red","green","red","green","blue","EVI","MSAVI2","NDVI","SAVI")
+
+mapview(pred_stack_2019)+pred_stack_2020
 
 
 ```
@@ -172,51 +198,59 @@ Wir nehmen an, dass wir drei Arten von Landbedeckung klassifizieren wollen: Wald
 Jede Klasse wird **einzeln** digitalisiert . 
 
 ```r
-Felder <- mapview::viewRGB(stack_rgb_2019) %>% mapedit::editMap()
-```
-Fahren Sie dann mit dem nächsten Schritt fort. Hier werden die Attribute *class* und *id* vergeben.
-```r
-Felder <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "Wald", id = 1)
+
+#--- Digitalisierung der Trainingsdaten
+#--- 2019
+# Kahlschlag
+train_area <- mapview::viewRGB(pred_stack_2019, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+# Hinzufügen der Attribute class (text) und id (integer)
+clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 1)
+# kein Wald
+train_area <- mapview::viewRGB(pred_stack_2019, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+other <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "other", id = 2)
+# merge in eine Datei
+train_areas_2019 <- rbind(clearcut, other)
+# sichern
+saveRDS(train_areas_2019, paste0(envrmt$path_data,"train_areas_2019.rds"))
+#--- 2020
+# Kahlschlag
+train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+# Hinzufügen der Attribute class (text) und id (integer)
+clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 1)
+# kein Wald
+train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+other <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "other", id = 2)
+# merge zu einer Datei
+train_areas_2020 <- rbind(clearcut, other)
+# sichern
+saveRDS(train_areas_2020, paste0(envrmt$path_data,"train_areas_2020.rds"))
+
 ```
 
 ## Schritt 4 - Klassifizierung 
 
 ### Vorbereitung der Trainingsdaten 
-Zunächst müssen wir die digitalisierten Daten vorbereiten. Dazu gehört, dass die Daten für die verschiedenen Klassifikations-Algorithmen, die wir verwenden wollen, vorbereitet werden.
+Zunächst müssen wir die digitalisierten Daten vorbereiten. 
 
 ```r
 
-#--- Digitalisierung der Trainingsdaten
-# Wald
-train_area <- mapview::viewRGB(rgb, r = 1, g = 2, b = 3) %>% mapedit::editMap()
-# Hinzufügen der Attribute class (text) und id (integer)
-forest <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "forest", id = 1)
-
-# kein wald
-train_area <- mapview::viewRGB(rgb, r = 1, g = 2, b = 3) %>% mapedit::editMap()
-no_forest <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "no_forest", id = 2)
-
-# Kahlschlag
-train_area <- mapview::viewRGB(rgb, r = 4, g = 5, b = 6) %>% mapedit::editMap()
-clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 3)
-
-# Kombinieren zu einer Datei
-train_areas <- rbind(forest, no_forest, clearcut)
-
-# ausschreiben
-saveRDS(train_areas, paste0(envrmt$path_data,"train_areas.rds"))
-
+#--- 2019
 # Projektion
-tp = sf::st_transform(train_areas,crs = sf::st_crs(pred_stack))
-
-# extrahieren der Trainingsdaten
-tDF = exactextractr::exact_extract(pred_stack, train_areas,  force_df = TRUE,
-                                      include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
-tDF = dplyr::bind_rows(tDF)
-
-# löschen ungültiger Trainingsdatensätze
+tp_2019 = sf::st_transform(train_areas_2019,crs = sf::st_crs(pred_stack))
+# Extraktion
+tDF_2019 = exactextractr::exact_extract(pred_stack_2019, train_areas_2019,  force_df = TRUE,
+                                   include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
+# merge in eine Datei
+tDF_2019 = dplyr::bind_rows(tDF_2019)
+# Löschen von NA Zeilen
 tDF = tDF[  rowSums(is.na(tDF)) == 0,]
 
+#--- 2020
+tp_2020 = sf::st_transform(train_areas_2020,crs = sf::st_crs(pred_stack))
+tDF_2020 = exactextractr::exact_extract(pred_stack_2020, train_areas_2020,  force_df = TRUE,
+                                        include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
+tDF_2020 = dplyr::bind_rows(tDF_2020)
+tDF = tDF[  rowSums(is.na(tDF)) == 0,]
 
 ```
 
@@ -227,10 +261,44 @@ In unserem Beispiel (für 3 Klassen angewandt und der Einfachheit halber mit `RS
 
 ```r
 ## k-means über RStoolbox
-prediction_kmeans = unsuperClass(stack, nSamples = 25000, nClasses = 3, nStarts = 25,
-                                 nIter = 250, norm = TRUE, clusterMap = TRUE,
-                                 Algorithmus = "MacQueen")
-mapview(prediction_kmeans$map, col = c('darkgreen', 'burlywood', 'green'))
+# Modell
+prediction_kmeans_2019 = unsuperClass(pred_stack_2019, nClasses = 2,norm = TRUE, algorithm = "MacQueen")
+# Klassifikation
+mapview(prediction_kmeans_2019$map, col = c('darkgreen', 'burlywood', 'green'))
+prediction_kmeans_2020 = unsuperClass(pred_stack_2020, nClasses = 2,norm = TRUE, algorithm = "MacQueen")
+mapview(prediction_kmeans2020$map, col = c('darkgreen', 'burlywood', 'green'))
+
+
+```
+### Random forest
+
+```r
+## random forest via caret
+# seed ermglicht reproduzierbaren zufall
+set.seed(123)
+# auteilung der daten in training und test , zufällige extraktion von 25% der Daten
+trainDat_2019 =  tDF_2019[createDataPartition(tDF_2019$class,list = FALSE,p = 0.25),]
+# Training Steuerung mit  cross-validation, 10 wiederholungen
+ctrlh = trainControl(method = "cv",
+                     number = 10,
+                     savePredictions = TRUE)
+#--- random forest model training
+# Paralleisierung
+cl = parallel::makeCluster(4)
+doParallel::registerDoParallel(cl)
+set.seed(123)
+# Modelltraining
+cv_model_2019 = train(trainDat_2019[,2:20],
+                 trainDat_2019[,1],
+                 method = "rf",
+                 metric = "Kappa",
+                 trControl = ctrlh,
+                 importance = TRUE)
+stopCluster(cl)
+
+# Klassifikation
+prediction_rf_2019  = predict(pred_stack_2019 ,cv_model_2019, progress = "text")
+mapview(prediction_rf_2019,col.regions = c('darkgreen', 'burlywood', 'green'))
 
 ```
 
