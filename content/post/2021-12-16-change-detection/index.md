@@ -14,7 +14,7 @@ toc: yes
 output:
   blogdown::html_page:
     keep_md: yes
-weight: 100
+weight: 501
 ---
 
 In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.  
