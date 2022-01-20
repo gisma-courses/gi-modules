@@ -204,22 +204,14 @@
                 post-container">
 
                 
-                
-<script src="https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/index_files/header-attrs/header-attrs.js"></script>
-
-<div id="TOC">
-
-</div>
-
-<p>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.</p>
+                <p>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.</p>
 <p>Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mittels Satelliten-, Flugzeug- und Drohnenbildern. Oft wird dies in Verbindung mit bio- und geophysikalischen oder vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Dabei sind Bildanalysemethoden von zentraler Bedeutung, um Informationen zu extrahieren, die es erlauben, die zugrunde liegenden Prozesse zu identifizieren. Ein immer wichtigerer Aspekt ist die Integration von Big Data-Analysen.</p>
 <p>Die wachsende und jetzt schon überwältigende Flut an verfügbaren Bild- und Fernerkundungsdaten muss leicht zugänglich sein und sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben genutzt werden. Wir beginnen mit dieser praktischen Anwendung in dieser Übung.</p>
-<div id="vorgehensweise" class="section level2">
-<h2>Vorgehensweise</h2>
+<h2 id="vorgehensweise">Vorgehensweise</h2>
 <p>Unverarbeitete Satellitenbilder sind nicht unbedingt informativ. Unser Auge kann ein Echtfarbenbild relativ leicht interpretieren, aber eine zuverlässige und reproduzierbare wissenschaftliche Interpretation erfordert andere Ansätze. Außerdem können Bildverarbeitungsmethoden zusätzliche, spezifischere Informationen ableiten. Wir haben bereits einfache Indices berechnet. Auch die Ableitung der Oberflächenalbedo ist ebenfalls eine physikalisch begründete Umwandlung von Bildsignalen in eine physikalische Größe.</p>
 <p>Um nützliche Informationen, z. B. über die Bodenbedeckung in einem Gebiet, zu erhalten, müssen wir die Daten daher zielgerichtet analysieren. Der bekannteste und gängigste Ansatz ist die Klassifizierung der Bilder in Kategorien die von Interesse sind.</p>
 <p>Diese Übung führt Sie in die Klassifizierung von Satelliten- und Luftvermessungsdaten in <code>R</code> ein. Als solche deckt sie das Folgende ab:</p>
-<ol style="list-style-type: decimal">
+<ol>
 <li>Vorbereiten der Arbeitsumgebung und Laden der Daten</li>
 <li>Quick &amp; dirty Digtalisierung von Trainingsbereichen</li>
 <li>unüberwachte/überwachte Klassifizierung</li>
@@ -229,145 +221,137 @@
 <li>Rekursive Partitionierung und Regressionsbäume (über <code>rpart</code>)</li>
 <li>Random Forest (über <code>caret</code>)</li>
 </ul>
-</div>
-<div id="change-detection-waldveränderung-nord-west-harz" class="section level2">
-<h2>Change Detection Waldveränderung Nord-West-Harz</h2>
+<h2 id="change-detection-waldveränderung-nord-west-harz">Change Detection Waldveränderung Nord-West-Harz</h2>
 <p>In diesem Tutorium werden die Sentinel-2-Bilder aus der vorherigen Übung verwendet.</p>
-</div>
-<div id="schritt-1---einrichten-des-skripts" class="section level2">
-<h2>Schritt 1 - Einrichten des Skripts</h2>
+<h2 id="schritt-1---einrichten-des-skripts">Schritt 1 - Einrichten des Skripts</h2>
 <p>Sie können entweder die gespeicherten Daten aus der vorangegangenen Einheit verwenden oder einen neuen Abschnitt zum Üben herunterladen und bearbeiten. Im Prinzip wird jedoch zuerst die Arbeitsumgebung geladen.</p>
-<pre class="r"><code>#------------------------------------------------------------------------------
-# Type: script
-# Name: get_sentinel.R
-# Author: Chris Reudenbach, creuden@gmail.com
-# Description:  retrieves sentinel data 
-#               and exemplary defines AOI and calculates albedo
-# Dependencies: 
-# Output: original sentinel tile 
-#         AOI window of this tile (research_area)
-#         top of atmosphere albedo AOI
-#         surface albedo AOI
-# Copyright: GPL (&gt;= 3)
-#------------------------------------------------------------------------------
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#------------------------------------------------------------------------------</span>
+<span style="color:#75715e"># Type: script</span>
+<span style="color:#75715e"># Name: get_sentinel.R</span>
+<span style="color:#75715e"># Author: Chris Reudenbach, creuden@gmail.com</span>
+<span style="color:#75715e"># Description:  retrieves sentinel data </span>
+<span style="color:#75715e">#               and exemplary defines AOI and calculates albedo</span>
+<span style="color:#75715e"># Dependencies: </span>
+<span style="color:#75715e"># Output: original sentinel tile </span>
+<span style="color:#75715e">#         AOI window of this tile (research_area)</span>
+<span style="color:#75715e">#         top of atmosphere albedo AOI</span>
+<span style="color:#75715e">#         surface albedo AOI</span>
+<span style="color:#75715e"># Copyright: GPL (&gt;= 3)</span>
+<span style="color:#75715e">#------------------------------------------------------------------------------</span>
 
-# laden der notwendigen Bibliotheken
-## Achtung sie müssen evtl. installiert werden
-library(envimaR)
-library(rprojroot)
-## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als rootDIR
-rootDIR = find_rstudio_root_file()
+<span style="color:#75715e"># laden der notwendigen Bibliotheken</span>
+<span style="color:#75715e">## Achtung sie müssen evtl. installiert werden</span>
+<span style="color:#a6e22e">library</span>(envimaR)
+<span style="color:#a6e22e">library</span>(rprojroot)
+<span style="color:#75715e">## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als rootDIR</span>
+rootDIR <span style="color:#f92672">=</span> <span style="color:#a6e22e">find_rstudio_root_file</span>()
 
-# einlesen des zuvor erstellten setup Srkiptes
-source(file.path(rootDIR, &quot;src/functions/000_setup.R&quot;))
+<span style="color:#75715e"># einlesen des zuvor erstellten setup Srkiptes</span>
+<span style="color:#a6e22e">source</span>(<span style="color:#a6e22e">file.path</span>(rootDIR, <span style="color:#e6db74">&#34;src/functions/000_setup.R&#34;</span>))
 
-</code></pre>
-<p>Bitte ergänzen Sie die Bibliotheken in ihrem setupskript um die folgenden:</p>
-<pre class="r"><code> c(&quot;rprojroot&quot;,&quot;sen2R&quot;,&quot;terra&quot;,&quot;patchwork&quot;,&quot;ggplot2&quot;,
- &quot;mapedit&quot;,&quot;dplyr&quot;,&quot;mapview&quot;,&quot;tidyverse&quot;,&quot;rpart&quot;,&quot;rpart.plot&quot;,
- &quot;rasterVis&quot;,&quot;caret&quot;,&quot;forcats&quot;,&quot;RStoolbox&quot;,&quot;randomForest&quot;, &quot;e1071&quot;)</code></pre>
-<p>Auf der Grundlage der verfügbaren Sentinel Daten sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver <a href="http://gofile.me/3Z8AJ/7Ika7zY9x">heruntergeladen</a> werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der <code>data</code> Ordenr wird ersetzt/ergänzt.</p>
-</div>
-<div id="kurze-einführung-in-klassifkation" class="section level2">
-<h2>Kurze Einführung in Klassifkation</h2>
-<div id="überwachte-klassifizierung" class="section level3">
-<h3>Überwachte Klassifizierung</h3>
+
+</code></pre></div><p>Bitte ergänzen Sie die Bibliotheken in ihrem setupskript um die folgenden:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;rprojroot&#34;</span>,<span style="color:#e6db74">&#34;sen2R&#34;</span>,<span style="color:#e6db74">&#34;terra&#34;</span>,<span style="color:#e6db74">&#34;patchwork&#34;</span>,<span style="color:#e6db74">&#34;ggplot2&#34;</span>,
+ <span style="color:#e6db74">&#34;mapedit&#34;</span>,<span style="color:#e6db74">&#34;dplyr&#34;</span>,<span style="color:#e6db74">&#34;mapview&#34;</span>,<span style="color:#e6db74">&#34;tidyverse&#34;</span>,<span style="color:#e6db74">&#34;rpart&#34;</span>,<span style="color:#e6db74">&#34;rpart.plot&#34;</span>,
+ <span style="color:#e6db74">&#34;rasterVis&#34;</span>,<span style="color:#e6db74">&#34;caret&#34;</span>,<span style="color:#e6db74">&#34;forcats&#34;</span>,<span style="color:#e6db74">&#34;RStoolbox&#34;</span>,<span style="color:#e6db74">&#34;randomForest&#34;</span>, <span style="color:#e6db74">&#34;e1071&#34;</span>)
+</code></pre></div><p>Auf der Grundlage der verfügbaren Sentinel Daten  sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver <a href="http://gofile.me/3Z8AJ/7Ika7zY9x">heruntergeladen</a> werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der <code>data</code> Ordenr wird ersetzt/ergänzt.</p>
+<h2 id="kurze-einführung-in-klassifkation">Kurze Einführung in Klassifkation</h2>
+<h3 id="überwachte-klassifizierung">Überwachte Klassifizierung</h3>
 <p>Bei der überwachten Klassifizierung von Landbedeckungen wird aus einer begrenzten Menge sogenannter Trainingsdaten ein Modell abgeleitet, das die jeweilige Landbedeckung im gesamten Datensatz vorhersagt. Die Landbedeckungstypen werden also <em>a priori</em> definiert, und das Modell versucht, diese Typen auf der Grundlage der Ähnlichkeit zwischen den Eigenschaften der Trainingsdaten und dem Rest des Datensatzes vorherzusagen.</p>
-<p><img src="images/supervised_classification.jpg" /></p>
-<p>Solche Klassifizierungen erfordern im Allgemeinen mindestens fünf Schritte:
-1. Zusammenstellung eines umfassenden Eingabedatensatzes, der eine oder mehrere Rasterebenen enthält.
-1. Auswahl von Trainingsgebieten, d.h. Teilmengen von Eingabedatensätzen, für die der Fernerkundungsexperte den Landbedeckungstyp kennt. Das Wissen über die Landbedeckung kann z.B. aus eigenen oder fremden <em>in situ</em> Beobachtungen, Managementinformationen oder anderen Fernerkundungsprodukten (z.B. hochauflösenden Luftbildern) gewonnen werden.</p>
-<ol style="list-style-type: decimal">
-<li>Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.</li>
-<li>Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.</li>
+<p>
+  <img src="images/supervised_classification.jpg" alt="">
+
+</p>
+<p>Solche Klassifizierungen erfordern im Allgemeinen mindestens fünf Schritte:</p>
+<ol>
+<li>
+<p>Zusammenstellung eines umfassenden Eingabedatensatzes, der eine oder mehrere Rasterebenen enthält.</p>
+</li>
+<li>
+<p>Auswahl von Trainingsgebieten, d.h. Teilmengen von Eingabedatensätzen, für die der Fernerkundungsexperte den Landbedeckungstyp kennt. Das Wissen über die Landbedeckung kann z.B. aus eigenen oder fremden <em>in situ</em> Beobachtungen, Managementinformationen oder anderen Fernerkundungsprodukten (z.B. hochauflösenden Luftbildern) gewonnen werden.</p>
+</li>
+<li>
+<p>Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.</p>
+</li>
+<li>
+<p>Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.</p>
+</li>
 </ol>
 <p>Bitte beachten Sie, dass alle Arten der Klassifizierung eine gründliche Validierung erfordern, die im Mittelpunkt der kommenden Kurseinheiten stehen wird.</p>
 <p>Die folgende Abbildung zeigt die Schritte einer überwachten Klassifikation im Detail. Die optionalen Segmentierungsoperationen sind obligatorisch für objektorientierte Klassifizierungen, die sich nicht nur auf die Geometrie der Objekte, sondern auch auf die Werte jeder einzelnen Rasterzelle im Eingabedatensatz stützen. Um einzelne Objekte wie Häuser oder Baumkronen abzugrenzen, verwenden Fernerkundungsexperten Segmentierungsalgorithmen, die die Homogenität der Pixelwerte innerhalb ihrer räumlichen Nachbarschaft berücksichtigen.</p>
-<p><img src="images/supervised_classification_concept.jpg" /></p>
-</div>
-</div>
-<div id="zweiter-schritt-übersicht-verschaffen" class="section level2">
-<h2>Zweiter Schritt Übersicht verschaffen</h2>
-<ol style="list-style-type: decimal">
+<p>
+  <img src="images/supervised_classification_concept.jpg" alt="">
+
+</p>
+<h2 id="zweiter-schritt-übersicht-verschaffen">Zweiter Schritt Übersicht verschaffen</h2>
+<ol>
 <li>Welche der Daten sind für eine visuelle Inspektion interessant und wo sind sie abgelegt?</li>
 <li>Welche Daten sind interessant für eine Klassifikation?</li>
 </ol>
 <p>Bei näherer Betrachtung der RGB Bilder (RGB432B) zeigt sich das zwei Datensätze aufgrund der Bildqualität und Wolkenbedeckung geeignet zu sein scheinen. Der 24.7.2019 und der 30.7. 2020.</p>
 <p>zunächst einmal benötigen wir nun diese Daten in einem Rasterstapel. Hierzu schauen wir welche weiteren Produkte wir noch verfügbar haben. Unter anderen sind dies die Indices EVI, MSAVI2 MSI NDVI SAVI und EVI.</p>
 <p>Diese müssen nun eingelesen werden:</p>
-<pre class="r"><code>
-# subsetting the filename(s) of the interesting file(s)
-fn_noext_evi = xfun::sans_ext(basename(list.files(paste0(envrmt$path_data_lev1,&quot;/EVI/&quot;),pattern = &quot;S2B2A&quot;)))
-fn_evi_2019 = basename(list.files(paste0(envrmt$path_data_lev1,&quot;/EVI/&quot;),pattern = &quot;20190724&quot;))
-fn_evi_2020 = basename(list.files(paste0(envrmt$path_data_lev1,&quot;/EVI/&quot;),pattern = &quot;20200730&quot;))
-fn_rgb_2019 = basename(list.files(paste0(envrmt$path_data_lev1,&quot;/RGB432B/&quot;),pattern = &quot;20190724&quot;))
-fn_rgb_2020 = basename(list.files(paste0(envrmt$path_data_lev1,&quot;/RGB432B/&quot;),pattern = &quot;20200730&quot;))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
+<span style="color:#75715e"># subsetting the filename(s) of the interesting file(s)</span>
+fn_noext_evi <span style="color:#f92672">=</span> xfun<span style="color:#f92672">::</span><span style="color:#a6e22e">sans_ext</span>(<span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/EVI/&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;S2B2A&#34;</span>)))
+fn_evi_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/EVI/&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190724&#34;</span>))
+fn_evi_2020 <span style="color:#f92672">=</span> <span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/EVI/&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200730&#34;</span>))
+fn_rgb_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/RGB432B/&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190724&#34;</span>))
+fn_rgb_2020 <span style="color:#f92672">=</span> <span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/RGB432B/&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200730&#34;</span>))
 
-# creating a raster stack
-stack_rgb_2019 = raster::stack(paste0(envrmt$path_data_lev1,&quot;/RGB432B/&quot;,fn_rgb_2019))
-</code></pre>
-</div>
-<div id="dritter-schritt-trainingsgebiete" class="section level2">
-<h2>Dritter Schritt Trainingsgebiete</h2>
+<span style="color:#75715e"># creating a raster stack</span>
+stack_rgb_2019 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;/RGB432B/&#34;</span>,fn_rgb_2019))
+
+</code></pre></div><h2 id="dritter-schritt-trainingsgebiete">Dritter Schritt Trainingsgebiete</h2>
 <p>Der nächste Schritt ist optional, bietet aber die Möglichkeit, schnell und effektiv einige Trainingsflächen zu digitalisieren, ohne die RStudio-Welt zu verlassen. Für größere Aufgaben ist es unerlässlich, auf den hohen Komfort der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir <code>mapedit</code>, ein kleines, aber feines Paket, das die Digitalisierung am Bildschirm in Rstudio oder in einem Browser ermöglicht. In Kombination mit <code>mapview</code> ist es sehr komfortabel für schnelles Digitalisieren. Besonders hilfreich ist die bequeme Möglichkeit, echte oder falsche <a href="https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/">Farbkomposita</a> zu erzeugen.</p>
-<div id="farbkomposita-für-bessere-trainingsergebnisse" class="section level3">
-<h3>Farbkomposita für bessere Trainingsergebnisse</h3>
-<p><embed src="images/cc.html" width="500" height="500" /></p>
+<h3 id="farbkomposita-für-bessere-trainingsergebnisse">Farbkomposita für bessere Trainingsergebnisse</h3>
+<p>
+  <img src="images/cc.html" alt="">
+
+{width=500px height=500px}</p>
 <p>Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
-Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches “farbiges” Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
+Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches &ldquo;farbiges&rdquo; Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
 Falschfarbenbilder werden häufig mit den Spektralkanälen für das nahe Infrarot, Rot und Grün erzeugt. Sie eignen sich hervorragend für die Einschätzung der Vegetation, da Pflanzen nahes Infrarot und grünes Licht reflektieren, während sie rotes Licht absorbieren (Red Edge Effect). Ein dichterer Pflanzenbewuchs ist dunkler rot. Städte und offener Boden sind grau oder hellbraun, und Wasser erscheint blau oder schwarz.</p>
-</div>
-<div id="quick-dirty-trainingsdaten-digitalisieren" class="section level3">
-<h3>Quick&amp; Dirty Trainingsdaten digitalisieren</h3>
+<h3 id="quick-dirty-trainingsdaten-digitalisieren">Quick&amp; Dirty Trainingsdaten digitalisieren</h3>
 <p>Wir nehmen an, dass wir drei Arten von Landbedeckung klassifizieren wollen: Wald, Nicht-Wald, Abholzungen.
 Jede Klasse wird <strong>einzeln</strong> digitalisiert .</p>
-<pre class="r"><code>Felder &lt;- mapview::viewRGB(stack_rgb_2019) %&gt;% mapedit::editMap()</code></pre>
-<p>Fahren Sie dann mit dem nächsten Schritt fort. Hier werden die Attribute <em>class</em> und <em>id</em> vergeben.</p>
-<pre class="r"><code>Felder &lt;- train_area$finished$geometry %&gt;% st_sf() %&gt;% mutate(class = &quot;Wald&quot;, id = 1)</code></pre>
-</div>
-</div>
-<div id="schritt-4---klassifizierung" class="section level2">
-<h2>Schritt 4 - Klassifizierung</h2>
-<div id="vorbereitung-der-trainingsdaten" class="section level3">
-<h3>Vorbereitung der Trainingsdaten</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">Felder <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(stack_rgb_2019) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
+</code></pre></div><p>Fahren Sie dann mit dem nächsten Schritt fort. Hier werden die Attribute <em>class</em> und <em>id</em> vergeben.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">Felder <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Wald&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</code></pre></div><h2 id="schritt-4---klassifizierung">Schritt 4 - Klassifizierung</h2>
+<h3 id="vorbereitung-der-trainingsdaten">Vorbereitung der Trainingsdaten</h3>
 <p>Zunächst müssen wir die digitalisierten Daten vorbereiten. Dazu gehört, dass die Daten für die verschiedenen Klassifikations-Algorithmen, die wir verwenden wollen, vorbereitet werden.</p>
-<pre class="r"><code># Zuerst müssen wir die Daten in die richtigen KBS projizieren
-tp = sf::st_transform(train_areas,crs = sf::st_crs(stack))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Zuerst müssen wir die Daten in die richtigen KBS projizieren</span>
+tp <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_transform</span>(train_areas,crs <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_crs</span>(stack))
 
-# als nächstes extrahieren wir die Werte aus jedem Band des Rasterstapels 
-# wir erzwingen die Rückgabe der Werte als Datenrahmen
-DF &lt;- raster::extract(stack, tp, df=TRUE) 
-# jetzt fügen wir die Kategorie &quot;class&quot; hinzu, die wir später für das Training benötigen
-# sie wurde bei der Extraktion fallen gelassen
-DF_sf =st_as_sf(inner_join(DF,tp))
-# schließlich erzeugen wir einen einfachen Datenrahmen ohne Geometrie (Raumdaten)
-DF2 = DF_sf
-st_geometry(DF2)=NULL</code></pre>
-</div>
-<div id="k-means-cluster-algorithmus-out-of-the-box" class="section level3">
-<h3>k-means Cluster Algorithmus out of the box</h3>
-<p>Die bekannteste unüberwachte Klassifizierungstechnik ist das k-means-Clustering, das als der einfachste unüberwachte Algorithmus des maschinellen Lernen bezeichnet wird.
+<span style="color:#75715e"># als nächstes extrahieren wir die Werte aus jedem Band des Rasterstapels </span>
+<span style="color:#75715e"># wir erzwingen die Rückgabe der Werte als Datenrahmen</span>
+DF <span style="color:#f92672">&lt;-</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">extract</span>(stack, tp, df<span style="color:#f92672">=</span><span style="color:#66d9ef">TRUE</span>) 
+<span style="color:#75715e"># jetzt fügen wir die Kategorie &#34;class&#34; hinzu, die wir später für das Training benötigen</span>
+<span style="color:#75715e"># sie wurde bei der Extraktion fallen gelassen</span>
+DF_sf <span style="color:#f92672">=</span><span style="color:#a6e22e">st_as_sf</span>(<span style="color:#a6e22e">inner_join</span>(DF,tp))
+<span style="color:#75715e"># schließlich erzeugen wir einen einfachen Datenrahmen ohne Geometrie (Raumdaten)</span>
+DF2 <span style="color:#f92672">=</span> DF_sf
+<span style="color:#a6e22e">st_geometry</span>(DF2)<span style="color:#f92672">=</span><span style="color:#66d9ef">NULL</span>
+</code></pre></div><h3 id="k-means-cluster-algorithmus-out-of-the-box">k-means Cluster Algorithmus out of the box</h3>
+<p>Die bekannteste unüberwachte Klassifizierungstechnik ist das k-means-Clustering, das als der  einfachste unüberwachte Algorithmus des maschinellen Lernen bezeichnet wird.
 In unserem Beispiel (für 3 Klassen angewandt und der Einfachheit halber mit <code>RStoolbox</code> ausgeführt) sieht es wie folgt aus:</p>
-<pre class="r"><code>## k-means über RStoolbox
-prediction_kmeans = unsuperClass(stack, nSamples = 25000, nClasses = 3, nStarts = 25,
-                                 nIter = 250, norm = TRUE, clusterMap = TRUE,
-                                 Algorithmus = &quot;MacQueen&quot;)
-mapview(prediction_kmeans$map, col = c(&#39;darkgreen&#39;, &#39;burlywood&#39;, &#39;green&#39;))
-</code></pre>
-</div>
-</div>
-<div id="zusätzliche-ressourcen" class="section level2">
-<h2>Zusätzliche Ressourcen</h2>
-<p>Bitte beachten Sie, dass es zahlreiche Blogs und Hilfestellungen gibt (<a href="https://rspatial.org/raster/rs/5-supclassification.html">rspatial - supervised classification</a>, <a href="https://rpubs.com/ials2un/rf_landcover">RPubs Tutorial</a>, Sydney’s <a href="https://urbanspatial.github.io/classifying_satellite_imagery_in_R/">blog</a>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## k-means über RStoolbox</span>
+prediction_kmeans <span style="color:#f92672">=</span> <span style="color:#a6e22e">unsuperClass</span>(stack, nSamples <span style="color:#f92672">=</span> <span style="color:#ae81ff">25000</span>, nClasses <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, nStarts <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>,
+                                 nIter <span style="color:#f92672">=</span> <span style="color:#ae81ff">250</span>, norm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, clusterMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+                                 Algorithmus <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MacQueen&#34;</span>)
+<span style="color:#a6e22e">mapview</span>(prediction_kmeans<span style="color:#f92672">$</span>map, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
+
+</code></pre></div><h2 id="zusätzliche-ressourcen">Zusätzliche Ressourcen</h2>
+<p>Bitte beachten Sie, dass es zahlreiche Blogs und Hilfestellungen gibt (<a href="https://rspatial.org/raster/rs/5-supclassification.html">rspatial - supervised classification</a>, <a href="https://rpubs.com/ials2un/rf_landcover">RPubs Tutorial</a>, Sydney&rsquo;s <a href="https://urbanspatial.github.io/classifying_satellite_imagery_in_R/">blog</a>,
 <a href="https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/">supervised classification</a> oder <a href="https://valentinitnelav.github.io/satellite-image-classification-r/">pixel-based supervised classification</a>).</p>
-<p>Keines dieser Dokumente ist als wissenschaftliche oder inhaltliche Referenz gedacht. Es ist so, wie der Autor des letzten Blogs, Valentin Stefan, sagt <em>“[…]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[…]”</em></p>
+<p>Keines dieser Dokumente ist als wissenschaftliche oder inhaltliche Referenz gedacht. Es ist so, wie der Autor des letzten Blogs, Valentin Stefan, sagt <em>&quot;[&hellip;]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[&hellip;]&quot;</em></p>
 <p>Dies ist lediglich ein Beispiel dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung eines Problmas entsteht. Dann nach viel Recherche und kritischer Prüfung kristallisiert sich ein aktueller Stand der Technik innerhalb der Gemeinschaft heraus.</p>
 <ul>
 <li><a href="http://wiki.awf.forst.uni-goettingen.de/wiki/index.php/Digitizing_training_and_test_areas">Digitalisierung von Trainingsdaten</a> by the <a href="https://www.uni-goettingen.de/en/67094.html">Forest Inventory and Remote Sensing</a> department at the University of Goettingen (Germany)</li>
 <li><a href="https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/create_new_vector.html#basic-ty-digitizing-polygons">Digitalisierung Turorial</a> in the QGIS 3.16 documentation</li>
 <li><a href="https://www2.geog.soton.ac.uk/users/trevesr/obs/rseo/supervised_classification.html">Überwachte Klassifikation Ein Tutorial</a> by Richard Treves, formerly of the University of Southampton (UK)</li>
 </ul>
-</div>
 
                 <style>
 .button {
