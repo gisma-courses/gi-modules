@@ -55,7 +55,7 @@ Please note that dealing with `lidR` catalogs is pretty stressful for the memory
 
 
 ### lidR catalog script to derive a canopy height model
-The following scripts will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/c6m5CfvWZ) . Store the the data to the e.g. `envrmt$path_l_raw` folder. 
+The following scripts will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/omf5DvyhL) (VPN required) . Store the the data to the e.g. `envrmt$path_l_raw` folder. 
 
 
 
@@ -82,7 +82,7 @@ root_folder = "~/edu/agis"
 #-- appendpackagesToLoad and appendProjectDirList
 #-- feel free to remove this lines if you do not need them
 # define  additional packages comment if not needed
-appendpackagesToLoad = c("lidR","future")
+appendpackagesToLoad = c("lidR","future","lwgeom")
 # define additional subfolders comment if not needed
 appendProjectDirList =  c("data/lidar/","data/lidar/l_raster/","data/lidar/l_raw/","data/lidar/l_norm/")
 
@@ -180,7 +180,7 @@ tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.color
   tm_layout(legend.outside = TRUE)
 ```
 
-### ggplpot 
+### ggplot 
 ```{r ggplot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- ggplot plot with stars
