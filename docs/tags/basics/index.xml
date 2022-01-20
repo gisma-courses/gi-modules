@@ -6,7 +6,7 @@
     <description>Recent content in basics on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/basics/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/basics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About GI-Modules</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-15-howto-gi-modules/</link>
@@ -46,16 +46,6 @@ Once you have a GitHub account, you can create as many repositories as you like 
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-21-impressum/</guid>
       <description>Teaching Framework This course is brought with the background of Open Educational Resources initiative coordinated by the Leibniz-Institut für Bildungsforschung und Bildungsinformation and integrated in the official teaching framework of the Marburg University, Germany. It is developed at the Department of Geography under responsibility of the gisma-courses site.
 Content Responsibility The responsibility for the content rests with the instructors. Statements, opinions and/or conclusions are the ones from the instructors and do not necessarily reflect the opinion of the representatives of Marburg University.</description>
-    </item>
-    
-    <item>
-      <title>Fichten im Harz</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
-      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
-      <description>Change Detection Trockenstress Fichten im Harz Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
-Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
     </item>
     
   </channel>

@@ -6,7 +6,7 @@ slug: []
 categories:
   - bGIS
 tags:
-  - basics
+  - Remote Sensing
 subtitle: ''
 description: ''
 image: ''
