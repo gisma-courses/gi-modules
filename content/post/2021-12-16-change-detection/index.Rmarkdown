@@ -62,16 +62,21 @@ Sie können entweder die gespeicherten Daten aus der vorangegangenen Einheit ver
 # Copyright: GPL (>= 3)
 #------------------------------------------------------------------------------
 
-# laden der notwendigen Bibliotheken
-## Achtung sie müssen evtl. installiert werden
+#--- laden der notwendigen Bibliotheken
+# Achtung Pakete müssen evtl. manuell installiert werden
 library(envimaR)
 library(rprojroot)
-## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als rootDIR
-rootDIR = find_rstudio_root_file()
+library(sen2r)
+#--- Schalter für Download
+get_sen = FALSE
 
-# einlesen des zuvor erstellten setup Srkiptes
-source(file.path(rootDIR, "src/functions/000_setup.R"))
 
+## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
+#root_folder = find_rstudio_root_file()
+root_folder = "~/edu/geoinfo/"
+
+# einlesen des zuvor erstellten Setup-Skripts
+source(file.path(root_folder, "src/functions/000_setup.R"))
 
 ```
 Bitte ergänzen Sie die Bibliotheken in ihrem setupskript um die folgenden:
@@ -120,15 +125,32 @@ Diese müssen nun eingelesen werden:
 
 ```r
 
-# subsetting the filename(s) of the interesting file(s)
-fn_noext_evi = xfun::sans_ext(basename(list.files(paste0(envrmt$path_data_lev1,"/EVI/"),pattern = "S2B2A")))
-fn_evi_2019 = basename(list.files(paste0(envrmt$path_data_lev1,"/EVI/"),pattern = "20190724"))
-fn_evi_2020 = basename(list.files(paste0(envrmt$path_data_lev1,"/EVI/"),pattern = "20200730"))
-fn_rgb_2019 = basename(list.files(paste0(envrmt$path_data_lev1,"/RGB432B/"),pattern = "20190724"))
-fn_rgb_2020 = basename(list.files(paste0(envrmt$path_data_lev1,"/RGB432B/"),pattern = "20200730"))
+#--- Download der Daten 
+# gui = TRUE ruft die GUI zur Kontrolle auf
+if (get_sen)
+  out_paths_3 <- sen2r(
+    gui = TRUE,
+    param_list = "~/edu/courses/src_courses/geoinfo/data/v3-nw-harz.json",
+    tmpdir = envrmt$path_tmp,
+  )
 
-# creating a raster stack
-stack_rgb_2019 = raster::stack(paste0(envrmt$path_data_lev1,"/RGB432B/",fn_rgb_2019))
+#--- Einlesen der Daten aus den Verzeichnissen
+# RGB stack der beiden Jahre
+rgb = raster::stack(file.path(envrmt$path_data_lev1,"RGB432B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20190724"))),
+                      file.path(envrmt$path_data_lev1,"RGB432B",basename(list.files(file.path(envrmt$path_data_lev1,"RGB432B"),pattern = "20200730"))))
+# Übergabe des RGB stacks an den Prädiktoren-Stack
+pred_stack = rgb
+
+# Loop über die Tage und Daten
+for (dat in c("20190724","20200730")){
+  for (pat in c("EVI","NDVI","MSAVI2","MSI","NDVI","SAVI")){
+    pred_stack = raster::stack(pred_stack,file.path(envrmt$path_data_lev1,pat,basename(list.files(file.path(envrmt$path_data_lev1,pat),pattern = dat))))
+  }
+}
+# Zuweisen von leserlichen Namen auf die Datenebenen
+names(rgb) = c("R_2019","G_2019","B_2019","R_2020","G_2020","B_2020")
+names(pred_stack) = c("R_2019","G_2019","B_2019","R_2020","G_2020","B_2020","EVI_2019","NDVI_2019","MSAVI2_2019","MSI_2019","NDVI_2019","SAVI_2019","EVI_2020","NDVI_2020","MSAVI2_2020","MSI_2020","NDVI_2020","SAVI_2020")
+
 
 ```
 
@@ -163,18 +185,39 @@ Felder <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "Wald", id
 Zunächst müssen wir die digitalisierten Daten vorbereiten. Dazu gehört, dass die Daten für die verschiedenen Klassifikations-Algorithmen, die wir verwenden wollen, vorbereitet werden.
 
 ```r
-# Zuerst müssen wir die Daten in die richtigen KBS projizieren
-tp = sf::st_transform(train_areas,crs = sf::st_crs(stack))
 
-# als nächstes extrahieren wir die Werte aus jedem Band des Rasterstapels 
-# wir erzwingen die Rückgabe der Werte als Datenrahmen
-DF <- raster::extract(stack, tp, df=TRUE) 
-# jetzt fügen wir die Kategorie "class" hinzu, die wir später für das Training benötigen
-# sie wurde bei der Extraktion fallen gelassen
-DF_sf =st_as_sf(inner_join(DF,tp))
-# schließlich erzeugen wir einen einfachen Datenrahmen ohne Geometrie (Raumdaten)
-DF2 = DF_sf
-st_geometry(DF2)=NULL
+#--- Digitalisierung der Trainingsdaten
+# Wald
+train_area <- mapview::viewRGB(rgb, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+# Hinzufügen der Attribute class (text) und id (integer)
+forest <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "forest", id = 1)
+
+# kein wald
+train_area <- mapview::viewRGB(rgb, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+no_forest <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "no_forest", id = 2)
+
+# Kahlschlag
+train_area <- mapview::viewRGB(rgb, r = 4, g = 5, b = 6) %>% mapedit::editMap()
+clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 3)
+
+# Kombinieren zu einer Datei
+train_areas <- rbind(forest, no_forest, clearcut)
+
+# ausschreiben
+saveRDS(train_areas, paste0(envrmt$path_data,"train_areas.rds"))
+
+# Projektion
+tp = sf::st_transform(train_areas,crs = sf::st_crs(pred_stack))
+
+# extrahieren der Trainingsdaten
+tDF = exactextractr::exact_extract(pred_stack, train_areas,  force_df = TRUE,
+                                      include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
+tDF = dplyr::bind_rows(tDF)
+
+# löschen ungültiger Trainingsdatensätze
+tDF = tDF[  rowSums(is.na(tDF)) == 0,]
+
+
 ```
 
 
