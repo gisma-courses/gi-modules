@@ -106,6 +106,7 @@ Die folgende Abbildung zeigt die Schritte einer überwachten Klassifikation im D
 ![](images/supervised_classification_concept.jpg)
 
 
+
 ## Zweiter Schritt Übersicht verschaffen 
 
 1. Welche der Daten sind für eine visuelle Inspektion interessant und wo sind sie abgelegt?
