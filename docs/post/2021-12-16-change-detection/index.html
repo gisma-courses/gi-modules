@@ -167,7 +167,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/assets/images/final2-sp.jpg');
+        background-image: url('/gi-modules/assets/images/harz-sp.jpg');
   max-height: 350px
     }
 </style>
@@ -225,41 +225,26 @@
 <p>In diesem Tutorium werden die Sentinel-2-Bilder aus der vorherigen Übung verwendet.</p>
 <h2 id="schritt-1---einrichten-des-skripts">Schritt 1 - Einrichten des Skripts</h2>
 <p>Sie können entweder die gespeicherten Daten aus der vorangegangenen Einheit verwenden oder einen neuen Abschnitt zum Üben herunterladen und bearbeiten. Im Prinzip wird jedoch zuerst die Arbeitsumgebung geladen.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#------------------------------------------------------------------------------</span>
-<span style="color:#75715e"># Type: script</span>
-<span style="color:#75715e"># Name: get_sentinel.R</span>
-<span style="color:#75715e"># Author: Chris Reudenbach, creuden@gmail.com</span>
-<span style="color:#75715e"># Description:  retrieves sentinel data </span>
-<span style="color:#75715e">#               and exemplary defines AOI and calculates albedo</span>
-<span style="color:#75715e"># Dependencies: </span>
-<span style="color:#75715e"># Output: original sentinel tile </span>
-<span style="color:#75715e">#         AOI window of this tile (research_area)</span>
-<span style="color:#75715e">#         top of atmosphere albedo AOI</span>
-<span style="color:#75715e">#         surface albedo AOI</span>
-<span style="color:#75715e"># Copyright: GPL (&gt;= 3)</span>
-<span style="color:#75715e">#------------------------------------------------------------------------------</span>
-
-<span style="color:#75715e">#--- laden der notwendigen Bibliotheken</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#  ---- 0 Projekt Setup ----</span>
 <span style="color:#75715e"># Achtung Pakete müssen evtl. manuell installiert werden</span>
 <span style="color:#a6e22e">library</span>(envimaR)
-<span style="color:#a6e22e">library</span>(rprojroot)
-<span style="color:#a6e22e">library</span>(sen2r)
-<span style="color:#75715e">#--- Schalter für Download</span>
+
+<span style="color:#75715e">#--- Schalter für den Download der sentinel daten</span>
 get_sen <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
 
+<span style="color:#75715e">#--- schalter ob digitalisiert werden muss falls er auf FALSE gesetzt ist werden die</span>
+<span style="color:#75715e"># (zuvor erstellten und gesciherten Daten ) im else Teil der Verzeigung eingelesen</span>
+digitize <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
 
 <span style="color:#75715e">## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder</span>
 <span style="color:#75715e">#root_folder = find_rstudio_root_file()</span>
 root_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~/edu/geoinfo/&#34;</span>
 
-<span style="color:#75715e"># einlesen des zuvor erstellten Setup-Skripts</span>
+<span style="color:#75715e"># Einlesen des zuvor erstellten Setup-Skripts</span>
 <span style="color:#a6e22e">source</span>(<span style="color:#a6e22e">file.path</span>(root_folder, <span style="color:#e6db74">&#34;src/functions/000_setup.R&#34;</span>))
 
-</code></pre></div><p>Bitte ergänzen Sie die Bibliotheken in ihrem setupskript um die folgenden:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;rprojroot&#34;</span>,<span style="color:#e6db74">&#34;sen2R&#34;</span>,<span style="color:#e6db74">&#34;terra&#34;</span>,<span style="color:#e6db74">&#34;patchwork&#34;</span>,<span style="color:#e6db74">&#34;ggplot2&#34;</span>,
- <span style="color:#e6db74">&#34;mapedit&#34;</span>,<span style="color:#e6db74">&#34;dplyr&#34;</span>,<span style="color:#e6db74">&#34;mapview&#34;</span>,<span style="color:#e6db74">&#34;tidyverse&#34;</span>,<span style="color:#e6db74">&#34;rpart&#34;</span>,<span style="color:#e6db74">&#34;rpart.plot&#34;</span>,
- <span style="color:#e6db74">&#34;rasterVis&#34;</span>,<span style="color:#e6db74">&#34;caret&#34;</span>,<span style="color:#e6db74">&#34;forcats&#34;</span>,<span style="color:#e6db74">&#34;RStoolbox&#34;</span>,<span style="color:#e6db74">&#34;randomForest&#34;</span>, <span style="color:#e6db74">&#34;e1071&#34;</span>)
-</code></pre></div><p>Auf der Grundlage der verfügbaren Sentinel Daten  sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver <a href="http://gofile.me/3Z8AJ/7Ika7zY9x">heruntergeladen</a> werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der <code>data</code> Ordenr wird ersetzt/ergänzt.</p>
+</code></pre></div><p>Bitte ergänzen Sie bei auftreteneden Fehlermeldungen in bezug auf Pakete diese an der Stelle ihres Setup-Skripts.</p>
+<p>Auf der Grundlage der verfügbaren Sentinel Daten  sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver <a href="http://gofile.me/3Z8AJ/7Ika7zY9x">heruntergeladen</a> werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der <code>data</code> Ordenr wird ersetzt/ergänzt.</p>
 <h2 id="kurze-einführung-in-klassifkation">Kurze Einführung in Klassifkation</h2>
 <h3 id="überwachte-klassifizierung">Überwachte Klassifizierung</h3>
 <p>Bei der überwachten Klassifizierung von Landbedeckungen wird aus einer begrenzten Menge sogenannter Trainingsdaten ein Modell abgeleitet, das die jeweilige Landbedeckung im gesamten Datensatz vorhersagt. Die Landbedeckungstypen werden also <em>a priori</em> definiert, und das Modell versucht, diese Typen auf der Grundlage der Ähnlichkeit zwischen den Eigenschaften der Trainingsdaten und dem Rest des Datensatzes vorherzusagen.</p>
@@ -297,60 +282,51 @@ root_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#3
 <p>zunächst einmal benötigen wir nun diese Daten in einem Rasterstapel. Hierzu schauen wir welche weiteren Produkte wir noch verfügbar haben. Unter anderen sind dies die Indices EVI, MSAVI2 MSI NDVI SAVI und EVI.</p>
 <p>Diese müssen nun eingelesen werden:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e">#--- Download der Daten </span>
-<span style="color:#75715e"># gui = TRUE ruft die GUI zur Kontrolle auf</span>
-<span style="color:#a6e22e">if </span>(get_sen)
-  out_paths_3 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sen2r</span>(
-    gui <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
-    param_list <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~/edu/courses/src_courses/geoinfo/data/v3-nw-harz.json&#34;</span>,
-    tmpdir <span style="color:#f92672">=</span> envrmt<span style="color:#f92672">$</span>path_tmp,
-  )
-
-<span style="color:#75715e">#--- Einlesen der Daten aus den Verzeichnissen</span>
-
-<span style="color:#75715e">#--- laden der notwendigen Bibliotheken</span>
-<span style="color:#75715e"># Achtung Pakete müssen evtl. manuell installiert werden</span>
-<span style="color:#a6e22e">library</span>(envimaR)
-<span style="color:#a6e22e">library</span>(rprojroot)
-<span style="color:#a6e22e">library</span>(sen2r)
-<span style="color:#75715e">#--- Schalter für Download</span>
-get_sen <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
-
-
-<span style="color:#75715e">## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder</span>
-<span style="color:#75715e">#root_folder = find_rstudio_root_file()</span>
-root_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~/edu/geoinfo/&#34;</span>
-
-<span style="color:#75715e"># einlesen des zuvor erstellten Setup-Skripts</span>
-<span style="color:#a6e22e">source</span>(<span style="color:#a6e22e">file.path</span>(root_folder, <span style="color:#e6db74">&#34;src/functions/000_setup.R&#34;</span>))
-
 <span style="color:#75715e">#--- Download der Daten</span>
 <span style="color:#75715e"># gui = TRUE ruft die GUI zur Kontrolle auf</span>
-<span style="color:#a6e22e">if </span>(get_sen)
-  out_paths_3 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sen2r</span>(
-    gui <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+<span style="color:#a6e22e">if </span>(get_sen){
+   out_paths_3 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sen2r</span>(
+    gui <span style="color:#f92672">=</span> T,
     param_list <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~/edu/geoinfo/data/harz.json&#34;</span>,
     tmpdir <span style="color:#f92672">=</span> envrmt<span style="color:#f92672">$</span>path_tmp,
   )
-
+}
 <span style="color:#75715e">#--- Einlesen der Daten aus den Verzeichnissen</span>
-<span style="color:#75715e"># RGB stack 2019 + 2020</span>
-pred_stack_2019 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB843B&#34;</span>,<span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB432B&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190724&#34;</span>))))
-pred_stack_2020 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB843B&#34;</span>,<span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB432B&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200730&#34;</span>))))
+<span style="color:#75715e"># RGB stack der beiden Jahre</span>
+
+pred_stack_2019 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB843B&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190619&#34;</span>,full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
+pred_stack_2020 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,<span style="color:#e6db74">&#34;RGB843B&#34;</span>),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200623&#34;</span>,full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
 
 <span style="color:#75715e"># Stack-Loop über die Daten</span>
 <span style="color:#a6e22e">for </span>(pat in <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;RGB432B&#34;</span>,<span style="color:#e6db74">&#34;EVI&#34;</span>,<span style="color:#e6db74">&#34;MSAVI2&#34;</span>,<span style="color:#e6db74">&#34;NDVI&#34;</span>,<span style="color:#e6db74">&#34;SAVI&#34;</span>)){
-  pred_stack_2019 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(pred_stack_2019,<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat,<span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190724&#34;</span>))))
-  pred_stack_2020 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(pred_stack_2020,<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat,<span style="color:#a6e22e">basename</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200730&#34;</span>))))
+  pred_stack_2019 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(pred_stack_2019,raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20190619&#34;</span>,full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)))
+  pred_stack_2020 <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(pred_stack_2020,raster<span style="color:#f92672">::</span><span style="color:#a6e22e">stack</span>(<span style="color:#a6e22e">list.files</span>(<span style="color:#a6e22e">file.path</span>(envrmt<span style="color:#f92672">$</span>path_data_lev1,pat),pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20200623&#34;</span>,full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)))
 }
-<span style="color:#75715e"># Zuweisen von vereinfachter Datenebenen-Namen </span>
+
+<span style="color:#75715e"># Zuweisen von leserlichen Namen auf die Datenebenen</span>
 <span style="color:#a6e22e">names</span>(pred_stack_2019) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;nir&#34;</span>,<span style="color:#e6db74">&#34;red&#34;</span>,<span style="color:#e6db74">&#34;green&#34;</span>,<span style="color:#e6db74">&#34;red&#34;</span>,<span style="color:#e6db74">&#34;green&#34;</span>,<span style="color:#e6db74">&#34;blue&#34;</span>,<span style="color:#e6db74">&#34;EVI&#34;</span>,<span style="color:#e6db74">&#34;MSAVI2&#34;</span>,<span style="color:#e6db74">&#34;NDVI&#34;</span>,<span style="color:#e6db74">&#34;SAVI&#34;</span>)
 <span style="color:#a6e22e">names</span>(pred_stack_2020) <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;nir&#34;</span>,<span style="color:#e6db74">&#34;red&#34;</span>,<span style="color:#e6db74">&#34;green&#34;</span>,<span style="color:#e6db74">&#34;red&#34;</span>,<span style="color:#e6db74">&#34;green&#34;</span>,<span style="color:#e6db74">&#34;blue&#34;</span>,<span style="color:#e6db74">&#34;EVI&#34;</span>,<span style="color:#e6db74">&#34;MSAVI2&#34;</span>,<span style="color:#e6db74">&#34;NDVI&#34;</span>,<span style="color:#e6db74">&#34;SAVI&#34;</span>)
+<span style="color:#a6e22e">saveRDS</span>(pred_stack_2019,<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;pred_stack_2019.rds&#34;</span>))
+<span style="color:#a6e22e">saveRDS</span>(pred_stack_2020,<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;pred_stack_2020.rds&#34;</span>))
+pred_stack_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;pred_stack_2019.rds&#34;</span>))
+pred_stack_2020 <span style="color:#f92672">=</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;pred_stack_2020.rds&#34;</span>))
 
-<span style="color:#a6e22e">mapview</span>(pred_stack_2019)<span style="color:#f92672">+</span>pred_stack_2020
+<span style="color:#75715e"># visuelle Überprüfung der stacks</span>
+<span style="color:#a6e22e">plot</span>(pred_stack_2019)
+<span style="color:#a6e22e">plot</span>(pred_stack_2020)
 
 
-</code></pre></div><h2 id="dritter-schritt-trainingsgebiete">Dritter Schritt Trainingsgebiete</h2>
+</code></pre></div><h2 id="driter-schritt-erster-überblick-mit-einer-k-means-klassifikation">Driter Schritt erster Überblick mit einer K-Means Klassifikation</h2>
+<p>Die bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering, das auch als der <em>&ldquo;einfachster  Algorithmus des maschinellen Lernens&rdquo;</em> bezeichnet wird.</p>
+<p>In unserem Beispiel (für 2 Klassen angewandt und der Einfachheit halber mit <code>RStoolbox</code> ausgeführt) sieht es wie folgt aus:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## k-means über RStoolbox</span>
+<span style="color:#75715e"># Modell</span>
+prediction_kmeans_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">unsuperClass</span>(pred_stack_2019, nClasses <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,norm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MacQueen&#34;</span>)
+<span style="color:#75715e"># Klassifikation</span>
+<span style="color:#a6e22e">mapview</span>(prediction_kmeans_2019<span style="color:#f92672">$</span>map, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
+prediction_kmeans_2020 <span style="color:#f92672">=</span> <span style="color:#a6e22e">unsuperClass</span>(pred_stack_2020, nClasses <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,norm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MacQueen&#34;</span>)
+<span style="color:#a6e22e">mapview</span>(prediction_kmeans2020<span style="color:#f92672">$</span>map, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
+</code></pre></div><h2 id="vierter-schritt-trainingsdaten-erstellen">Vierter Schritt Trainingsdaten erstellen</h2>
 <p>Der nächste Schritt ist optional, bietet aber die Möglichkeit, schnell und effektiv einige Trainingsflächen zu digitalisieren, ohne die RStudio-Welt zu verlassen. Für größere Aufgaben ist es unerlässlich, auf den hohen Komfort der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir <code>mapedit</code>, ein kleines, aber feines Paket, das die Digitalisierung am Bildschirm in Rstudio oder in einem Browser ermöglicht. In Kombination mit <code>mapview</code> ist es sehr komfortabel für schnelles Digitalisieren. Besonders hilfreich ist die bequeme Möglichkeit, echte oder falsche <a href="https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/">Farbkomposita</a> zu erzeugen.</p>
 <h3 id="farbkomposita-für-bessere-trainingsergebnisse">Farbkomposita für bessere Trainingsergebnisse</h3>
 <p>
@@ -360,103 +336,131 @@ pred_stack_2020 <span style="color:#f92672">=</span> raster<span style="color:#f
 <p>Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
 Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches &ldquo;farbiges&rdquo; Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
 Falschfarbenbilder werden häufig mit den Spektralkanälen für das nahe Infrarot, Rot und Grün erzeugt. Sie eignen sich hervorragend für die Einschätzung der Vegetation, da Pflanzen nahes Infrarot und grünes Licht reflektieren, während sie rotes Licht absorbieren (Red Edge Effect). Ein dichterer Pflanzenbewuchs ist dunkler rot. Städte und offener Boden sind grau oder hellbraun, und Wasser erscheint blau oder schwarz.</p>
-<h3 id="quick-dirty-trainingsdaten-digitalisieren">Quick&amp; Dirty Trainingsdaten digitalisieren</h3>
-<p>Wir nehmen an, dass wir drei Arten von Landbedeckung klassifizieren wollen: Wald, Nicht-Wald, Abholzungen.
-Jede Klasse wird <strong>einzeln</strong> digitalisiert .</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e">#--- Digitalisierung der Trainingsdaten</span>
-<span style="color:#75715e">#--- 2019</span>
-<span style="color:#75715e"># Kahlschlag</span>
-train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2019, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
-<span style="color:#75715e"># Hinzufügen der Attribute class (text) und id (integer)</span>
-clearcut <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;clearcut&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#75715e"># kein Wald</span>
-train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2019, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
-other <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;other&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
-<span style="color:#75715e"># merge in eine Datei</span>
-train_areas_2019 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(clearcut, other)
-<span style="color:#75715e"># sichern</span>
-<span style="color:#a6e22e">saveRDS</span>(train_areas_2019, <span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;train_areas_2019.rds&#34;</span>))
-<span style="color:#75715e">#--- 2020</span>
-<span style="color:#75715e"># Kahlschlag</span>
-train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2020, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
-<span style="color:#75715e"># Hinzufügen der Attribute class (text) und id (integer)</span>
-clearcut <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;clearcut&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#75715e"># kein Wald</span>
-train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2020, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
-other <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;other&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
-<span style="color:#75715e"># merge zu einer Datei</span>
-train_areas_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(clearcut, other)
-<span style="color:#75715e"># sichern</span>
-<span style="color:#a6e22e">saveRDS</span>(train_areas_2020, <span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;train_areas_2020.rds&#34;</span>))
+<h3 id="quick--dirty-trainingsdaten-digitalisieren">Quick &amp; Dirty Trainingsdaten digitalisieren</h3>
+<p>Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: Wald, Nicht-Wald, Abholzungen.
+Jede Klasse wird <strong>einzeln</strong> digitalisiert.  Im Anschluss werden die Trainingsdatenmerkmale des jeweiligen Rasterstacks extrahiert und auf Fehlwerte bereiningt.
+Falls dieser Teil bereits absolviert wurde kann die logische Variable <code>digitize</code> auf <code>FALSE</code>  gesetzt werden und es wird dann der <code>ELSE</code> Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#---- Digitalisierung der Trainingsdaten ----</span>
+
+<span style="color:#a6e22e">if </span>(digitize) {
+  <span style="color:#75715e"># Für die überwachte Klassifikation benötigen wir Trainingsgebiete. Sie können Sie wie nachfolgend digitalisieren oder alternativ z.B. QGis verwenden</span>
+  
+  <span style="color:#75715e">#--- 2019</span>
+  <span style="color:#75715e"># Kahlschlag</span>
+  <span style="color:#75715e"># Es wird das Falschfarbenkomosit in originaler Auflösung genutzt (maxpixels =  1693870)</span>
+  <span style="color:#75715e"># Bitte beachten Sie dass es (1) deutlich länger lädt und (2) Vegetation in Rot dargestellt wird.</span>
+  <span style="color:#75715e"># Die Kahlschäge sind jetzt grün</span>
+  train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2019, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, maxpixels <span style="color:#f92672">=</span>  <span style="color:#ae81ff">1693870</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
+  <span style="color:#75715e"># Hinzufügen der Attribute class (text) und id (integer)</span>
+  clearcut <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;clearcut&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+  
+  <span style="color:#75715e"># other: hier gilt es möglichst verteilt übers Bild möglichst alle nicht zu Kahlschlag  gehörenden Flächen zu erfassen.</span>
+  train_area <span style="color:#f92672">&lt;-</span> mapview<span style="color:#f92672">::</span><span style="color:#a6e22e">viewRGB</span>(pred_stack_2019, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, g <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> mapedit<span style="color:#f92672">::</span><span style="color:#a6e22e">editMap</span>()
+  other <span style="color:#f92672">&lt;-</span> train_area<span style="color:#f92672">$</span>finished<span style="color:#f92672">$</span>geometry <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">st_sf</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(class <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;other&#34;</span>, id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
+  
+  <span style="color:#75715e"># rbind  kopiert die beiden obigen Vektorobjekte in eine Datei</span>
+  train_areas_2019 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(clearcut, other)
+  
+  <span style="color:#75715e"># Umprojizieren auf die Raster Datei</span>
+  train_areas_2019 <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_transform</span>(train_areas_2019,crs <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_crs</span>(pred_stack_2019))
+  
+  
+  <span style="color:#75715e"># Extraktion der Trainingsdaten für die digitalisierten Flächen</span>
+  tDF_2019 <span style="color:#f92672">=</span> exactextractr<span style="color:#f92672">::</span><span style="color:#a6e22e">exact_extract</span>(pred_stack_2019, train_areas_2019,  force_df <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+                                          include_cell <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_xy <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,full_colnames <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_cols <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
+  <span style="color:#75715e">#  auch hier wieder zusamenkopieren in eine Datei</span>
+  tDF_2019 <span style="color:#f92672">=</span> dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">bind_rows</span>(tDF_2019)
+  
+  <span style="color:#75715e"># Löschen von etwaigen Zeilen die NA (no data) Werte enthalten</span>
+  tDF_2019 <span style="color:#f92672">=</span> tDF_2019<span style="color:#a6e22e">[complete.cases</span>(tDF_2019) ,]
+  tDF_2019 <span style="color:#f92672">=</span> tDF_2019[ ,<span style="color:#a6e22e">rowSums</span>(<span style="color:#a6e22e">is.na</span>(tDF_2019)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>]
+  
+  <span style="color:#75715e"># check der extrahierten Daten</span>
+  <span style="color:#a6e22e">summary</span>(tDF_2019)
+  <span style="color:#a6e22e">mapview</span>(train_areas_2019)<span style="color:#f92672">+</span>pred_stack_2019[[1]]
+  
+  <span style="color:#75715e"># Abspeichern als R-internes Datenformat</span>
+  <span style="color:#75715e"># ist im Repo hinterlegt und kann desahlb (zeile drunter) eingeladen werden</span>
+  <span style="color:#a6e22e">saveRDS</span>(tDF_2019, <span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;train_areas_2019.rds&#34;</span>))
+  
+  
+  <span style="color:#75715e"># # ---- Das gleiche muss für 2020 wiederholt werden zum digitalisieren und extrahieren bitte ent-kommentieren ----</span>
+  
+  <span style="color:#75715e"># # Kahlschlag</span>
+  <span style="color:#75715e"># train_area &lt;- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3,maxpixels =  1693870) %&gt;% mapedit::editMap()</span>
+  <span style="color:#75715e"># clearcut &lt;- train_area$finished$geometry %&gt;% st_sf() %&gt;% mutate(class = &#34;clearcut&#34;, id = 1)</span>
+  <span style="color:#75715e"># train_area &lt;- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3) %&gt;% mapedit::editMap()</span>
+  <span style="color:#75715e"># other &lt;- train_area$finished$geometry %&gt;% st_sf() %&gt;% mutate(class = &#34;other&#34;, id = 2)</span>
+  <span style="color:#75715e"># train_areas_2020 &lt;- rbind(clearcut, other)</span>
+  <span style="color:#75715e"># train_areas_2020 = sf::st_transform(train_areas_2020,crs = sf::st_crs(pred_stack_2020))</span>
+  <span style="color:#75715e"># tDF_2020 = exactextractr::exact_extract(pred_stack_2020, train_areas_2020,  force_df = TRUE,</span>
+  <span style="color:#75715e">#                                         include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = &#34;class&#34;)</span>
+  <span style="color:#75715e"># tDF_2020 = dplyr::bind_rows(tDF_2020)</span>
+  <span style="color:#75715e"># tDF_2020 = tDF_2020[  rowSums(is.na(tDF_2020)) == 0,]</span>
+  <span style="color:#75715e"># saveRDS(tDF_2020, paste0(envrmt$path_data,&#34;train_areas_2020.rds&#34;))</span>
+  
+} else {
+  train_areas_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#a6e22e">paste0</span>(envrmt<span style="color:#f92672">$</span>path_data,<span style="color:#e6db74">&#34;train_areas_2019.rds&#34;</span>))
+  <span style="color:#75715e">#  train_areas_2020 = readRDS(paste0(envrmt$path_data,&#34;train_areas_2020.rds&#34;))</span>
+  
+}
+
 
 </code></pre></div><h2 id="schritt-4---klassifizierung">Schritt 4 - Klassifizierung</h2>
-<h3 id="vorbereitung-der-trainingsdaten">Vorbereitung der Trainingsdaten</h3>
-<p>Zunächst müssen wir die digitalisierten Daten vorbereiten.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e">#--- 2019</span>
-<span style="color:#75715e"># Projektion</span>
-tp_2019 <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_transform</span>(train_areas_2019,crs <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_crs</span>(pred_stack))
-<span style="color:#75715e"># Extraktion</span>
-tDF_2019 <span style="color:#f92672">=</span> exactextractr<span style="color:#f92672">::</span><span style="color:#a6e22e">exact_extract</span>(pred_stack_2019, train_areas_2019,  force_df <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
-                                   include_cell <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_xy <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,full_colnames <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_cols <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#75715e"># merge in eine Datei</span>
-tDF_2019 <span style="color:#f92672">=</span> dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">bind_rows</span>(tDF_2019)
-<span style="color:#75715e"># Löschen von NA Zeilen</span>
-tDF <span style="color:#f92672">=</span> tDF[  <span style="color:#a6e22e">rowSums</span>(<span style="color:#a6e22e">is.na</span>(tDF)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>,]
+<p>Maschinelles Lernen wie z. B. Random Forest, Algorithmen können so trainiert werden, dass sie automatisiert Muster in  Daten finden. Solange die Trainingsdaten  geeignet und repräsentativ sind , können  auch Vorhersagen für Räume getroffen werden, für die keine Daten vorhanden sind.</p>
+<p>Wir wollen nun die räumlichen Merkmale Kahlschlag/kein Wald mit Techniken des maschinellen Lernens vorhersagen und Methoden der Zufallsvalidierung anwenden.</p>
+<p>Wir wollen ein Modell erstellen, das zwischen den Pixeln eines Kahlschlages und allen anderen Pixeln unterscheiden kann. Dazu nutzen wir die HEruntergeladnen Daten im Vorhersage Rasterstack.</p>
+<h2 id="random-forest">Random forest</h2>
+<p>Random Forests können sowohl für Regressions- als auch für Klassifizierungsaufgaben verwendet werden, wobei letztere besonders in der Umwelt-Fernerkundung relevant sind. Wie bei jeder maschinellen Lernmethode lernt auch das Random-Forest-Modell, Muster und Strukturen in den Daten selbst zu erkennen.</p>
+<p>
+  <img src="images/Random_forest_diagram_complete.png" alt="">
 
-<span style="color:#75715e">#--- 2020</span>
-tp_2020 <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_transform</span>(train_areas_2020,crs <span style="color:#f92672">=</span> sf<span style="color:#f92672">::</span><span style="color:#a6e22e">st_crs</span>(pred_stack))
-tDF_2020 <span style="color:#f92672">=</span> exactextractr<span style="color:#f92672">::</span><span style="color:#a6e22e">exact_extract</span>(pred_stack_2020, train_areas_2020,  force_df <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
-                                        include_cell <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_xy <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,full_colnames <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,include_cols <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-tDF_2020 <span style="color:#f92672">=</span> dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">bind_rows</span>(tDF_2020)
-tDF <span style="color:#f92672">=</span> tDF[  <span style="color:#a6e22e">rowSums</span>(<span style="color:#a6e22e">is.na</span>(tDF)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>,]
+</p>
+<p>Abbildung: Vereinfachte Darstellung der Klassifizierung von Daten durch Random Forest während des Trainings. Venkata Jagannath [CC BY-SA 4.0] via wikipedia.org</p>
+<p>Ein Random-Forest-Algorithmus lernt über die Daten, indem er viele Entscheidungsbäume erstellt - daher auch der Name &ldquo;Forest&rdquo;. Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz aus eines Baumes aus dem Trainingsdatensatz  und weist dem Pixel dies Klasse zu. Dies wird mit allen verfügbaren Entschidungsbäuumen so gemacht und letzlich wird nach dem Winner takes it all Ansatz die Instanz der Klasse zugeordnet, die das Ergebnis der meisten Bäume ist.</p>
+<p>Da der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich um eine überwachte Lernmethode. Das bedeutet, dass wir als Nutzer dem Algorithmus sagen müssen, was er vorhersagen soll. In unserem Fall müssen die Trainingsdaten verschiedene Kategorien oder Klassifizierungen der Bodenbedeckung (z. B. Kahlschlag, Rest) enthalten und mit mit einem Tag so gekennzeichnet sein.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## ---- Überwachte  mit Klassifikation Random Forest ----</span>
 
-</code></pre></div><h3 id="k-means-cluster-algorithmus-out-of-the-box">k-means Cluster Algorithmus out of the box</h3>
-<p>Die bekannteste unüberwachte Klassifizierungstechnik ist das k-means-Clustering, das als der  einfachste unüberwachte Algorithmus des maschinellen Lernen bezeichnet wird.
-In unserem Beispiel (für 3 Klassen angewandt und der Einfachheit halber mit <code>RStoolbox</code> ausgeführt) sieht es wie folgt aus:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## k-means über RStoolbox</span>
-<span style="color:#75715e"># Modell</span>
-prediction_kmeans_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">unsuperClass</span>(pred_stack_2019, nClasses <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,norm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MacQueen&#34;</span>)
-<span style="color:#75715e"># Klassifikation</span>
-<span style="color:#a6e22e">mapview</span>(prediction_kmeans_2019<span style="color:#f92672">$</span>map, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
-prediction_kmeans_2020 <span style="color:#f92672">=</span> <span style="color:#a6e22e">unsuperClass</span>(pred_stack_2020, nClasses <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,norm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MacQueen&#34;</span>)
-<span style="color:#a6e22e">mapview</span>(prediction_kmeans2020<span style="color:#f92672">$</span>map, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
+<span style="color:#75715e">## Hier wird der Entscheidungsbaum Algorithmus Random Forest über das Utility Paket caret aufgerufen</span>
+<span style="color:#75715e">## ACHTUNG Das Beispiel ist nur für 2019</span>
 
-
-</code></pre></div><h3 id="random-forest">Random forest</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## random forest via caret</span>
-<span style="color:#75715e"># seed ermglicht reproduzierbaren zufall</span>
+<span style="color:#75715e"># das setzen eines seed ermöglicht reproduzierbaren zufall</span>
 <span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">123</span>)
-<span style="color:#75715e"># auteilung der daten in training und test , zufällige extraktion von 25% der Daten</span>
-trainDat_2019 <span style="color:#f92672">=</span>  tDF_2019<span style="color:#a6e22e">[createDataPartition</span>(tDF_2019<span style="color:#f92672">$</span>class,list <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.25</span>),]
+
+<span style="color:#75715e"># Aufsplitten  der Daten in training und test , zufällige extraktion von 25% der Daten</span>
+trainDat_2019 <span style="color:#f92672">=</span>  train_areas_2019<span style="color:#a6e22e">[createDataPartition</span>(train_areas_2019<span style="color:#f92672">$</span>class,list <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.25</span>),]
+<span style="color:#75715e"># die response variable muss auf den Datentyp &#34;factor&#34; gesetzt werden</span>
+trainDat_2019<span style="color:#f92672">$</span>class <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.factor</span>(trainDat_2019<span style="color:#f92672">$</span>class)
 <span style="color:#75715e"># Training Steuerung mit  cross-validation, 10 wiederholungen</span>
 ctrlh <span style="color:#f92672">=</span> <span style="color:#a6e22e">trainControl</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cv&#34;</span>,
                      number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
                      savePredictions <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 <span style="color:#75715e">#--- random forest model training</span>
-<span style="color:#75715e"># Paralleisierung</span>
-cl <span style="color:#f92672">=</span> parallel<span style="color:#f92672">::</span><span style="color:#a6e22e">makeCluster</span>(<span style="color:#ae81ff">4</span>)
-doParallel<span style="color:#f92672">::</span><span style="color:#a6e22e">registerDoParallel</span>(cl)
-<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">123</span>)
-<span style="color:#75715e"># Modelltraining</span>
-cv_model_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">train</span>(trainDat_2019[,<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20</span>],
-                 trainDat_2019[,<span style="color:#ae81ff">1</span>],
-                 method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rf&#34;</span>,
-                 metric <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Kappa&#34;</span>,
-                 trControl <span style="color:#f92672">=</span> ctrlh,
-                 importance <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
-<span style="color:#a6e22e">stopCluster</span>(cl)
 
-<span style="color:#75715e"># Klassifikation</span>
-prediction_rf_2019  <span style="color:#f92672">=</span> <span style="color:#a6e22e">predict</span>(pred_stack_2019 ,cv_model_2019, progress <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;text&#34;</span>)
-<span style="color:#a6e22e">mapview</span>(prediction_rf_2019,col.regions <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;darkgreen&#39;</span>, <span style="color:#e6db74">&#39;burlywood&#39;</span>, <span style="color:#e6db74">&#39;green&#39;</span>))
+<span style="color:#75715e"># Hiermit wird das Modell berechnet &#34;trainiert&#34;</span>
+cv_model_2019 <span style="color:#f92672">=</span> <span style="color:#a6e22e">train</span>(trainDat_2019[,<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">11</span>], <span style="color:#75715e"># in den Spalten 2 bis 20 stehen die Trainingsdaten (Prediktoren genannt)</span>
+                      trainDat_2019[,<span style="color:#ae81ff">1</span>],         <span style="color:#75715e"># in der Spalte 1 stet die zu Klassizierende Variable (Response genannt)</span>
+                      method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rf&#34;</span>,             <span style="color:#75715e"># Methode hier rf für random forest</span>
+                      metric <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Kappa&#34;</span>,          <span style="color:#75715e"># Qualitäts/Performanzmaß KAppa</span>
+                      trControl <span style="color:#f92672">=</span> ctrlh,         <span style="color:#75715e"># obig erzeugte Trainingssteuerung soll eingelsen werden</span>
+                      importance <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)         <span style="color:#75715e"># Die Bedeung der Variablen wird mit abgespeichert</span>
+
+
+<span style="color:#75715e"># Klassifikation wird häufig auch Vorhersage genannt.</span>
+prediction_rf_2019  <span style="color:#f92672">=</span> raster<span style="color:#f92672">::</span><span style="color:#a6e22e">predict</span>(pred_stack_2019 ,cv_model_2019, progress <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;text&#34;</span>)
+
+<span style="color:#75715e"># Vsualisation</span>
+<span style="color:#a6e22e">tmap_mode</span>(<span style="color:#e6db74">&#34;view&#34;</span>)
+<span style="color:#a6e22e">qtm</span>(prediction_rf_2019)
+<span style="color:#a6e22e">qtm</span>(prediction_kmeans_2019<span style="color:#f92672">$</span>map)
+<span style="color:#a6e22e">mapview</span>(prediction_rf_2019,col.regions <span style="color:#f92672">=</span> <span style="color:#a6e22e">mapviewPalette</span>(<span style="color:#e6db74">&#34;mapviewTopoColors&#34;</span>), at <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>), legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,alpha.regions <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+
 
 </code></pre></div><h2 id="zusätzliche-ressourcen">Zusätzliche Ressourcen</h2>
 <p>Bitte beachten Sie, dass es zahlreiche Blogs und Hilfestellungen gibt (<a href="https://rspatial.org/raster/rs/5-supclassification.html">rspatial - supervised classification</a>, <a href="https://rpubs.com/ials2un/rf_landcover">RPubs Tutorial</a>, Sydney&rsquo;s <a href="https://urbanspatial.github.io/classifying_satellite_imagery_in_R/">blog</a>,
 <a href="https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/">supervised classification</a> oder <a href="https://valentinitnelav.github.io/satellite-image-classification-r/">pixel-based supervised classification</a>).</p>
 <p>Keines dieser Dokumente ist als wissenschaftliche oder inhaltliche Referenz gedacht. Es ist so, wie der Autor des letzten Blogs, Valentin Stefan, sagt <em>&quot;[&hellip;]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[&hellip;]&quot;</em></p>
-<p>Dies ist lediglich ein Beispiel dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung eines Problmas entsteht. Dann nach viel Recherche und kritischer Prüfung kristallisiert sich ein aktueller Stand der Technik innerhalb der Gemeinschaft heraus.</p>
+<p>Dies ist lediglich ein Beispiel dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung einer Fragestellung entsteht. Dann nach viel Recherche und kritischer Prüfung kristallisiert sich ein aktueller Stand der Technik innerhalb der Gemeinschaft heraus.</p>
 <ul>
 <li><a href="http://wiki.awf.forst.uni-goettingen.de/wiki/index.php/Digitizing_training_and_test_areas">Digitalisierung von Trainingsdaten</a> by the <a href="https://www.uni-goettingen.de/en/67094.html">Forest Inventory and Remote Sensing</a> department at the University of Goettingen (Germany)</li>
 <li><a href="https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/create_new_vector.html#basic-ty-digitizing-polygons">Digitalisierung Turorial</a> in the QGIS 3.16 documentation</li>
