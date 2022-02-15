@@ -20,19 +20,10 @@ output:
 weight: 100
 ---
 
-```{r setup , include = FALSE}
+```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
 
 tutorialDir = path.expand("~/edu/agis/doc/data/tutorial/")
-#knitr::opts_chunk$set(echo = TRUE)
-#knitr::opts_chunk$set(eval = FALSE)
-#knitr::opts_chunk$set(out.width = "100%")
-#knitr::opts_chunk$set(cache = TRUE)
-#knitr::opts_chunk$set(dev = "png")
-#knitr::opts_chunk$set(fig.process = figtrim)
-#knitr::opts_chunk$set(fig.width = 15, fig.height = 7.5)
-#knitr::opts_chunk$set(echo = TRUE)
-#knitr::opts_chunk$set(root.dir = tutorialDir)
-#knitr::opts_chunk$set(fig.path=paste0(tutorialDir,'figs/'))
+
 ```
 
 
