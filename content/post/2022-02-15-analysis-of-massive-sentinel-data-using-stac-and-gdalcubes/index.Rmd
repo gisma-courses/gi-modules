@@ -12,7 +12,7 @@ tags:
   - Remote Sensing
 subtitle: 'Time series and change detection using COG imagery and gdalcubes'
 description: 
-image: '/img/restefond-sp.jpg'
+image: '/assets/images/restefond-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
@@ -29,16 +29,16 @@ figtrim <- function(path) {
   magick::image_write(img, path)
   path
 }
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(eval = FALSE)
-knitr::opts_chunk$set(out.width = "100%")
-knitr::opts_chunk$set(cache = TRUE)
-knitr::opts_chunk$set(dev = "png")
-knitr::opts_chunk$set(fig.process = figtrim)
-knitr::opts_chunk$set(fig.width = 15, fig.height = 7.5)
-knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(eval = FALSE)
+#knitr::opts_chunk$set(out.width = "100%")
+#knitr::opts_chunk$set(cache = TRUE)
+#knitr::opts_chunk$set(dev = "png")
+#knitr::opts_chunk$set(fig.process = figtrim)
+#knitr::opts_chunk$set(fig.width = 15, fig.height = 7.5)
+#knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(root.dir = tutorialDir)
-knitr::opts_chunk$set(fig.path=paste0(tutorialDir,'figs/'))
+#knitr::opts_chunk$set(fig.path=paste0(tutorialDir,'figs/'))
 ```
 
 
