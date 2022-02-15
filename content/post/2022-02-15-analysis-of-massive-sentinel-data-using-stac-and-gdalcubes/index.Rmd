@@ -13,14 +13,16 @@ tags:
 subtitle: 'Time series and change detection using COG imagery and gdalcubes'
 description: 
 image: '/assets/images/restefond-sp.jpg'
-toc: yes
+editor_options: 
+  chunk_output_type: console
+toc: true
 output:
   blogdown::html_page:
     keep_md: yes
 weight: 100
 ---
 
-```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
+```{r setup,comment = NA, echo=FALSE, message = FALSE, warnings = FALSE, results = FALSE }
 
 tutorialDir = path.expand("~/edu/agis/doc/data/tutorial/")
 
