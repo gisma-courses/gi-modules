@@ -19,7 +19,7 @@
     <item>
       <title>ecology</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/ecology/</link>
-      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/tags/ecology/</guid>
       <description></description>
@@ -28,27 +28,9 @@
     <item>
       <title>forest</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/forest/</link>
-      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/tags/forest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lidar</title>
-      <link>https://gisma-courses.github.io/gi-modules/tags/lidar/</link>
-      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/tags/lidar/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>scripts</title>
-      <link>https://gisma-courses.github.io/gi-modules/tags/scripts/</link>
-      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/tags/scripts/</guid>
       <description></description>
     </item>
     
@@ -58,6 +40,15 @@
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/tags/forestry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lidar</title>
+      <link>https://gisma-courses.github.io/gi-modules/tags/lidar/</link>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/tags/lidar/</guid>
       <description></description>
     </item>
     
@@ -112,6 +103,15 @@
       <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/tags/basics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scripts</title>
+      <link>https://gisma-courses.github.io/gi-modules/tags/scripts/</link>
+      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/tags/scripts/</guid>
       <description></description>
     </item>
     

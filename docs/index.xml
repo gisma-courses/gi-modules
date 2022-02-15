@@ -46,17 +46,6 @@ Among the top ten is The lidR package book .</description>
     </item>
     
     <item>
-      <title>Indices and More</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-11-23-indices-and-more/</link>
-      <pubDate>Tue, 23 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-23-indices-and-more/</guid>
-      <description>A few snippets to practice he following snippets fit in principle with the logic of the previous approach. They are adapted to tree level. However, we have already learned that we can also choose other aggregation concepts. Then they have to be adapted accordingly.
-Above all, they show how sub-scaled satellite land use and LidAr data can be merged into one parameter set.
- </description>
-    </item>
-    
-    <item>
       <title>aGIS Ressources</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-agis-ressourcen/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
@@ -133,7 +122,7 @@ Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich
       <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
-      <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.
+      <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.
 Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mittels Satelliten-, Flugzeug- und Drohnenbildern. Oft wird dies in Verbindung mit bio- und geophysikalischen oder vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten.</description>
     </item>
     
