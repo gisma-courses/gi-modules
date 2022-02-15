@@ -353,6 +353,7 @@ tmap_arrange(tm_kndvi,ncol = 2,nrow=2)
 
 To apply a more complex time series method such as `bfastmonitor()`, the data cube operations below allow to provide custom user-defined R functions instead of string expressions, which translate to built-in reducers. It is very important that these functions receive arrays as input and must return arrays as output, too. Depending on the operation, the dimensionality of the arrays is different:
 
+
 +----------------+---------------------------------------------------------+------------------------------------+
 | Operator       | Input                                                   | Output                             |
 +================+=========================================================+====================================+
@@ -364,6 +365,7 @@ To apply a more complex time series method such as `bfastmonitor()`, the data cu
 +----------------+---------------------------------------------------------+------------------------------------+
 | `apply_time`   | Multi-band time series as a matrix                      | Multi-band time series as a matrix |
 +----------------+---------------------------------------------------------+------------------------------------+
+
 
 There is no limit in what we can do in the provided R function, but we must take care of a few things:
 

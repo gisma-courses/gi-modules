@@ -33,8 +33,7 @@ If you also need to access additional software, like GIS, the appropriate binari
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</guid>
       <description>Introduction Big thanks to Marius Appel who gave 2021 at OpenGeoHub Summer School 2021 a great workshop. This tutorial is an adapted version of it.
-Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.
-There are two operational Sentinel-2 satellites: Sentinel-2A and Sentinel-2B, both in sun-synchronous polar orbits and 180 degrees out of phase.</description>
+Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.</description>
     </item>
     
     <item>
