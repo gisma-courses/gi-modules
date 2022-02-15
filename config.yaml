@@ -45,8 +45,6 @@ params:
   bookmark_link:
     - href: http://www.uni-marburg.de/en
       title: Philipps-University Marburg
-    - href: https://gisma-courses.github.io/modules
-      title: giswerk
     - href: https://r-spatial.github.io
       title: r-spatial
   featured_condition_size: 0
@@ -56,7 +54,7 @@ params:
       title: ''
   friends: false
   bookmarks: false
-  header_image: /assets/images/final2-sp.jpg
+  header_image: /assets/images/wave-sp.png
   image_404: img/404-bg.jpg
   keyword: gisma
   leancloud_app_id: ''
@@ -69,7 +67,7 @@ params:
   slogan: 
   social:
   email: creuden@gmail.com
-  github: https://github.com/gisma
+  github: https://github.com/gisma-courses
   linkedin: no
   rss: yes
   stackoverflow : no

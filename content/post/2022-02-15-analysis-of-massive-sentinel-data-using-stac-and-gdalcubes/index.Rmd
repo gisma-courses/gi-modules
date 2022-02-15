@@ -12,7 +12,7 @@ tags:
   - Remote Sensing
 subtitle: 'Time series and change detection using COG imagery and gdalcubes'
 description: 
-image: '/img/bayern-religion-sp.jpg'
+image: '/img/restefond-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
