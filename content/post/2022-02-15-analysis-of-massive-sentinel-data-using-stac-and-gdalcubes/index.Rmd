@@ -23,12 +23,6 @@ weight: 100
 ```{r setup , include = FALSE}
 
 tutorialDir = path.expand("~/edu/agis/doc/data/tutorial/")
-if (!dir.exists(tutorialDir)) dir.create(tutorialDir,recursive = T)
-figtrim <- function(path) {
-  img <- magick::image_trim(magick::image_read(path))
-  magick::image_write(img, path)
-  path
-}
 #knitr::opts_chunk$set(echo = TRUE)
 #knitr::opts_chunk$set(eval = FALSE)
 #knitr::opts_chunk$set(out.width = "100%")
@@ -37,7 +31,7 @@ figtrim <- function(path) {
 #knitr::opts_chunk$set(fig.process = figtrim)
 #knitr::opts_chunk$set(fig.width = 15, fig.height = 7.5)
 #knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(root.dir = tutorialDir)
+#knitr::opts_chunk$set(root.dir = tutorialDir)
 #knitr::opts_chunk$set(fig.path=paste0(tutorialDir,'figs/'))
 ```
 
