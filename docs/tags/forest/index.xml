@@ -6,7 +6,18 @@
     <description>Recent content in forest on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/forest/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/forest/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Analysis of massive sentinel data using STAC and gdalcubes</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</link>
+      <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</guid>
+      <description>Introduction Big thanks to Marius Appel who gave 2021 at OpenGeoHub Summer School 2021 a great workshop. This tutorial is an adapted version of it.
+Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.
+There are two operational Sentinel-2 satellites: Sentinel-2A and Sentinel-2B, both in sun-synchronous polar orbits and 180 degrees out of phase.</description>
+    </item>
+    
     <item>
       <title>Getting startet with LiDAR</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</link>
