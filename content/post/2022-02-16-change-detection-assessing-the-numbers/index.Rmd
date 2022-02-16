@@ -183,34 +183,50 @@ for(cat1 in categories)  { # für jede Kategorie
 tmap::tmap_arrange(m,sync = TRUE)
 ```
 
+
 ### Berechung der Kappa Indizes
 
-Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten sind die sogenannten Kappa-Indizes das Standardmaß  eine Klassifizierung (Vorhersage) einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Es gilt hierbei die Annahme, dass sowohl die Quantität als auch die räumliche Lage jeder Klasse zufällig sind. Basierend auf der obigen Kreuztablle werden die Kappa Werte wie folgt berechnet:
-
-
-$$PA= \sum_{i=1}^3 p_{i,i}$$
-
-$$PE= \sum_{i=1}^3 pT_i*Tp_i$$
+Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das bei zufälliger Pixelanordnung erwartet werden kann. Ein Indexwert von 1 bedeutet genaue Übereinstimmung. Auch wenn die Interpretation der Werte von der Fragestellung abhängt bieten [@Landis&Koch1977] und [Monserud&Leemans1992] eine Orientierung zur Interpretation.
 
 
 
-$$Pmax= \sum_{i=1}^3 min(pT_i,Tp_i)$$
+```{r kappatibble }
+tibble(
+  Kategorie =     c("Kategorie A","Kategorie B","Summe"),
+  'Kategorie A' = c("p(1/1)","p(2/1)","$pT_A= \\sum_{i=1}^2 p_{1,i}$"),
+  'Kategorie B' = c("p(1/2)","p(2/2)","$pT_B= \\sum_{i=1}^2 p_{1,i}$"),
+  'Summe' = c("$Tp_A= \\sum_{i=1}^2 p_{1,i}$","$Tp_B= \\sum_{i=1}^2 p_{1,i}$",""),
+) %>%
+  kbl(caption = "Kreuztabelle") %>% 
+  kable_classic(full_width = T) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
 
-$$K=\frac{PA-PE}{1-PE}=K_{histo}*K_{location}$$
-$$K_{histo}=\frac{Pmax-PE}{1-PE}$$
+Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung) und Pmax (maximal erreichbarer Anteil an Übereinstimmung) berechnet:
 
-$$K_{location}=\frac{PA-PE}{Pmax-PE}$$
+$PA= \sum_{i=1}^2 p_{i,i}$
+
+$PE= \sum_{i=1}^2 pT_i*Tp_i$
+
+$Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
+
+Der Kappaindex K lässt sich in Khisto und Klocation aufteilen [@Pontius2000],[@Hagen2002] und ist das Produkt aus beiden, ergibt sich also aus der quantitativen Ähnlichkeit und der Ähnlichkeit im Bezug auf die Lage der Kategorien. Khisto gibt die quantitative Ähnlichkeit von 2 Karten an und ergibt sich aus dem Histogramm der einzelnen Kategorien. Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt. Klocation gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien. D.h. Klocation ist der Kappaindex der erreicht werden könnte wenn Khisto 1 wäre, also die Pixelzahlen der Klassen übereinstimmen.
+
+$K=\frac{PA-PE}{1-PE}=K_{histo}*K_{location}$
+$K_{histo}=\frac{Pmax-PE}{1-PE}$
+
+$K_{location}=\frac{PA-PE}{Pmax-PE}$
 
 
 ### Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
 
-Jedoch gibt es begründete Kritik an dieser üblichen Vorgehensweise  (@Pontius_Milliones2011). Sie schlagen vor aus der Kreuztabellenmatrix die Parameter *Mengenabweichung* und *Zuordnungsabweichung* zu berechnen Tatsächlich ermöglichen diese Parameter eine gute Einschätzung der Mengen- und Lagequalität der Übereinstimmung kategorialer Daten.
+Jedoch schlagen (@Pontius_Milliones2011) als optimale Vorgehensweise vor aus der Kreuztabellenmatrix die Parameter *Mengenabweichung* und *Zuordnungsabweichung* zu berechnen Tatsächlich ermöglichen diese Parameter eine gute Einschätzung der Mengen- und Lagequalität der Übereinstimmung kategorialer Daten.
 
 Die Abweichungen können wie folgt berechnet werden.
 
-$$allocation \ disagreement=100*(Pmax-PA)$$
+$allocation \ disagreement=100*(Pmax-PA)$
 
-$$quantity \ disagreement=100*(1-Pmax)$$
+$quantity \ disagreement=100*(1-Pmax)$
 
 ```{r Kappa-2019}
 # ---- kappa ----
