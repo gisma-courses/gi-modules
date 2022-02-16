@@ -142,7 +142,8 @@ Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mi
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
-      <description>Zur Bewertung der Genauigkeit von Change Detection Resultaten werden üblicherweise die Bildpixel untereindander bzw. mit unabhägigen Referenzwerten vergleichen. Diese Bewertungen können qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) oder quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.</description>
+      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursache multikausal ist ist die Bewertung ein entscheidner Schritt um die Belastbarkeit der Kalssifikation einschätzen zu können.
+Setup # # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
     </item>
     
     <item>
