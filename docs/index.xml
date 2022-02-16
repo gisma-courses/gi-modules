@@ -6,7 +6,7 @@
     <description>Recent content on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gi-moduls Content</title>
       <link>https://gisma-courses.github.io/gi-modules/top/archive/</link>
@@ -24,6 +24,16 @@
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</guid>
       <description>Flexible but reproducible setup To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.
 If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</description>
+    </item>
+    
+    <item>
+      <title>Change Detection - Auswertung der Klassifikationsdaten </title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
+      <description>Die Auswertung
+# # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
     </item>
     
     <item>

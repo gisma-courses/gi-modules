@@ -6,7 +6,16 @@
     <description>Recent content in Tags on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Remote Sensing</title>
+      <link>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>ecology</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/ecology/</link>
@@ -22,15 +31,6 @@
       <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/tags/forest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Remote Sensing</title>
-      <link>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</link>
-      <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</guid>
       <description></description>
     </item>
     
