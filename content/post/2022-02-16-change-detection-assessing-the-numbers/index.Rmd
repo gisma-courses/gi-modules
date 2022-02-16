@@ -9,7 +9,7 @@ categories:
 tags:
   - Remote Sensing
 subtitle: ''
-description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursache multikausal ist ist die Bewertung ein entscheidner Schritt um die Belastbarkeit der Kalssifikation einschätzen zu können.'
+description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können.'
 image: '/assets/images/forest-sp.jpg'
 toc: yes
 output:
@@ -18,9 +18,11 @@ output:
 weight: 502
 ---
 
-Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursache multikausal ist ist die Bewertung ein entscheidner Schritt um die Belastbarkeit der Kalssifikation einschätzen zu können. 
+Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethden.
 
 ## Setup
+
+Das Einlesen der Daten aus der Klassifikation.
 
 ```{r setup , echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE}
 
@@ -190,12 +192,12 @@ Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten is
 
 
 
-```{r kappatibble }
+```{r Kreuztabelle }
 tibble(
-  Kategorie =     c("Kategorie A","Kategorie B","Summe"),
-  'Kategorie A' = c("p(1/1)","p(2/1)","$pT_A= \\sum_{i=1}^2 p_{1,i}$"),
-  'Kategorie B' = c("p(1/2)","p(2/2)","$pT_B= \\sum_{i=1}^2 p_{1,i}$"),
-  'Summe' = c("$Tp_A= \\sum_{i=1}^2 p_{1,i}$","$Tp_B= \\sum_{i=1}^2 p_{1,i}$",""),
+  'Kategorie' =     c("Kategorie A","Kategorie B","Summe"),
+  'Kategorie A' = c("$$p_{(1/1)}$$","$$p_{(2/1)}$$","$$pT_A= \\sum_{i=1}^2 p_{1,i}$$"),
+  'Kategorie B' = c("$$p_{(1/2)}$$","$$p_{(2/2)}$$","$$pT_B= \\sum_{i=1}^2 p_{1,i}$$"),
+  'Summe' = c("$$Tp_A= \\sum_{i=1}^2 p_{1,i}$$","$$Tp_B= \\sum_{i=1}^2 p_{1,i}$$","$$1$$"),
 ) %>%
   kbl(caption = "Kreuztabelle") %>% 
   kable_classic(full_width = T) %>% 
