@@ -54,7 +54,7 @@ params:
       title: ''
   friends: false
   bookmarks: false
-  header_image: /assets/images/wave-sp.png
+  header_image: /assets/images/face-sp.jpg
   image_404: img/404-bg.jpg
   keyword: gisma
   leancloud_app_id: ''
