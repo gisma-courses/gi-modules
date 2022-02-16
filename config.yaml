@@ -1,7 +1,7 @@
 baseurl: https://gisma-courses.github.io/gi-modules/
 publishDir: docs
 title: gi-modules
-theme: hugo-theme-cleanwhite
+theme: "hugo-theme-cleanwhite"
 ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
 taxonomies:
   category: categories
@@ -75,6 +75,10 @@ params:
   title_404:  :(
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
+  highlightjsVersion: 9.12.0
+  highlightjsCDN:  //cdnjs.cloudflare.com/ajax/libs
+  highlightjsLang:  ["r", "yaml"]
+  highlightjsTheme:  "github-gist"  
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:
@@ -85,6 +89,7 @@ markup:
   tableOfContents:
     startLevel: 2
     endLevel: 4      
+
 outputFormats:
   Algolia:
     baseName: algolia

@@ -11,7 +11,7 @@ tags:
   - forest
   - Remote Sensing
 subtitle: 'Time series and change detection using COG imagery and gdalcubes'
-description: 
+description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level'
 image: '/assets/images/restefond-sp.jpg'
 editor_options: 
   chunk_output_type: console
@@ -29,7 +29,7 @@ tutorialDir = path.expand("~/edu/agis/doc/data/tutorial/")
 ```
 
 
-# Introduction
+## Introduction
 
 Big thanks to Marius Appel who gave 2021 at OpenGeoHub Summer School 2021 a great  [workshop](https://appelmar.github.io/ogh2021/tutorial.html). This tutorial is an adapted version of it.
 
@@ -39,11 +39,11 @@ Sentinel-2 is currently the most important platform for Earth observation in all
 
 The Sentinel-2 data are therefore predestined to record spatial and temporal changes on the Earth's surface (in early summer the forest was green, in late summer it has disappeared). They are ideal for timely studies before and after natural disasters or for biomass balancing, etc. 
 
-## Cloud-Optimised GeoTIFFs (COGs)
+### Cloud-Optimised GeoTIFFs (COGs)
 
 Unfortunately, the official [Sentinel-2 archives](https://scihub.copernicus.eu/dhus/#/home) are anything but really user-friendly.  Even with highly convenient toos as [`sen2r`](https://sen2r.ranghetti.info/) it is sometimes cumbersome to process tTechnically the processed product levels are available to for download preprocessed as L1C and L2A products in JP2K format. Most of the data is stored on the long term storages. the preferred file format is JP2K which is storage efficient but has to be fully downloaded locally by the user and thus have high access costs and huge requirements for local storage space. The Cloud-Optimised GeoTIFFs (COGs) allow only the areas of interest to be loaded and also the processing is significantly faster. However, it requires optimised cloud services and technically a different access logic than in the processing chains used so far.
 
-## SpatioTemporal Asset Catalog (STAC) 
+### SpatioTemporal Asset Catalog (STAC) 
 
 The [SpatioTemporal Asset Catalog](https://stacspec.org/) (STAC) provides a common language for simplified indexing and searching of geospatial data. A "spatio-temporal asset" is a file that contains information in a specific space and time.
 
@@ -51,7 +51,7 @@ This approach allows all providers of spatio-temporal data (imagery, SAR, point 
 
 [Element84](https://www.element84.com/) has provided a public API called Earth-search, a central search catalogue for all public AWS datasets using STAC (including the new Sentinel-2 COGs). this contains, beginning 1 November 2017, more than 11.4 million Sentinel-2 scenes worldwide. 
 
-# Goals
+## Goals
 
 This tutorial demonstrates how we can access and process Sentinel-2 data in the cloud using the R packages: [`rstac`](https://cran.r-project.org/package=rstac) [@rstac] and [`gdalcubes`](https://cran.r-project.org/package=gdalcubes) [@gdalcubes]. Other packages used in this tutorial include [`stars`](https://cran.r-project.org/package=stars)[@stars] and [`tmap`](https://cran.r-project.org/package=tmap)[@tmap] for creating interactive maps, [`sf`](https://cran.r-project.org/package=sf)[@sf] for processing vector data, and [`colorspace`](https://cran.r-project.org/package=colorspace)[@colorspace] for visualizations with accessible colors.
 
@@ -63,8 +63,8 @@ Furthermore, it shows different approaches to time series and difference analyse
 
 Other packages used in this tutorial include [`stars`](https://cran.r-project.org/package=stars) and [`tmap`](https://cran.r-project.org/package=tmap) for creating interactive maps, [`sf`](https://cran.r-project.org/package=sf) for processing vector data, and 
 
-## Retrieve some Areas of Interest
-Most of the earth surface related remote sensing activities are heavily "disturbed" by the astmosphere , especially by clouds. So we aim to find a cloud-freesentinel data of an (arbitrary) AOI. The `rstac` package provides a convenient tool to find and filter adequate Sentinel-2 images. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the bounding box to latitude / longitude (WGS84) values, for which we use the `st_bbox()` and `st_transform()` functions. In addition we adapt the projection of the referencing vector objects to all later needs. Please note to project to three different CRS is for this examples convenience and clarity and somewhat cumbersome. The frest shape is provided in the data section. You may have a look at tutorial one for examples of retrieving vector geometries for this purpose.
+### Retrieve an Area of Interest
+Most of the earth surface related remote sensing activities are heavily "disturbed" by the atmosphere , especially by clouds. So we aim to find a cloud-free sentinel data of an (arbitrary) AOI. The `rstac` package provides a convenient tool to find and filter adequate Sentinel-2 images. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the bounding box to latitude / longitude (WGS84) values, for which we use the `st_bbox()` and `st_transform()` functions. In addition we adapt the projection of the referencing vector objects to all later needs. Please note to project to three different CRS is for this examples convenience and clarity and somewhat cumbersome. The MOF geometry is provided in the data section. You may have a look at tutorial one for examples of retrieving vector geometries for this purpose.
 
 ```{r geometries}
 library(sf)
@@ -196,7 +196,7 @@ ndvi.col = function(n) {
 ncdf_cube(file.path(tutorialDir,"lahntal.nc")) |>
   apply_pixel("(1-exp(-((B08/10000)-(B04/10000))^2/(2))) / (1+exp(-((B08/10000)-(B04/10000))^2/(2)))", "kNDVI") |>
   reduce_time("min(kNDVI)", "max(kNDVI)", "mean(kNDVI)") |>
-  plot(key.pos = 1,  col = ndvi.col, nbreaks = 4,)
+  plot(key.pos = 1,  col = ndvi.col, nbreaks = 12,)
 ```
 
 
@@ -208,7 +208,7 @@ ndvi.col = function(n) {
 ncdf_cube(file.path(tutorialDir,"lahntal.nc")) |>
   apply_pixel("(B08-B04)/(B08+B04)", "NDVI") |>
   reduce_time("min(NDVI)", "max(NDVI)", "mean(NDVI)") |>
-  plot(key.pos = 1, zlim=c(-0.2,1), col = ndvi.col, nbreaks = 128)
+  plot(key.pos = 1, zlim=c(-0.2,1), col = ndvi.col, nbreaks = 12)
 ```
 
 Possible reducers include `"min"`, `"mean"`, `"median"`, `"max"`, `"count"` (count non-missing values), `"sum"`, `"var"` (variance), and `"sd"` (standard deviation). Reducer expressions are always given as a string starting with the reducer name followed by the band name in parentheses. Notice that it is possible to mix reducers and bands.

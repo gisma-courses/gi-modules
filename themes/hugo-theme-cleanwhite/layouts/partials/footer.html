@@ -231,15 +231,18 @@
 
      - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
      - https://help.github.com/articles/creating-and-highlighting-code-blocks/
--->
-<!--
+
+
     <script>
         loadAsync("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
             hljs.initHighlightingOnLoad();
         })
     </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
+  -->  
+  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+<!-- jquery.tagcloud.js 
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/stackoverflow-light.min.css" rel="stylesheet">
+    -->
 
 
 <!-- jquery.tagcloud.js -->
@@ -362,5 +365,7 @@
             padding: 80
         });
     });
+    
 </script>
+    {{ partial "footer_highlightjs" . }}
 {{ end }}

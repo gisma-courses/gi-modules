@@ -8,11 +8,14 @@ tags: ["forest", "lidar","ecology","forestry"]
 description: ''
 image: '/assets/images/forest-sp.jpg'
 toc: true
-
+output:
+  blogdown::html_page:
+    keep_md: yes
 weight: 101
 
 ---
 ## How to get started?
+
 
 For this first example we take a typical situation:
 - we have no idea about the software and possible solutions

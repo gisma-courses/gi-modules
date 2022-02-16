@@ -1,0 +1,5 @@
+{{ $highTheme := .Site.Params.highlightjsTheme }}
+{{ with .Site.Params.highlightjsVersion }}
+<link href='{{ $.Site.Params.highlightjsCDN | default "//cdnjs.cloudflare.com/ajax/libs" }}/highlight.js/{{ . }}/styles/{{ $highTheme }}.min.css' rel='stylesheet' type='text/css' />
+{{ end }}
+
