@@ -16,7 +16,7 @@ output:
     keep_md: yes
 weight: 502
 ---
-Zur Bewertung der Genauigkeit von Change Detection Resultaten werden üblicherweise die Bildpixel untereindander bzw. mit unabhägigen Referenzwerten vergleichen. Diese Bewertungen  können qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) oder quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.
+Die Bewertung der Genauigkeit von Fernerkundungsklassifizierungen basiert in der Regel auf der Verwendung einer Fehlermatrix oder Konfusionstabelle, für die Referenzdaten oder "Ground Truthing" benötigt werden. Diese Bewertungen  können qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) oder quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.
 
 In der Literatur zur Fernerkundung wurde frühzeitig eine Vielzahl von Methoden zur Bewertung der Genauigkeit diskutiert, allerdings u.a. aufgrund der Schwierigkeiten ausreichend hochwertige Felddatensätze zu erheben in der Vergangenheit Selten durchgeführt.
 
