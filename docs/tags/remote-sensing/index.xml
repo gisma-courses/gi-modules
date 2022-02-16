@@ -8,16 +8,6 @@
     <language>en-us^</language>
     <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/remote-sensing/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Change Detection - Auswertung der Klassifikationsdaten </title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</link>
-      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
-      <description>Die Auswertung
-# # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
-    </item>
-    
-    <item>
       <title>Analysis of massive sentinel data using STAC and gdalcubes</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</link>
       <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
@@ -38,13 +28,22 @@ Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich
     </item>
     
     <item>
-      <title>Change detection</title>
+      <title>Change detection - Klassifikation von Veränderungen</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</link>
       <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
       <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.
 Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mittels Satelliten-, Flugzeug- und Drohnenbildern. Oft wird dies in Verbindung mit bio- und geophysikalischen oder vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten.</description>
+    </item>
+    
+    <item>
+      <title>Change Detection - Auswertung der Klassifikationsdaten </title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
+      <description>Zur Bewertung der Genauigkeit von Change Detection Resultaten werden üblicherweise die Bildpixel untereindander bzw. mit unabhägigen Referenzwerten vergleichen. Diese Bewertungen können qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) oder quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.</description>
     </item>
     
   </channel>

@@ -9,7 +9,7 @@ tags:
   - Remote Sensing
 subtitle: ''
 description: ''
-image: '/assets/images/harz-sp.jpg'
+image: '/assets/images/forest-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
@@ -18,9 +18,9 @@ weight: 502
 ---
 Zur Bewertung der Genauigkeit von Change Detection Resultaten werden üblicherweise die Bildpixel untereindander bzw. mit unabhägigen Referenzwerten vergleichen. Diese Bewertungen  können qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) oder quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.
 
-In der Literatur zur Fernerkundung wurde frühzeitig eine Vielzahl von Methoden zur Bewertung der Genauigkeit diskutiert  (Aronoff, 1982; Kalkhan et al., 1996; Koukoulas und Blackburn, 2001; Piper, 1983; Rosenfield und Fitzpatrick-Lins, 1986), allerdings aufgrund der Schwerigektien ausreichend und qualitativ hochwertige Felddatensätze zu erheben in der Vergangenheit Selten durchgeführt.
+In der Literatur zur Fernerkundung wurde frühzeitig eine Vielzahl von Methoden zur Bewertung der Genauigkeit diskutiert, allerdings u.a. aufgrund der Schwierigkeiten ausreichend hochwertige Felddatensätze zu erheben in der Vergangenheit Selten durchgeführt.
 
-Dder gebräuchlichste Ansatz ist Fehlermatrix als Grundlage zur zur Bewertung der Genauigkeit Die korrekte und Fwehlklassifikation, die Gesamtgenauigkeit und die Kappa-Koeffizienten sind üblicherweise die grundlegenden Kennzahlen der Genauigkeitsbewertung.
+Dder gebräuchlichste Ansatz ist Fehlermatrix als Grundlage zur zur Bewertung der Genauigkeit Die korrekte und Fehlklassifikation, die Gesamtgenauigkeit und die Kappa-Koeffizienten sind üblicherweise die grundlegenden Kennzahlen der Genauigkeitsbewertung.
 
 ## Die Auswertung 
 ```{r setup , echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE}
