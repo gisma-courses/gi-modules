@@ -1,14 +1,14 @@
 ---
-title: 'Change Detection - Auswertung der Klassifikationsdaten '
+title: 'Change Detection - Qualitätseinschätzung und Auswertung'
 author: Chris Reudenbach
 date: '2022-02-16'
 bibliography: references.bib
-biblio-style: "apalike"
 slug: []
 categories:
   - bGIS
 tags:
   - Remote Sensing
+  - Change Detection   
 subtitle: ''
 description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.'
 image: '/assets/images/forest-sp.jpg'

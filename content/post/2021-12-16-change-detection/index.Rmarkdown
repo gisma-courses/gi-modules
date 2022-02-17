@@ -1,5 +1,5 @@
 ---
-title: Change detection - Klassifikation von Landuse/Landcover Veränderungen
+title: Change detection - Klassifikationsverfahren 
 author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
@@ -7,9 +7,10 @@ categories:
   - bGIS
 tags:
   - Remote Sensing
+  - Change Detection   
 subtitle: ''
-description: ''
-image: '/assets/images/harz-sp.jpg'
+description: 'In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden.'
+image: '/assets/images/harz2-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
@@ -17,7 +18,7 @@ output:
 weight: 501
 ---
 
-In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur Forschung gehört notwendigerweise auch die Entwicklung eigener Methoden, insbesondere im Hinblick auf die Verarbeitungsketten, aber auch in der Kopplung geeigneter und etablierter Methoden.  
+In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden. 
 
 Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mittels Satelliten-, Flugzeug- und Drohnenbildern. Oft wird dies in Verbindung mit bio- und geophysikalischen oder vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Dabei sind Bildanalysemethoden von zentraler Bedeutung, um Informationen zu extrahieren, die es erlauben, die zugrunde liegenden Prozesse zu identifizieren. Ein immer wichtigerer Aspekt ist die Integration von Big Data-Analysen.
 
@@ -444,22 +445,24 @@ mapview::viewRGB(mask*pred_stack_2020, r = 4, g =5, b = 6,maxpixels =  1693870)+
 
 ```
 
-## Zusätzliche Ressourcen
+## Ressourcen
 
 Betrachten sie sie nachfolgenden Ressourcen als Beispiele dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung einer Fragestellung *"entsteht"*. Dann nach viel Recherche und kritischer Prüfung wird ein aktueller Stand der Technik innerhalb der wissenschaftlcihen Gemeinschaft erreicht der sich zudem natürlich stetig weiterentwickelt. 
 
 Schauen sie einmal in die nachstehende Auswahl von Blogs und Hilfestellungen: 
 
-* ([rspatial - supervised classification](https://rspatial.org/raster/rs/5-supclassification.html)
-* [RPubs Tutorial](https://rpubs.com/ials2un/rf_landcover), Sydney's [blog](https://urbanspatial.github.io/classifying_satellite_imagery_in_R/)
-* [supervised classification](https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/).
-
-Keiner dieser Beiträge ist formal als fachwissenschaftliche  oder inhaltliche Referenz gedacht. sie dienen allerdings technisches und konzeptionelles Verständnis zu schaffen und unterstützen erheblich bei der Lösung von Problemen. 
-Aber ich möchte ausdrücklich Valentin Stefan den Autor des  Blogbeitrags [pixel-based supervised classification]((https://valentinitnelav.github.io/satellite-image-classification-r/))), zitieren: *"[...]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[...]"* 
-
-
-
 * [Digitalisierung von Trainingsdaten](http://wiki.awf.forst.uni-goettingen.de/wiki/index.php/Digitizing_training_and_test_areas) by the [Forest Inventory and Remote Sensing](https://www.uni-goettingen.de/en/67094.html) department at the University of Goettingen (Germany)
 * [Digitalisierung Turorial](https://docs.qgis.org/3.16/en/docs/training_manual/create_vector_data/create_new_vector.html#basic-ty-digitizing-polygons) in the QGIS 3.16 documentation
-* [Überwachte Klassifikation Ein Tutorial](https://www2.geog.soton.ac.uk/users/trevesr/obs/rseo/supervised_classification.html) by Richard Treves, formerly of the University of Southampton (UK) 
 
+* Robert J. Hijmans [rspatial - supervised classification](https://rspatial.org/raster/rs/5-supclassification.html)
+* Ivan Lizarazo [RPubs Tutorial](https://rpubs.com/ials2un/rf_landcover)
+* Sydney Goldstein [blog](https://urbanspatial.github.io/classifying_satellite_imagery_in_R/)
+* João Gonçalves [supervised classification](https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/).
+* Valentin Stefan [pixel-based supervised classification](https://valentinitnelav.github.io/satellite-image-classification-r/)
+
+
+Die beiden ersten Beiträge sind rein technische Tutorials. Die weiteren Beiträge mischen technische Anleitungen mit konzeptionellen oder konkreten fachlichen Fragestellungen. Dennoch sind sie hier nicht als fachwissenschaftliche Referenz gedacht. Sie dienen vielmehr dazu zu zeigen wie technisches und konzeptionelles Verständnis schrittweise erarbeiet werden kann und unterstützen, durch *"nachkochen"* und anwenden, eigenständiger die Lösung von Fragestellungen anzugehen.
+
+Ich möchte ausdrücklich Valentin Stefan den Autor des  Blogbeitrags [pixel-based supervised classification](https://valentinitnelav.github.io/satellite-image-classification-r/) zitieren: 
+
+*"[...] Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein. [...]"* 

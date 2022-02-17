@@ -10,6 +10,7 @@ tags:
   - ecology
   - forest
   - Remote Sensing
+  - Change Detection   
 subtitle: 'Time series and change detection using COG imagery and gdalcubes'
 description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level'
 image: '/assets/images/restefond-sp.jpg'
@@ -520,7 +521,7 @@ gdalcubes_options(threads = 12)
       }) |&gt;
       write_ncdf(paste0(tutorialDir,&quot;bf_results.nc&quot;),overwrite = TRUE))</code></pre>
 <pre><code>##    user  system elapsed 
-##  47.917   2.464  48.290</code></pre>
+##  49.307   2.355  49.792</code></pre>
 <pre class="r"><code># plotting it from the local ncdf  
 tmap_mode(&quot;plot&quot;)</code></pre>
 <pre><code>## tmap mode set to plotting</code></pre>

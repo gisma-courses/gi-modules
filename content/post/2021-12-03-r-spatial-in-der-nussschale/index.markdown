@@ -1,5 +1,5 @@
 ---
-title: Flächenhafte Forstverluste im Harz
+title: Change Detection - Entwaldung im Harz
 author: Chris Reudenbach
 date: '2021-12-03'
 slug: []
@@ -7,8 +7,9 @@ categories:
   - bGIS
 tags:
   - Remote Sensing
+  - Change Detection 
 subtitle: ''
-description: ''
+description: 'Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.'
 image: '/assets/images/harz-sp.jpg'
 toc: yes
 output:
@@ -17,11 +18,14 @@ output:
 weight: 500
 ---
 
-## Change Detection Trockenstress Fichten im Harz 
 
-Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes. 
+Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
 
-Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket `envimaR`. Da das Paket auf `Github` zur Verfügung gestellt wird müssen wir es wie folgt installieren:
+# Setup
+
+Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket `envimaR`. Da das Paket auf `Github` zur Verfügung gestellt wird müssen wir es wie folgt
+installieren:
+
 
 ```r
 
