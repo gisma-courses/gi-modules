@@ -47,6 +47,7 @@ library(envimaR)
 remotes::install_version("SDMTools", version = "1.1-221.2")
 remotes::install_github("environmentalinformatics-marburg/Rsenal")
 library(Rsenal)
+library(motif)
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
@@ -136,8 +137,6 @@ ct %>%
 ```
 
 
-
-
 ### Quantitative Qualitätsmessung - Berechung der [@Kappa] Metriken
 
 Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das bei zufälliger Pixelanordnung erwartet werden kann. Ein Indexwert von 1 bedeutet genaue Übereinstimmung. Auch wenn die Interpretation der Werte von der Fragestellung abhängt bieten [@Landis&Koch1977] und [Monserud&Leemans1992] eine Orientierung zur Interpretation.
@@ -155,6 +154,7 @@ tibble(
   kable_classic(full_width = T) %>% 
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
+
 
 Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung) und Pmax (maximal erreichbarer Anteil an Übereinstimmung) berechnet:
 
@@ -185,6 +185,7 @@ $quantity \ disagreement=100*(1-Pmax)$
 
 Im Paket `Rsenal` [@Rsenal] ist die Funktion `kstat()` zur Berechnung der obigen Metriken implementiert. Mit ihr ist die Berechnung sämtlicher Kappa-Metriken, auch für multikategoriale Ausprägungen, komfortabel durchführbar.
 
+
 ```{r Kappa-2019}
 
 # ---- kappa ----
@@ -196,6 +197,7 @@ kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:
   kbl(caption = "Kappa 2019 MLC vs RF") %>%
   kable_classic(full_width = F)
 ```
+
 
 ```{r Kappa-2020}
 # 2020
@@ -254,7 +256,7 @@ tmap::tmap_arrange(m,sync = TRUE)
 ```
 
 
-### Räumliche Analyse der Veränderungen mit dem Paket `motif`
+## Räumliche Analyse der Veränderungen mit dem Paket `motif`
 Eine aufwendigere aber insbesondere für multi-spatio-temporale Zeitreihen veilversprechende Vorgehensweise ist die musterbasierten räumliche Analyse. Grundsätzlich ist die Erfassung der Metriken ähnlich. Die Muster werden auf der Basis verschiedener Co-Occurrence-Matrizen sogenannten *räumlichen Signaturen*  auf beliebig wählbaren Aggregationsstufen ermittelt. So ist u.a. die Erkennung von Veränderungen und das Zusammenfassung von ähnlichen Gebieten unter Ausweisung einer Wahrscheienlichkeit möglich.
 
 
