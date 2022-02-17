@@ -21,8 +21,6 @@ Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und d
 
 ## Setup
 
-Das Einlesen der Daten aus der Klassifikation.
-
 ```{r setup , echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE}
 
 #
