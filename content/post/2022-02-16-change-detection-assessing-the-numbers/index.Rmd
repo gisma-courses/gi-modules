@@ -135,10 +135,9 @@ ct %>%
 ```
 
 
-### Quantitative Qualitätsmessung - Berechung der [@Kappa] Metriken
+### Quantitative Qualitätsmessung - Berechung der Kappa Metriken
 
-Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das bei zufälliger Pixelanordnung erwartet werden kann. Ein Indexwert von 1 bedeutet genaue Übereinstimmung. Auch wenn die Interpretation der Werte von der Fragestellung abhängt bieten [@Landis&Koch1977] und [Monserud&Leemans1992] eine Orientierung zur Interpretation.
-
+Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist Cohens Kappa Index [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen (vgl.  [@Kappa]). Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das eine zufällige Pixelanordnung beschreibt. 
 
 
 ```{r Kreuztabelle, echo=FALSE}
@@ -162,18 +161,43 @@ $PE= \sum_{i=1}^2 pT_i*Tp_i$
 
 $Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
 
-Der Kappaindex K lässt sich in Khisto und Klocation aufteilen [@Pontius2000],[@Hagen2002] und ist das Produkt aus beiden, ergibt sich also aus der quantitativen Ähnlichkeit und der Ähnlichkeit im Bezug auf die Lage der Kategorien. Khisto gibt die quantitative Ähnlichkeit von 2 Karten an und ergibt sich aus dem Histogramm der einzelnen Kategorien. Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt. Klocation gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien. D.h. Klocation ist der Kappaindex der erreicht werden könnte wenn Khisto 1 wäre, also die Pixelzahlen der Klassen übereinstimmen.
+$K=\frac{PA-PE}{1-PE}$
 
-$K=\frac{PA-PE}{1-PE}=K_{histo}*K_{location}$
+
+```{r Kappatabelle, echo=FALSE}
+
+ tibble::tibble( "Kappa" =    "Übereinstimmung",
+  "kleiner 0.05" =  "keine",
+  "0.05 - 0.2" =    "sehr gering",
+  "0.2 - 0.4" =   "gering",
+"0.4 - 0.55" =	"ausreichend",
+"0.55 - 0.7" =	"gut",
+"0.7 - 0.85" =	"sehr gut",
+"0.85 - 0.99"	= "exzellent",
+"0.99 - 1.0"	= "perfekt") %>% 
+  kbl(caption = "Qualitative Interpretation von Cohen's Kappa") %>% 
+  kable_classic(full_width = T) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+Ein Indexwert von 1 gilt somit als exakte Übereinstimmung der beiden Datensätze. Die Interpretation der des Cohen Kappa ist zwar von der Fragestellung abhängig dennoch hat sich zur Interpretation folgende Skala bewährt (vgl. [@Landis&Koch1977];[Monserud&Leemans1992]).
+
+### Kappaberechnung für quantitative und lagebezogene Ähnlichkeiten 
+
+Zur Verbesserung der eher allgemeinen und unter Umständen auch falschen Interpretation von Cohen's Kappa wird von verschiedenen Autoren vorgeschlagen (vgl. [@Pontius2000],[@Hagen2002]) den Kappaindex $K$ in $K_{histo}$ und $K_{location}$ aufzuteilen. Das Produkt aus beiden Werten ergibt $K$ und setzt sich aus der *quantitativen* Ähnlichkeit (Anzahl Pixel) und der Ähnlichkeit in die Lage der jeweiligen Klassen (Pixel am geleichenOrt haben den gleichen Wert) zusammen. 
 
 $K_{histo}=\frac{Pmax-PE}{1-PE}$
 
 $K_{location}=\frac{PA-PE}{Pmax-PE}$
 
+$K=K_{histo}*K_{location}$
 
-### Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
+Folglich gibt  $K_{histo}$ die quantitative Ähnlichkeit von 2 Karten an wird aus dem Histogramm der einzelnen Kategorien berechnet.  Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt.  $K_{location}$ hingegen gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien.  $K_{location}$ ist folglich der Kappaindex der erreicht werden könnte wenn  $K_{histo} = 1$  wäre.
 
-Jedoch schlagen (@Pontius_Milliones2011) als optimale Vorgehensweise vor, aus der Kreuztabellenmatrix die Parameter *quantity disagreement* (QD) und *allocation disagreement* (QD) zu berechnen Tatsächlich ermöglichen diese Parameter eine gute Einschätzung der Mengen- und Lagequalität der Übereinstimmung kategorialer Daten.
+
+### Kappaberechnung der Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
+
+Da auch $K_{histo} $ und  $ K_{location}$ keine gute Metrik für die Übereinstimmung von Anzahl und Lage bieten (z.B. wenn Klasse 1 >> Klasse 2 ist) schlagen (@Pontius_Milliones2011) als einfach zu berechnende Metrik aus einer Kreuztabelle vor, die Abweichungs-Metriken *quantity disagreement* (QD) und *allocation disagreement* (QD) zu verwenden. Diese Parameter bieten bei simpler Berechnung eine gute Einschätzung der Übereinstimmung von Mengen- und Lagequalität kategorialer Daten.
 
 Die Abweichungen können wie folgt berechnet werden.
 
@@ -205,10 +229,11 @@ kstat(prediction_mlc_2020$map,prediction_rf_2020,perCategory = FALSE)[,c(1:3,7:8
 ```
 
 
+## Räumliche Analysen zur Veränderung von kategorialen Änderungen
 
 ### Veränderungsraster der Konfusionsmatrix
-
-Die Konfusionsmatrix besteht in diesem Fall korresponiderend źur Vierfeldtabelle aus vier binären Rastergrids. Sollen die Klassenwechsel *von* und *zu* visuell analysiert werden müssen die Klassifikationskarten entsprechend aufbereitet werden. Das nachstehende Skript identifiziert für jedes Pixel die Referenzklasse (erstes Bild)  und die im zweiten Bild beobachtete Klassenveränderung. Diese werden korrespodierend relassifiziert und als Rasterkarten ausgegeben. 
+Neben den auf den gesamten Datensatz angewendeten Kappa Metriken ist jedoch auch die spezifische Betrachtung der konkreten Veränderung des einzelnen Pixels (also des Ortes) un Interesse. 
+Die Klassen der Konfusionsmatrix könnnen in diesem Fall korresponiderend źur Vierfeldtabelle in die vier binären Rastergrids umgewandelt werden. So können z.B. explizit die Klassenwechsel *von* und *zu* dargestellt und analysiert werden. Das nachstehende Skript identifiziert für jedes Pixel die Kategorie des ersten bildes als Referenzklasse und analysiert die im zweiten Bild beobachtete Klassenveränderung. Diese werden korrespodierend relassifiziert und als Rasterkarten ausgegeben. 
 
 ```{r cross_raster}
 
@@ -254,18 +279,17 @@ tmap::tmap_arrange(m,sync = TRUE)
 ```
 
 
-## Räumliche Analyse der Veränderungen mit dem Paket `motif`
+### Musterbasierte  räumliche Analyse der Veränderungen 
 Eine aufwendigere aber insbesondere für multi-spatio-temporale Zeitreihen veilversprechende Vorgehensweise ist die musterbasierten räumliche Analyse. Grundsätzlich ist die Erfassung der Metriken ähnlich. Die Muster werden auf der Basis verschiedener Co-Occurrence-Matrizen sogenannten *räumlichen Signaturen*  auf beliebig wählbaren Aggregationsstufen ermittelt. So ist u.a. die Erkennung von Veränderungen und das Zusammenfassung von ähnlichen Gebieten unter Ausweisung einer Wahrscheienlichkeit möglich.
 
 
 ### Analyse der räumlich aggregierten  Veränderungswahrscheinlichkeit 
 Der Vergleich räumlicher Muster ermöglicht die Erkennung von ihren Veränderungen
 zwischen zwei Zeitebenen. In unserem Beispiel möchten wir vergleichen, wie sich die Landbedeckung Im Harz (Lichtung/Wald) zwischen 2019 und 2020 verändert hat. Die notwendigen kategoriale Rasterdatensätze mit gleicher
-derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen 
- Mit der Funktion `lsp_compare()` wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
+derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen  das   Paket `motif`, das unter andern die  Funktion `lsp_compare()` für den Vergleich verfügbar macht. Mit dieser Funktion wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
  
-Das resultierende Objekt gibt einen Überblick über die Veränderungen der Waldbedeckung im Nrdwest-Harz.
-Die Abbildung zeigt zeigt auchmehrere Gebiete mit den größten Landbedeckungsveränderungen. diese können mit der Funktion `sp_extract()` extrahiert wurden. 
+Das resultierende Objekt gibt einen Überblick über die Veränderungen der Waldbedeckung im Nordwest-Harz.
+Die Abbildung zeigt zeigt auchmehrere Gebiete mit den größten Landbedeckungsveränderungen. Diese können mit der Funktion `sp_extract()` extrahiert wurden. 
 
 ```{r motif1}
 
