@@ -448,7 +448,8 @@ mapview::viewRGB(mask*pred_stack_2020, r = 4, g =5, b = 6,maxpixels =  1693870)+
 
 Betrachten sie sie nachfolgenden Ressourcen als Beispiele dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung einer Fragestellung *"entsteht"*. Dann nach viel Recherche und kritischer Prüfung wird ein aktueller Stand der Technik innerhalb der wissenschaftlcihen Gemeinschaft erreicht der sich zudem natürlich stetig weiterentwickelt. 
 
-Schauen sie einmal in dienachstehende Auswahl von Blogs und Hilfestellungen: 
+Schauen sie einmal in die nachstehende Auswahl von Blogs und Hilfestellungen: 
+
 * ([rspatial - supervised classification](https://rspatial.org/raster/rs/5-supclassification.html)
 * [RPubs Tutorial](https://rpubs.com/ials2un/rf_landcover), Sydney's [blog](https://urbanspatial.github.io/classifying_satellite_imagery_in_R/)
 * [supervised classification](https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/).
