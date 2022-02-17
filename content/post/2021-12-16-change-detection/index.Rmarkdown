@@ -39,9 +39,8 @@ Diese Übung führt Sie in die Klassifizierung von Satelliten- und Luftvermessun
   * Rekursive Partitionierung und Regressionsbäume (über `rpart`)
   * Random Forest (über `caret`) 
 
-
-
 ## Kurze Einführung in Klassifkation
+
 
 ### Überwachte Klassifizierung
 
@@ -193,7 +192,12 @@ Der nächste Schritt ist optional, bietet aber die Möglichkeit, schnell und eff
 
 ### Farbkomposita für bessere Trainingsergebnisse
 
-![](images/cc.html){width=500px height=500px}
+```{r}
+mapview::viewRGB(pred_stack_2019, r = 1, g = 2, b = 3, maxpixels =  1693870) +
+  mapview::viewRGB(pred_stack_2019, r = 5, g = 6, b = 7, maxpixels =  1693870) 
+  
+```
+`
 
 Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
   Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches "farbiges" Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
