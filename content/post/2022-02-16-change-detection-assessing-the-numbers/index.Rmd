@@ -153,15 +153,16 @@ tibble(
 ```
 
 
-Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung) und Pmax (maximal erreichbarer Anteil an Übereinstimmung) berechnet:
+Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung)  und auf dieser Grundlage Kappa $K$ berechnet.
 
 $PA= \sum_{i=1}^2 p_{i,i}$
 
 $PE= \sum_{i=1}^2 pT_i*Tp_i$
 
-$Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
 
 $K=\frac{PA-PE}{1-PE}$
+
+Die Interpretation der Kappa Metrik ist schlicht jedoch von den Fragestellungen abhängig. Wichtig ist es die nicht lineare Aufteilung der Metrik zu beachten. Das gilt insbesondere für Werte < 0.2 und > 0.9. Als Grundlage zur Interpretation wird häufig folgende Skala genutzt (vgl. auch [@Landis&Koch1977];[@Monserud&Leemans1992]).
 
 
 ```{r Kappatabelle, echo=FALSE}
@@ -180,19 +181,25 @@ $K=\frac{PA-PE}{1-PE}$
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-Ein Indexwert von 1 gilt somit als exakte Übereinstimmung der beiden Datensätze. Die Interpretation der des Cohen Kappa ist zwar von der Fragestellung abhängig dennoch hat sich zur Interpretation folgende Skala bewährt (vgl. [@Landis&Koch1977];[Monserud&Leemans1992]).
+Ein Indexwert von > 0.99 gilt somit als perfekte Übereinstimmung der beiden Datensätze ist aber insbesondere bei Fernerkundungsdaten mit einem sehr grossen N extrem unwahrscheinlich und **immer** mit Vorsicht zu betrachten. 
 
 ### Kappaberechnung für quantitative und lagebezogene Ähnlichkeiten 
 
-Zur Verbesserung der eher allgemeinen und unter Umständen auch falschen Interpretation von Cohen's Kappa wird von verschiedenen Autoren vorgeschlagen (vgl. [@Pontius2000],[@Hagen2002]) den Kappaindex $K$ in $K_{histo}$ und $K_{location}$ aufzuteilen. Das Produkt aus beiden Werten ergibt $K$ und setzt sich aus der *quantitativen* Ähnlichkeit (Anzahl Pixel) und der Ähnlichkeit in die Lage der jeweiligen Klassen (Pixel am geleichenOrt haben den gleichen Wert) zusammen. 
+Zur Verbesserung der eher allgemeinen und unter Umständen auch falschen Interpretation von Cohen's Kappa wird von verschiedenen Autoren vorgeschlagen (vgl. [@Pontius2000],[@Hagen2002]) den Kappaindex $K$ in $K_{histo}$ und $K_{location}$ aufzuteilen. Das Produkt aus beiden Werten ergibt $K$ und setzt sich aus der *quantitativen* Ähnlichkeit (Anzahl Pixel) und der Ähnlichkeit in die Lage der jeweiligen Klassen (Pixel am geleichenOrt haben den gleichen Wert) zusammen. Hierzu wird aus der Kreutabelle zusätzlich und $P_{max}$ (maximal erreichbarer Anteil an Übereinstimmung) bestimmt.
+
+$Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
+
+$K_{histo}$ und $K_{location}$ können dann folgendermassen bestimmt werden:
 
 $K_{histo}=\frac{Pmax-PE}{1-PE}$
 
 $K_{location}=\frac{PA-PE}{Pmax-PE}$
 
+Folglich ergibt die Multiplikation der beiden Metriken Kappa. 
+
 $K=K_{histo}*K_{location}$
 
-Folglich gibt  $K_{histo}$ die quantitative Ähnlichkeit von 2 Karten an wird aus dem Histogramm der einzelnen Kategorien berechnet.  Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt.  $K_{location}$ hingegen gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien.  $K_{location}$ ist folglich der Kappaindex der erreicht werden könnte wenn  $K_{histo} = 1$  wäre.
+Also gibt  $K_{histo}$ die quantitative Ähnlichkeit von 2 Karten an wird aus dem Histogramm der einzelnen Kategorien berechnet.  Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt.  $K_{location}$ hingegen gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien.  $K_{location}$ ist daher der Kappaindex der erreicht werden könnte wenn  $K_{histo} = 1$  wäre.
 
 
 ### Kappaberechnung der Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
@@ -205,15 +212,15 @@ $allocation \ disagreement=100*(Pmax-PA)$
 
 $quantity \ disagreement=100*(1-Pmax)$
 
-Im Paket `Rsenal` [@Rsenal] ist die Funktion `kstat()` zur Berechnung der obigen Metriken implementiert. Mit ihr ist die Berechnung sämtlicher Kappa-Metriken, auch für multikategoriale Ausprägungen, komfortabel durchführbar.
+Im Paket `Rsenal` [@Rsenal] ist die Funktion `kstat()` zur Berechnung der obigen Metriken implementiert (siehe Setup Sektion). Mit ihr ist die Berechnung sämtlicher Kappa-Metriken, auch für multikategoriale Ausprägungen, komfortabel durchführbar.
 
 
 ```{r Kappa-2019}
 
 # ---- kappa ----
 # Vergleich der Übereinstimmung unterschiedlicher Klassifikationen (hier MaxLike
-# und RF) mit Hilfe diverser Kappa Werte
-# https://giswerk.org/doku.php?id=r:r-tutorials:calculatekappa
+# und RF) mit Hilfe diverser Kappa Werte. 
+
 # 2019
 kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:8)]  %>%
   kbl(caption = "Kappa 2019 MLC vs RF") %>%
