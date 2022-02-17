@@ -9,16 +9,15 @@ categories:
 tags:
   - Remote Sensing
 subtitle: ''
-description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können.'
+description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.'
 image: '/assets/images/forest-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
     keep_md: yes
-weight: 502
+weight: 503
 ---
-
-Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethden.
+Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.
 
 ## Setup
 
@@ -45,7 +44,9 @@ Das Einlesen der Daten aus der Klassifikation.
 #--- laden der notwendigen Bibliotheken
 # Achtung Pakete müssen evtl. manuell installiert werden
 library(envimaR)
-
+remotes::install_version("SDMTools", version = "1.1-221.2")
+remotes::install_github("environmentalinformatics-marburg/Rsenal")
+library(Rsenal)
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
@@ -53,18 +54,18 @@ root_folder = "~/edu/geoinfo/"
 # einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))
 source(file.path(root_folder, "src/functions/fun_helper.R"))
-source(file.path(root_folder, "src/functions/fun_kappa.R"))
 source(file.path(root_folder, "src/functions/fun_tmap.R"))
 ```
 
 
 ## Einlesen der Datensätze
+In den beiden Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/) und [Klassifikation von Landuse/Landcover Veränderungen](/gi-modules/post/2021-12-16-change-detection/) sind verschiedene Klassifikation und Hilfsdatensätze berechnet worden. Diese sollen nun sowohl auf ihre Qualität als auch ihre Ähnlichkeiten/Unähnlichkeiten (also die Veränderung) untersucht werden. 
 
 ```{r download, comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
 
-# größe der Aggregationsfesnter für die CD Auswertung Distanz-Schwellenwert
-# "dist" ist abhängig von wins_size je kleiner win_size desto größer der
-# Schwellenwert
+# Größe des Aggregationsfensters für die Auswertung Distanz-Schwellenwert motif
+# Achtung! "dist" ist abhängig von wins_size. Je kleiner win_size desto größer muss 
+# der Schwellenwert gesetzt werden
 win_size = 25
 
 #--- Download der Daten
@@ -111,7 +112,7 @@ Der hiefür gebräuchlichste Ansatz ist eine Fehlermatrix oder Konfusionstabelle
 
 ### Berechnung einer Konfusionmatrix
 
-Die Berechnung vom Qualitätsmassen basiert auf einer Kreuztabelle von zwei Karten. Dabei ist die eine Karte in in Zeilen und die andere in Spalten angeordnet. Die Zeilensummen zeigen den Anteil der Pixel für jede Klasse in Karte A, die Spaltensummen für Karte B. Die Tabelle gibt an, wie viel % der Pixel in beiden Karten übereinstimmen (Diagonale) sowie wie viel % der Pixel in jeder Klasse nicht übereinstimmen. 
+Die Berechnung vom Qualitätsmassen basiert auf einer Kreuztabelle von zwei Karten. Dabei ist die eine Karte in in Zeilen und die andere in Spalten angeordnet. Die Zeilensummen zeigen den Anteil der Pixel für jede Klasse in Karte A, die Spaltensummen für Karte B. Die Tabelle gibt an, wie viel % der Pixel in beiden Karten übereinstimmen (Diagonale) sowie wie viel % der Pixel in jeder Klasse nicht übereinstimmen. In den nachflgden Beipielen vergleichen wir Random Forest mit der korrespondierenden Maximum Likelihood Klassifikation. Ziel ist es die Vergleichbarkeit beider Klassifikation zu bewerten, also Metriken zu berechnen wie gut die beiden Klassifikation übreinstimmen. 
 
 ```{r Fehlermatrix}
 
@@ -121,26 +122,93 @@ Die Berechnung vom Qualitätsmassen basiert auf einer Kreuztabelle von zwei Kart
 tmap_mode("view")
 tmap::qtm(prediction_rf_2020 - prediction_rf_2019,title = "kmeans 2019")
 
-# ---- CDA Extraktion der Klassennamen ----
+# ---- Extraktion der Klassennamen ----
 categories = levels(prediction_rf_2019)[[1]]$value
 categories
 
-# ---- Berechnung der Konfusions Matrix Tabelle mit derraster Paket Basisfunktion ----
+# ---- Berechnung der Konfusionsmatrix  ----
 ct = raster::crosstab(prediction_rf_2019,prediction_mlc_2019$map)
 rownames(ct) = categories
 colnames(ct) = categories
 ct %>%
-  kbl(caption = "Crosstab rf 2019 vs mlc 2019") %>%
+  kbl(caption = "Crosstab rf vs mlc (2019)") %>%
   kable_classic(full_width = F)
-
 ```
 
 
 
 
-### Veränderungs Raster aus der Konfusionsmatrix
+### Quantitative Qualitätsmessung - Berechung der [@Kappa] Metriken
 
-Räumlich visualsiert werden können die die Daten mit nachfolgendem Skript. 
+Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das bei zufälliger Pixelanordnung erwartet werden kann. Ein Indexwert von 1 bedeutet genaue Übereinstimmung. Auch wenn die Interpretation der Werte von der Fragestellung abhängt bieten [@Landis&Koch1977] und [Monserud&Leemans1992] eine Orientierung zur Interpretation.
+
+
+
+```{r Kreuztabelle, echo=FALSE}
+tibble(
+  'Kategorie' =     c("Kategorie A","Kategorie B","Summe"),
+  'Kategorie A' = c("$$p_{(1/1)}$$","$$p_{(2/1)}$$","$$pT_A= \\sum_{i=1}^2 p_{1,i}$$"),
+  'Kategorie B' = c("$$p_{(1/2)}$$","$$p_{(2/2)}$$","$$pT_B= \\sum_{i=1}^2 p_{1,i}$$"),
+  'Summe' = c("$$Tp_A= \\sum_{i=1}^2 p_{1,i}$$","$$Tp_B= \\sum_{i=1}^2 p_{1,i}$$","$$1$$"),
+) %>%
+  kbl(caption = "Kreuztabelle") %>% 
+  kable_classic(full_width = T) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung) und Pmax (maximal erreichbarer Anteil an Übereinstimmung) berechnet:
+
+$PA= \sum_{i=1}^2 p_{i,i}$
+
+$PE= \sum_{i=1}^2 pT_i*Tp_i$
+
+$Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
+
+Der Kappaindex K lässt sich in Khisto und Klocation aufteilen [@Pontius2000],[@Hagen2002] und ist das Produkt aus beiden, ergibt sich also aus der quantitativen Ähnlichkeit und der Ähnlichkeit im Bezug auf die Lage der Kategorien. Khisto gibt die quantitative Ähnlichkeit von 2 Karten an und ergibt sich aus dem Histogramm der einzelnen Kategorien. Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt. Klocation gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien. D.h. Klocation ist der Kappaindex der erreicht werden könnte wenn Khisto 1 wäre, also die Pixelzahlen der Klassen übereinstimmen.
+
+$K=\frac{PA-PE}{1-PE}=K_{histo}*K_{location}$
+
+$K_{histo}=\frac{Pmax-PE}{1-PE}$
+
+$K_{location}=\frac{PA-PE}{Pmax-PE}$
+
+
+### Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
+
+Jedoch schlagen (@Pontius_Milliones2011) als optimale Vorgehensweise vor, aus der Kreuztabellenmatrix die Parameter *quantity disagreement* (QD) und *allocation disagreement* (QD) zu berechnen Tatsächlich ermöglichen diese Parameter eine gute Einschätzung der Mengen- und Lagequalität der Übereinstimmung kategorialer Daten.
+
+Die Abweichungen können wie folgt berechnet werden.
+
+$allocation \ disagreement=100*(Pmax-PA)$
+
+$quantity \ disagreement=100*(1-Pmax)$
+
+Im Paket `Rsenal` [@Rsenal] ist die Funktion `kstat()` zur Berechnung der obigen Metriken implementiert. Mit ihr ist die Berechnung sämtlicher Kappa-Metriken, auch für multikategoriale Ausprägungen, komfortabel durchführbar.
+
+```{r Kappa-2019}
+
+# ---- kappa ----
+# Vergleich der Übereinstimmung unterschiedlicher Klassifikationen (hier MaxLike
+# und RF) mit Hilfe diverser Kappa Werte
+# https://giswerk.org/doku.php?id=r:r-tutorials:calculatekappa
+# 2019
+kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:8)]  %>%
+  kbl(caption = "Kappa 2019 MLC vs RF") %>%
+  kable_classic(full_width = F)
+```
+
+```{r Kappa-2020}
+# 2020
+kstat(prediction_mlc_2020$map,prediction_rf_2020,perCategory = FALSE)[,c(1:3,7:8)]  %>%
+  kbl(caption = "Kappa 2020 MLC vs RF") %>%
+  kable_classic(full_width = F) 
+```
+
+
+
+### Veränderungsraster der Konfusionsmatrix
+
+Die Konfusionsmatrix besteht in diesem Fall korresponiderend źur Vierfeldtabelle aus vier binären Rastergrids. Sollen die Klassenwechsel *von* und *zu* visuell analysiert werden müssen die Klassifikationskarten entsprechend aufbereitet werden. Das nachstehende Skript identifiziert für jedes Pixel die Referenzklasse (erstes Bild)  und die im zweiten Bild beobachtete Klassenveränderung. Diese werden korrespodierend relassifiziert und als Rasterkarten ausgegeben. 
 
 ```{r cross_raster}
 
@@ -186,75 +254,18 @@ tmap::tmap_arrange(m,sync = TRUE)
 ```
 
 
-### Berechung der Kappa Indizes
-
-Vor allem in der Fernerkundung und der räumlichen Analyse kategorialer Daten ist [@cohen1960] ein beliebtes Maß eine Klassifizierung (Vorhersage) mit einer Karte Referenzkarten (Beobachtung/andersartige Beobachtung) zu vergleichen. Allgemeiner ausgedrückt, zwei kategoriale Datensätzen miteinander zu vergleichen. Cohen's Kappa Index vergleicht den Anteil übereinstimmender Pixel zweier Raster mit der erwarteten Übereinstimmung bei zufälliger Pixelanordnung. Die Indexwerte liegen zwischen -1 und 1 wobei ein Indexwert von 0 einem Ergebnis entspricht, das bei zufälliger Pixelanordnung erwartet werden kann. Ein Indexwert von 1 bedeutet genaue Übereinstimmung. Auch wenn die Interpretation der Werte von der Fragestellung abhängt bieten [@Landis&Koch1977] und [Monserud&Leemans1992] eine Orientierung zur Interpretation.
-
-
-
-```{r Kreuztabelle }
-tibble(
-  'Kategorie' =     c("Kategorie A","Kategorie B","Summe"),
-  'Kategorie A' = c("$$p_{(1/1)}$$","$$p_{(2/1)}$$","$$pT_A= \\sum_{i=1}^2 p_{1,i}$$"),
-  'Kategorie B' = c("$$p_{(1/2)}$$","$$p_{(2/2)}$$","$$pT_B= \\sum_{i=1}^2 p_{1,i}$$"),
-  'Summe' = c("$$Tp_A= \\sum_{i=1}^2 p_{1,i}$$","$$Tp_B= \\sum_{i=1}^2 p_{1,i}$$","$$1$$"),
-) %>%
-  kbl(caption = "Kreuztabelle") %>% 
-  kable_classic(full_width = T) %>% 
-  kable_styling(bootstrap_options = c("striped", "hover"))
-```
-
-Aus der Kreuztabelle werden PA (Anteil an Übereinstimmung), PE (erwarteter Anteil an Übereinstimmung) und Pmax (maximal erreichbarer Anteil an Übereinstimmung) berechnet:
-
-$PA= \sum_{i=1}^2 p_{i,i}$
-
-$PE= \sum_{i=1}^2 pT_i*Tp_i$
-
-$Pmax= \sum_{i=1}^2 min(pT_i,Tp_i)$
-
-Der Kappaindex K lässt sich in Khisto und Klocation aufteilen [@Pontius2000],[@Hagen2002] und ist das Produkt aus beiden, ergibt sich also aus der quantitativen Ähnlichkeit und der Ähnlichkeit im Bezug auf die Lage der Kategorien. Khisto gibt die quantitative Ähnlichkeit von 2 Karten an und ergibt sich aus dem Histogramm der einzelnen Kategorien. Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt. Klocation gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien. D.h. Klocation ist der Kappaindex der erreicht werden könnte wenn Khisto 1 wäre, also die Pixelzahlen der Klassen übereinstimmen.
-
-$K=\frac{PA-PE}{1-PE}=K_{histo}*K_{location}$
-$K_{histo}=\frac{Pmax-PE}{1-PE}$
-
-$K_{location}=\frac{PA-PE}{Pmax-PE}$
-
-
-### Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
-
-Jedoch schlagen (@Pontius_Milliones2011) als optimale Vorgehensweise vor aus der Kreuztabellenmatrix die Parameter *Mengenabweichung* und *Zuordnungsabweichung* zu berechnen Tatsächlich ermöglichen diese Parameter eine gute Einschätzung der Mengen- und Lagequalität der Übereinstimmung kategorialer Daten.
-
-Die Abweichungen können wie folgt berechnet werden.
-
-$allocation \ disagreement=100*(Pmax-PA)$
-
-$quantity \ disagreement=100*(1-Pmax)$
-
-```{r Kappa-2019}
-# ---- kappa ----
-# Vergleich der Übereinstimmung unterschiedlicher Klassifikationen (hier MaxLike
-# und RF) mit Hilfe diverser Kappa Werte
-# https://giswerk.org/doku.php?id=r:r-tutorials:calculatekappa
-# 2019
-kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:8)]  %>%
-  kbl(caption = "Kappa 2019 MLC vs RF") %>%
-  kable_classic(full_width = F)  %>%
-  column_spec(1,tooltip = "More Information",color = "red", link = "https://giswerk.org/doku.php?id=r:r-tutorials:calculatekappa")
-```
-
-```{r Kappa-2020}
-# 2020
-kstat(prediction_mlc_2020$map,prediction_rf_2020,perCategory = FALSE)[,c(1:3,7:8)]  %>%
-  kbl(caption = "Kappa 2020 MLC vs RF") %>%
-  kable_classic(full_width = F) %>%
-  column_spec(1,tooltip = "More Information",color = "red", link = "https://giswerk.org/doku.php?id=r:r-tutorials:calculatekappa")
-```
-
-
-
 ### Räumliche Analyse der Veränderungen mit dem Paket `motif`
+Eine aufwendigere aber insbesondere für multi-spatio-temporale Zeitreihen veilversprechende Vorgehensweise ist die musterbasierten räumliche Analyse. Grundsätzlich ist die Erfassung der Metriken ähnlich. Die Muster werden auf der Basis verschiedener Co-Occurrence-Matrizen sogenannten *räumlichen Signaturen*  auf beliebig wählbaren Aggregationsstufen ermittelt. So ist u.a. die Erkennung von Veränderungen und das Zusammenfassung von ähnlichen Gebieten unter Ausweisung einer Wahrscheienlichkeit möglich.
+
 
 ### Analyse der räumlich aggregierten  Veränderungswahrscheinlichkeit 
+Der Vergleich räumlicher Muster ermöglicht die Erkennung von ihren Veränderungen
+zwischen zwei Zeitebenen. In unserem Beispiel möchten wir vergleichen, wie sich die Landbedeckung Im Harz (Lichtung/Wald) zwischen 2019 und 2020 verändert hat. Die notwendigen kategoriale Rasterdatensätze mit gleicher
+derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen 
+ Mit der Funktion `lsp_compare()` wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
+ 
+Das resultierende Objekt gibt einen Überblick über die Veränderungen der Waldbedeckung im Nrdwest-Harz.
+Die Abbildung zeigt zeigt auchmehrere Gebiete mit den größten Landbedeckungsveränderungen. diese können mit der Funktion `sp_extract()` extrahiert wurden. 
 
 ```{r motif1}
 
@@ -272,29 +283,21 @@ mrf_compare_2020_2019 = lsp_compare(st_as_stars(mask*prediction_rf_2019),
 
 # Visualisierung der Gesamtwahrscheinlichkeiten Achtung logarithmische Skala
 
-tmap_mode("view")
-tm_compare2 = tm_shape(mrf_compare_2020_2019) +
-  tm_raster("dist",
-            breaks = c(0, 0.001, 0.01, 0.1, 1.01),
-            legend.is.portrait = F,
-            palette = "viridis",
-            title =  "Distance (JSD)") +
-  tm_layout(legend.show = TRUE,
-            legend.text.size = 0.3,
-            legend.outside = TRUE) +
-  tm_legend(scale= 0.5,
-            legend.outside=T,
-            title = paste("RF 2019 vs 2020 ",win_size*10,"m**2" ),
-            title.size = 1.0) +
-  tm_grid()
+palfunc <- function (n, alpha = 1, begin = 0, end = 1, direction = 1) 
 
-tm_compare2
+mapview::mapView(mrf_compare_2020_2019[4], 
+                 zcol = 'dist', 
+                 layer.name = "jensen-shannon 0.9", 
+                 col.regions = RColorBrewer::brewer.pal(11, "YlOrRd"), 
+                 at = c(0, 0.001, 0.01, 0.1, 1.01))
+
 ```
 
 
 ### Identifikation der Gebiete maximaler  Veränderungen 
+Jetzt interessieren die Gebiete mit maximaler Veränderung. Der erstellte Datensatz wird auf den `dist > 0.1` Wert gefiltert. Schliesslich in eine Rangreihenfolge gebracht. 
 
-```{r motif2}
+```{r motif2} 
 # ---- Detail-Analyse Teil 1 ----
 # Identifikation der Gebiete (Referenz ist win_size) die maximale Veränderungen
 # aufweisen im Beispiel soll  "dist" soll größer 0.001 sein (logarithmische
@@ -317,6 +320,7 @@ tm_plot(sel=lc_am_compare_sel[1:nrow(lc_am_compare_sel),],vt = "plot",ov = T)
 
 
 ### Visulisierung der Top Veränderungs-Superpixel
+Natürlcih können diese Superpixel auch wiede rücktransformiert werden.
 
 ```{r motif3}
 
@@ -324,24 +328,24 @@ tm_plot(sel=lc_am_compare_sel[1:nrow(lc_am_compare_sel),],vt = "plot",ov = T)
 # Extraktion nach der sortierten Liste lc_comapare_sel  werden die top 10 change
 # detection hotspots Daten extrahiert und in die liste lc geschrieben
 lc = lapply(seq(1:10),function(i){
-              lsp_extract(c(st_as_stars(prediction_rf_2019),
-                            st_as_stars(prediction_rf_2020)),
-                          window = win_size,
-                          id = lc_am_compare_sel$id[i])
-            })
+  lsp_extract(c(st_as_stars(prediction_rf_2019),
+                st_as_stars(prediction_rf_2020)),
+              window = win_size,
+              id = lc_am_compare_sel$id[i])
+})
 
 # Erzeugen der top 3 Change Detection Hotspots Karten-Ausschnitte
 tm_lc = lapply(seq(1:3),function(i){
-               tm_plot(lc[[i]],vt = "view",ov = T)
-             })
+  tm_plot(lc[[i]],vt = "view",ov = T)
+})
 
 # plotten der erzeugten Karten
 tmap_arrange(tm_lc)
 
 # Erzeugen der top 3 Change Detection Hotspots Karten-Ausschnitte
 tm_lc = lapply(seq(1:3),function(i){
-               tm_plot(lc[[i]],vt = "plot",ov = T)
-             })
+  tm_plot(lc[[i]],vt = "plot",ov = T)
+})
 
 # plotten der erzeugten Karten
 tmap_arrange(tm_lc)

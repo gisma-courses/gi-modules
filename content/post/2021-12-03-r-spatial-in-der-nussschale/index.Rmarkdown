@@ -1,5 +1,5 @@
 ---
-title: Fichten im Harz
+title: Flächenhafte Forstverluste im Harz
 author: Chris Reudenbach
 date: '2021-12-03'
 slug: []

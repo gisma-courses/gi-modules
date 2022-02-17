@@ -1,5 +1,5 @@
 ---
-title: Change detection - Klassifikation von Veränderungen
+title: Change detection - Klassifikation von Landuse/Landcover Veränderungen
 author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
