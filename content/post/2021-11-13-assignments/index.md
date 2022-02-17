@@ -3,8 +3,8 @@ title: About Assignments
 author: Chris Reudenbach
 date: '2021-11-13'
 slug: []
-categories: ["Basics"]
-tags: ["basics"]
+categories: ["xtra"]
+tags: ["xtra"]
 description: 'The exercises and assignments are submitted via markdown/rmarkdown files and PDF documents created from them in a private Github repository.'
 image: '/assets/images/hinterland-sp.jpg'
 toc: true

@@ -3,8 +3,8 @@ title: Impressum
 author: Chris Reudenbach
 date: '2021-11-13'
 slug: []
-categories: ["Basics"]
-tags: ["basics"]
+categories: ["xtra"]
+tags: ["xtra"]
 image: '/assets/images/hinterland-sp.jpg'
 toc: true
 toc_label: Content

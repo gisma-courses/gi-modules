@@ -3,8 +3,8 @@ title: About Learning environment
 author: Chris Reudenbach
 date: '2021-11-13'
 slug: []
-categories: ["Basics"]
-tags: ["basics"]
+categories: ["xtra"]
+tags: ["xtra"]
 description: 'We offer weekly input with a new course unit. After a brief input, the exercises are presented, which should be worked on to successfully complete the assignments.'
 image: '/assets/images/diffusion-sp.png'
 toc: true

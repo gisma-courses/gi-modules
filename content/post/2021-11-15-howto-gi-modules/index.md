@@ -3,8 +3,8 @@ title: About GI-Modules
 author: creu
 date: '2021-11-15'
 slug: []
-categories: ["Basics"]
-tags: ["basics"]
+categories: ["xtra"]
+tags: ["xtra"]
 description: 'GI Modules is a blog-based collection of learning content in the broad field of geoinformatics. The blogs are sorted by categories and tags. Under the categories, related content is grouped together. Within the content pages, you can navigate to related articles via the tags.'
 image: '/assets/images/grubenwiese-rb-sp.jpg'
 toc: no
