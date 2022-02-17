@@ -95,7 +95,8 @@ source(file.path(root_folder, "src/functions/000_setup.R"))
 nclasses=2
 
 ```
-Bitte ergänzen Sie bei auftreteneden Fehlermeldungen in bezug auf Pakete diese an der Stelle ihres Setup-Skripts.
+
+Bitte ergänzen Sie (bei auftreteneden Fehlermeldungen) etwaig fehende oder defekte Pakete im obigen Setup-Skripts.
 
 Auf der Grundlage der verfügbaren Sentinel Daten  sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver [heruntergeladen](http://gofile.me/3Z8AJ/7Ika7zY9x) werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der `data` Ordenr wird ersetzt/ergänzt.
 
@@ -287,7 +288,7 @@ Wir wollen ein Modell erstellen, das zwischen den Pixeln eines Kahlschlages und 
 
 Random Forests können sowohl für Regressions- als auch für Klassifizierungsaufgaben verwendet werden, wobei letztere besonders in der Umwelt-Fernerkundung relevant sind. Wie bei jeder maschinellen Lernmethode lernt auch das Random-Forest-Modell, Muster und Strukturen in den Daten selbst zu erkennen.
 
-![](images/Random_forest_diagram_complete.png)
+![](images/Random_forest_diagram_complete.png)!
 
 Abbildung: Vereinfachte Darstellung der Klassifizierung von Daten durch Random Forest während des Trainings. Venkata Jagannath [CC BY-SA 4.0] via wikipedia.org
 
