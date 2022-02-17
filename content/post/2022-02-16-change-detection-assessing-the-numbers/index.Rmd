@@ -3,6 +3,7 @@ title: 'Change Detection - Auswertung der Klassifikationsdaten '
 author: Chris Reudenbach
 date: '2022-02-16'
 bibliography: references.bib
+biblio-style: "apalike"
 slug: []
 categories:
   - bGIS
@@ -42,10 +43,15 @@ Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und d
 #--- laden der notwendigen Bibliotheken
 # Achtung Pakete müssen evtl. manuell installiert werden
 library(envimaR)
+
+# SDMTools und RSenal sind für die extended Kappa Berechnung notwendig
 remotes::install_version("SDMTools", version = "1.1-221.2")
 remotes::install_github("environmentalinformatics-marburg/Rsenal")
 library(Rsenal)
+
+# Paket zu Mustererkennung
 library(motif)
+
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
