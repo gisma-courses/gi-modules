@@ -71,7 +71,8 @@ In diesem Tutorium werden die Sentinel-2-Bilder aus der vorherigen Übung verwen
 
 ## Schritt 1 - Einrichten des Skripts
 Sie können entweder die gespeicherten Daten aus der vorangegangenen Einheit verwenden oder einen neuen Abschnitt zum Üben herunterladen und bearbeiten. Im Prinzip wird jedoch zuerst die Arbeitsumgebung geladen.
-```r
+
+```{r setup , message = FALSE, warnings = FALSE}
 #  ---- 0 Projekt Setup ----
 # Achtung Pakete müssen evtl. manuell installiert werden
 library(envimaR)
@@ -90,6 +91,8 @@ root_folder = "~/edu/geoinfo/"
 # Einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))
 
+nclasses=2
+
 ```
 Bitte ergänzen Sie bei auftreteneden Fehlermeldungen in bezug auf Pakete diese an der Stelle ihres Setup-Skripts.
 
@@ -107,7 +110,7 @@ zunächst einmal benötigen wir nun diese Daten in einem Rasterstapel. Hierzu sc
 
 Diese müssen nun eingelesen werden:
 
-```r
+```{r datendownload, message = FALSE, warnings = FALSE}
 
 #--- Download der Daten
 # gui = TRUE ruft die GUI zur Kontrolle auf
@@ -142,7 +145,26 @@ pred_stack_2020 = readRDS(paste0(envrmt$path_data,"pred_stack_2020.rds"))
 plot(pred_stack_2019)
 plot(pred_stack_2020)
 
+# Einlesen der Corine Daten
+# Für den Download ist ein Konto notwendig https://land.copernicus.eu/pan-european/corine-land-cover
+# Daher die Daten manuell herunterladen und in das Verzeichnis kopieren und entpacken
+# Dann auskommentierten Tail ausführen
+# corine_eu = raster(file.path(envrmt$path_data_lev0,"u2018_clc2018_v2020_20u1_raster100m/DATA/U2018_CLC2018_V2020_20u1.tif"))
+# tmp = projectRaster(pred_stack_2019[[1]],crs = crs(corine_eu))
+# corine_crop = raster::crop(corine_eu,tmp)
+# corine_utm = projectRaster(corine_crop,crs = crs(pred_stack_2019))
+# corine = resample(corine_utm,pred_stack_2019[[1]])
+# raster::writeRaster(corine,file.path(envrmt$path_data_lev0,"/corine.tif"),overwrite=TRUE)
 
+# ansonsten den Beipieldatensatz laden
+corine = raster::raster(file.path(envrmt$path_data_lev0,"corine.tif"))
+
+# Erstellen einer Wald-Maske
+# Agro-forestry areas code=22, Broad-leaved forest code=23,
+# Coniferous forest code=24, Mixed forest code=25
+mask = reclassify(corine,c(-100,22,0,22,26,1,26,500,0))
+
+mapview(mask)
 ```
 
 ## Schritt 3 erster Überblick mit einer K-Means Klassifikation
@@ -151,14 +173,15 @@ Die bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering
 
 In unserem Beispiel (für 2 Klassen angewandt und der Einfachheit halber mit `RStoolbox` ausgeführt) sieht es wie folgt aus:
 
-```r
+```{r kmeans}
 ## k-means über RStoolbox
 # Modell
 prediction_kmeans_2019 = unsuperClass(pred_stack_2019, nClasses = 2,norm = TRUE, algorithm = "MacQueen")
 # Klassifikation
 mapview(prediction_kmeans_2019$map, col = c('darkgreen', 'burlywood', 'green'))
+
 prediction_kmeans_2020 = unsuperClass(pred_stack_2020, nClasses = 2,norm = TRUE, algorithm = "MacQueen")
-mapview(prediction_kmeans2020$map, col = c('darkgreen', 'burlywood', 'green'))
+mapview(prediction_kmeans_2020$map, col = c('darkgreen', 'burlywood', 'green'))
 ```
 
 
@@ -181,7 +204,7 @@ Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: Wald
 Jede Klasse wird **einzeln** digitalisiert.  Im Anschluss werden die Trainingsdatenmerkmale des jeweiligen Rasterstacks extrahiert und auf Fehlwerte bereiningt. 
 Falls dieser Teil bereits absolviert wurde kann die logische Variable `digitize` auf `FALSE`  gesetzt werden und es wird dann der `ELSE` Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
 
-```r
+```{r digitize, echo=TRUE , message = FALSE, warnings = FALSE}
 #---- Digitalisierung der Trainingsdaten ----
 
 if (digitize) {
@@ -272,54 +295,167 @@ Ein Random-Forest-Algorithmus lernt über die Daten, indem er viele Entscheidung
 Da der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich um eine überwachte Lernmethode. Das bedeutet, dass wir als Nutzer dem Algorithmus sagen müssen, was er vorhersagen soll. In unserem Fall müssen die Trainingsdaten verschiedene Kategorien oder Klassifizierungen der Bodenbedeckung (z. B. Kahlschlag, Rest) enthalten und mit mit einem Tag so gekennzeichnet sein.
 
 
-```r
+```{r random_forest , message = FALSE, warnings = FALSE}
 ## ---- Überwachte  mit Klassifikation Random Forest ----
+# Einlesen der zuvor berechneten und erstellten Da
+train_areas_2019 = readRDS(paste0(envrmt$path_data,"train_areas_2019.rds"))
+train_areas_2020 = readRDS(paste0(envrmt$path_data,"train_areas_2020.rds"))
+names(pred_stack_2019) = c("nir","red_1","green_1","red_2","green_2","blue","EVI","MSAVI2","NDVI","SAVI")
+names(pred_stack_2020) = c("nir","red_1","green_1","red_2","green_2","blue","EVI","MSAVI2","NDVI","SAVI")
+## Hier wird der Random Forest über das Utility Paket caret aufgerufen
 
-## Hier wird der Entscheidungsbaum Algorithmus Random Forest über das Utility Paket caret aufgerufen
-## ACHTUNG Das Beispiel ist nur für 2019
-
-# das setzen eines seed ermöglicht reproduzierbaren zufall
+# Setzen eines "seed" ermöglicht reproduzierbaren Zufall
 set.seed(123)
 
-# Aufsplitten  der Daten in training und test , zufällige extraktion von 25% der Daten
+# Zufälliges Ziehen von 25% der Daten
 trainDat_2019 =  train_areas_2019[createDataPartition(train_areas_2019$class,list = FALSE,p = 0.25),]
-# die response variable muss auf den Datentyp "factor" gesetzt werden
+trainDat_2020 =  train_areas_2020[createDataPartition(train_areas_2020$class,list = FALSE,p = 0.25),]
+#  Response-Variable (=Spalte "class") muss den Datentyp "factor" haben
 trainDat_2019$class <- as.factor(trainDat_2019$class)
-# Training Steuerung mit  cross-validation, 10 wiederholungen
+trainDat_2020$class <- as.factor(trainDat_2020$class)
+
+# Einstellungen Modelltraining: cross-validation, 10 Wiederholungen
 ctrlh = trainControl(method = "cv",
                      number = 10,
                      savePredictions = TRUE)
-#--- random forest model training
 
-# Hiermit wird das Modell berechnet "trainiert"
+#--- random forest model training
 cv_model_2019 = train(trainDat_2019[,2:11], # in den Spalten 2 bis 20 stehen die Trainingsdaten (Prediktoren genannt)
-                      trainDat_2019[,1],         # in der Spalte 1 stet die zu Klassizierende Variable (Response genannt)
+                      trainDat_2019[,1],         # in der Spalte 1 steht die zu klassizierende Variable (Response genannt)
                       method = "rf",             # Methode hier rf für random forest
                       metric = "Kappa",          # Qualitäts/Performanzmaß KAppa
                       trControl = ctrlh,         # obig erzeugte Trainingssteuerung soll eingelsen werden
                       importance = TRUE)         # Die Bedeung der Variablen wird mit abgespeichert
+cv_model_2019
+
+# Klassifikation (auch Vorhersage genannt)
+prediction_rf_2019  = raster::predict(pred_stack_2019 ,cv_model_2019 )
+
+#--- 2020
+# Einstellungen wie 2019
+cv_model_2020 = train(trainDat_2020[,2:11],
+                      trainDat_2020[,1],
+                      method = "rf",
+                      metric = "Kappa",
+                      trControl = ctrlh,
+                      importance = TRUE)
+
+cv_model_2020
+
+prediction_rf_2020  = raster::predict(pred_stack_2020 ,cv_model_2020)
+```
+
+```{r rf-vis, message = FALSE, warnings = FALSE}
+
+#---- Visualisierung mit tmap qtm() ----
+
+# (interaktiv = "view", statisch = "plot")
+tmap_mode("plot")
+w1 = qtm(prediction_rf_2019,projection = 32632,inner.margins=0.01) +
+  tm_legend(scale= 0.5,
+            legend.outside=T,
+            title = "RF 2019",
+            title.size = 1.0) +
+  tm_grid()
+
+w2 = qtm(prediction_kmeans_2019$map,projection = 32632,inner.margins=0.01) +
+  tm_legend(scale= 0.5,
+            legend.outside=T,
+            title = "kmeans 2019",
+            title.size = 1.0) +
+  tm_grid()
+
+w3 = qtm(prediction_rf_2020,projection = 32632,inner.margins=0.01) +
+  tm_legend(scale= 0.5,
+            legend.outside=T,
+            title = "RF 2020",
+            title.size = 1.0) +
+  tm_grid()
+
+w4 = qtm(prediction_kmeans_2020$map,projection = 32632,inner.margins=0.01) +
+  tm_legend(scale= 0.5,
+            legend.outside=T,
+            title = "kmeans 2020",
+            title.size = 1.0) +
+  tm_grid()
 
 
-# Klassifikation wird häufig auch Vorhersage genannt.
-prediction_rf_2019  = raster::predict(pred_stack_2019 ,cv_model_2019, progress = "text")
+# mit der bordeigenen tmap fnktion tmap_arrrange()
+tmap_arrange(w1, w3, w2, w4,asp = NA)
 
-# Vsualisation
-tmap_mode("view")
-qtm(prediction_rf_2019)
-qtm(prediction_kmeans_2019$map)
-mapview(prediction_rf_2019,col.regions = mapviewPalette("mapviewTopoColors"), at = seq(0, 2, 1), legend = TRUE,alpha.regions = 0.5)
+#--- Nachfolgend zwei weitere Möglichkeiten die Karten anzuordnen. Bitte auskommentieren und testen
+# mit dem paket gid (universell nutzbar um graphische ausgabe zu gestalten)
+# hier die aufteilung wi tmap_arrange()
 
+# library(grid)
+# grid.newpage()
+# print(w2, vp=viewport(0.25, 0.25, width = 0.5, height = 0.5))
+# print(w1, vp=viewport(0.25, 0.75, width = 0.5, height = 0.5))
+# print(w4, vp=viewport(0.75, 0.25, width = 0.5, height = 0.5))
+# print(w3, vp=viewport(0.75, 0.75, width = 0.5, height = 0.5))
+# 
+# mit dem paket cowplot
+# library(cowplot)
+# plot_grid(tmap_grob(w1),tmap_grob(w3),tmap_grob(w2),tmap_grob(w4),
+#           labels = c('FIG A', 'FIG B', 'FIG C', 'FIG D'),
+#           label_size= 10, vjust = 5.)
+
+```
+
+
+###  Maximum Likelihood Klassifikation
+
+Bei der Maximum-Likelihood-Klassifizierung wird davon ausgegangen, dass die Verteilung der Daten für jede Klasse und in jedem Kanal normal verteilt sind. Unter dieser Vorraussetzung wird die Wahrscheinlichkeit berechnet, dass ein bestimmtes Pixel zu einer bestimmten Klasse gehört. Da auch die Wahrscheinlichkeiten als Schwellenwert angegeben werden können werden ohne diese Einschränkung *alle* Pixel ungeachtet wie unwahrscheinlich zugeordnet. Jedes Pixel wird der Klasse zugeordnet, die die höchste Wahrscheinlichkeit aufweist (d. h. die maximale Wahrscheinlichkeit).
+
+![](images/max.png)
+
+```{r maxlike , message = FALSE, warnings = FALSE}
+# ---- Maximum Likelihood Classification ----
+# superClass() Funktion aus dem Paket RSToolbox umwandeln der Tabelle in das
+# geforderte SpatialdataPoint Objekt Identifikation der Koordinaten
+sp::coordinates(trainDat_2019) = ~X+Y
+sp::coordinates(trainDat_2020) = ~X+Y
+# Zuweisen der korrekten Projektion (hier aus dem zugehörigen Raster-Stack)
+crs(trainDat_2019) = crs(pred_stack_2019)
+crs(trainDat_2020) = crs(pred_stack_2020)
+
+# superClass method "mlc" berechnet die Statisik und klassifiziert in einem aufruf
+prediction_mlc_2019       <- superClass(pred_stack_2019, trainData = trainDat_2019[,1:11], responseCol = "class",
+                                        model = "mlc", tuneLength = 1, trainPartition = 0.5,verbose = FALSE)
+prediction_mlc_2020       <- superClass(pred_stack_2020, trainData = trainDat_2020[,1:11], responseCol = "class",
+                                        model = "mlc", tuneLength = 1, trainPartition = 0.5,verbose = FALSE)
+# Ergebnisse der rf Klassifikation
+prediction_mlc_2019$model
+prediction_mlc_2020$model
+```
+
+```{r visualisierung, message = FALSE, warnings = FALSE}
+
+## ---- Visualisierung mit mapview ----
+mapview::viewRGB(mask*pred_stack_2020, r = 4, g =5, b = 6,maxpixels =  1693870)+
+  mapview(mask*prediction_rf_2019 , alpha.regions = 0.5, maxpixels =  1693870,
+          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = TRUE) +
+  mapview(mask*prediction_rf_2020, alpha.regions = 0.5, maxpixels =  1693870,
+          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE) +
+  mapview(mask*prediction_mlc_2019$map,alpha.regions = 0.5, maxpixels =  1693870,
+          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE) +
+  mapview(mask*prediction_mlc_2020$map,alpha.regions = 0.5, maxpixels =  1693870,
+          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE)
 
 ```
 
 ## Zusätzliche Ressourcen
 
-Bitte beachten Sie, dass es zahlreiche Blogs und Hilfestellungen gibt ([rspatial - supervised classification](https://rspatial.org/raster/rs/5-supclassification.html), [RPubs Tutorial](https://rpubs.com/ials2un/rf_landcover), Sydney's [blog](https://urbanspatial.github.io/classifying_satellite_imagery_in_R/), 
-[supervised classification](https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/) oder [pixel-based supervised classification](https://valentinitnelav.github.io/satellite-image-classification-r/)).
+Betrachten sie sie nachfolgenden Ressourcen als Beispiele dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung einer Fragestellung *"entsteht"*. Dann nach viel Recherche und kritischer Prüfung wird ein aktueller Stand der Technik innerhalb der wissenschaftlcihen Gemeinschaft erreicht der sich zudem natürlich stetig weiterentwickelt. 
 
-Keines dieser Dokumente ist als wissenschaftliche oder inhaltliche Referenz gedacht. Es ist so, wie der Autor des letzten Blogs, Valentin Stefan, sagt *"[...]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[...]"* 
+Schauen sie einmal in dienachstehende Auswahl von Blogs und Hilfestellungen: 
+* ([rspatial - supervised classification](https://rspatial.org/raster/rs/5-supclassification.html)
+* [RPubs Tutorial](https://rpubs.com/ials2un/rf_landcover), Sydney's [blog](https://urbanspatial.github.io/classifying_satellite_imagery_in_R/)
+* [supervised classification](https://www.r-exercises.com/2018/03/07/advanced-techniques-with-raster-data-part-2-supervised-classification/).
 
-Dies ist lediglich ein Beispiel dafür, wie aus solchen Quellen (die alle mehr oder weniger technisch ähnlich sind) ein bestimmtes Set von Werkzeugen zur Bearbeitung einer Fragestellung entsteht. Dann nach viel Recherche und kritischer Prüfung kristallisiert sich ein aktueller Stand der Technik innerhalb der Gemeinschaft heraus. 
+Keiner dieser Beiträge ist formal als fachwissenschaftliche  oder inhaltliche Referenz gedacht. sie dienen allerdings technisches und konzeptionelles Verständnis zu schaffen und unterstützen erheblich bei der Lösung von Problemen. 
+Aber ich möchte ausdrücklich Valentin Stefan den Autor des  Blogbeitrags [pixel-based supervised classification]((https://valentinitnelav.github.io/satellite-image-classification-r/))), zitieren: *"[...]Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein.[...]"* 
+
 
 
 * [Digitalisierung von Trainingsdaten](http://wiki.awf.forst.uni-goettingen.de/wiki/index.php/Digitizing_training_and_test_areas) by the [Forest Inventory and Remote Sensing](https://www.uni-goettingen.de/en/67094.html) department at the University of Goettingen (Germany)
