@@ -3,6 +3,7 @@ title: Change detection - Klassifikationsverfahren
 author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
+bibliography: references.bib
 categories:
   - bGIS
 tags:
@@ -18,52 +19,53 @@ output:
 weight: 501
 ---
 
-In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden. 
+In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung auch globaler Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpassung dieser bzw.die  Entwicklung eigener Methoden. 
 
-Ein zentraler Bestandteil der Umweltinformatik ist die Veränderungsdetektion mittels Satelliten-, Flugzeug- und Drohnenbildern. Oft wird dies in Verbindung mit bio- und geophysikalischen oder vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Dabei sind Bildanalysemethoden von zentraler Bedeutung, um Informationen zu extrahieren, die es erlauben, die zugrunde liegenden Prozesse zu identifizieren. Ein immer wichtigerer Aspekt ist die Integration von Big Data-Analysen.
+# Einleitung 
 
-Die wachsende und jetzt schon überwältigende Flut an verfügbaren Bild- und Fernerkundungsdaten muss leicht zugänglich sein und sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben genutzt werden. Wir beginnen mit dieser praktischen Anwendung in dieser Übung.
+Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis). Oft wird dies in Verbindung mit bio- und geophysikalischen oder auch vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Dabei sind Bildanalysemethoden von hervorgehobener Bedeutung, um Informationen zu extrahieren, die es erlauben, die zugrunde liegenden Prozesse zu identifizieren. Ein ständig wachsender Bereich  ist die Integration von immensen Datenmengen sog. Big Data in die Analysen.
 
-## Vorgehensweise
+Die nahezu exponetiell wachsende und bereits gegenwärtig kaum noch zu bewältigende Flut an verfügbaren Bild- und Fernerkundungsdaten muss einfach und automatisiert zugänglich sein um sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben nutzbar zu sein. Wir beginnen mit einer anwendungs orientierten Aufgabe in dieser Übung.
 
-Unverarbeitete Satellitenbilder sind nicht unbedingt informativ. Unser Auge kann ein Echtfarbenbild relativ leicht interpretieren, aber eine zuverlässige und reproduzierbare wissenschaftliche Interpretation erfordert andere Ansätze. Außerdem können Bildverarbeitungsmethoden zusätzliche, spezifischere Informationen ableiten. Wir haben bereits einfache Indices berechnet. Auch die Ableitung der Oberflächenalbedo ist ebenfalls eine physikalisch begründete Umwandlung von Bildsignalen in eine physikalische Größe. 
+## Informationen aus Bilddaten
 
-Um nützliche Informationen, z. B. über die Bodenbedeckung in einem Gebiet, zu erhalten, müssen wir die Daten daher zielgerichtet analysieren. Der bekannteste und gängigste Ansatz ist die Klassifizierung der Bilder in Kategorien die von Interesse sind.
+Unverarbeitete Satellitenbilder sind nicht zwingend informativ. Unser Auge kann zwar ein Echtfarbenbild relativ schlüssig und intuitiv interpretieren, aber eine zuverlässige und reproduzierbare wissenschaftliche Interpretation erfordert andere Ansätze. Zudem können Bild analysemethoden zusätzliche,unsichtbare und spezifischere Informationen ableiten. Wir haben bereits einfache Indizes berechnet. Auch die Ableitung des NDVI oder der Oberflächenalbedo ist eine physikalisch begründete Umwandlung von Bildsignalen in eine Meßgröße. 
 
-Diese Übung führt Sie in die Klassifizierung von Satelliten- und Luftvermessungsdaten in `R` ein. Als solche deckt sie das Folgende ab:
+Um nützliche oder zielführende Informationen, z. B. über die Bodenbedeckung in einem Gebiet, zu erhalten, müssen wir die Daten daher fragestellungszentriert analysieren. Der wohl bekannteste und gängigste Ansatz ist die überwachte Klassifizierung von Bilddaten in Kategorien die von Interesse sind.
+
+Diese Übung führt Sie in die Klassifizierung von Satelliten- und Luftvermessungsdaten in `R` ein. 
+
+Wir werden uns mit den folgenden Themen beschäftigen:
 
 1. Vorbereiten der Arbeitsumgebung und Laden der Daten
-1. Quick & dirty Digtalisierung von Trainingsbereichen 
-1. unüberwachte/überwachte Klassifizierung 
-  * k-means (über `RStoolbox`)
-  * Rekursive Partitionierung und Regressionsbäume (über `rpart`)
-  * Random Forest (über `caret`) 
+1. Digtalisierung von Trainingsbereichen 
+1. Unüberwachte/überwachte Klassifizierung 
+  * k-means (über `RStoolbox` [@RStoolbox])
+  * Rekursive Partitionierung und Regressionsbäume (über `caret` [@Rcaret])
+  * Miximum Likelihood (über `RStoolbox` ) 
 
 ## Kurze Einführung in Klassifkation
 
 
 ### Überwachte Klassifizierung
 
-Bei der überwachten Klassifizierung von Landbedeckungen wird aus einer begrenzten Menge sogenannter Trainingsdaten ein Modell abgeleitet, das die jeweilige Landbedeckung im gesamten Datensatz vorhersagt. Die Landbedeckungstypen werden also *a priori* definiert, und das Modell versucht, diese Typen auf der Grundlage der Ähnlichkeit zwischen den Eigenschaften der Trainingsdaten und dem Rest des Datensatzes vorherzusagen.
+Bei der überwachten Klassifizierung von Landbedeckungen wird aus einer begrenzten Menge Trainingsdaten zur Landbedeckung ein Modell abgeleitet, das die jeweilige Landbedeckung für den gesamten Datensatz vorhersagt. Die Landbedeckungstypen werden also *a priori* definiert, und das Modell versucht, diese Typen auf der Grundlage der Ähnlichkeit zwischen den Eigenschaften der Trainingsdaten und dem Rest des Datensatzes vorherzusagen.
 
 ![](images/supervised_classification.jpg)
 
 
 Solche Klassifizierungen erfordern im Allgemeinen mindestens fünf Schritte:
+
 1. Zusammenstellung eines umfassenden Eingabedatensatzes, der eine oder mehrere Rasterebenen enthält.
 1. Auswahl von Trainingsgebieten, d.h. Teilmengen von Eingabedatensätzen, für die der Fernerkundungsexperte den Landbedeckungstyp kennt. Das Wissen über die Landbedeckung kann z.B. aus eigenen oder fremden *in situ* Beobachtungen, Managementinformationen oder anderen Fernerkundungsprodukten (z.B. hochauflösenden Luftbildern) gewonnen werden.
-
 1. Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.
 1. Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.
 
-Bitte beachten Sie, dass alle Arten der Klassifizierung eine gründliche Validierung erfordern, die im Mittelpunkt der kommenden Kurseinheiten stehen wird.
+Bitte beachten Sie, dass alle Arten der Klassifizierung eine gründliche Datenvor- und nachverarbeitung erfordern, die im Mittelpunkt der kommenden Kurseinheiten stehen wird.
 
 Die folgende Abbildung zeigt die Schritte einer überwachten Klassifikation im Detail. Die optionalen Segmentierungsoperationen sind obligatorisch für objektorientierte Klassifizierungen, die sich nicht nur auf die Geometrie der Objekte, sondern auch auf die Werte jeder einzelnen Rasterzelle im Eingabedatensatz stützen. Um einzelne Objekte wie Häuser oder Baumkronen abzugrenzen, verwenden Fernerkundungsexperten Segmentierungsalgorithmen, die die Homogenität der Pixelwerte innerhalb ihrer räumlichen Nachbarschaft berücksichtigen. 
 
 ![](images/supervised_classification_concept.jpg)
-
-
-
 
 ## Change Detection Waldveränderung Nord-West-Harz
 
@@ -95,21 +97,22 @@ nclasses=2
 
 ```
 
-Bitte ergänzen Sie (bei auftreteneden Fehlermeldungen) etwaig fehende oder defekte Pakete im obigen Setup-Skripts.
+Bitte ergänzen Sie (bei auftreteneden Fehlermeldungen) etwaig fehlende oder defekte Pakete im obigen Setup-Skripts.
 
-Auf der Grundlage der verfügbaren Sentinel Daten  sollten nun zunächst geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver [heruntergeladen](http://gofile.me/3Z8AJ/7Ika7zY9x) werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen).Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts.Das heist der `data` Ordenr wird ersetzt/ergänzt.
+Auf der Grundlage der verfügbaren Sentinel Daten sollten nun als Erstes geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver [heruntergeladen](http://gofile.me/3Z8AJ/7Ika7zY9x) werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen). Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts. Das heist der dort bereits vorhandene Ordner `data` wird ersetzt/ergänzt.
 
 
 ## Schritt 2  Übersicht verschaffen 
 
-1. Welche der Daten sind für eine visuelle Inspektion interessant und wo sind sie abgelegt?
-2. Welche Daten sind interessant für eine Klassifikation?
+1. Welche der Daten sind für eine visuelle Inspektion interessant 
+1. In welcehn Verzeichnissen wurden Sie gespeichert?
+2. Welche Daten sind benötigen wir für eine Klassifikation?
 
-Bei näherer Betrachtung der RGB Bilder (RGB432B) zeigt sich das zwei Datensätze aufgrund der Bildqualität und Wolkenbedeckung geeignet zu sein scheinen. Der 24.7.2019 und der 30.7. 2020.
+Bei näherer Betrachtung der RGB Bilder (RGB432B) zeigt sich, das zwei Datensätze aufgrund der ohen Bildqualität und geringen Wolkenbedeckung geeignet zu sein scheinen. Der 24.7.2019 und der 30.7. 2020.
 
-zunächst einmal benötigen wir nun diese Daten in einem Rasterstapel. Hierzu schauen wir welche weiteren Produkte wir noch verfügbar haben. Unter anderen sind dies die Indices EVI, MSAVI2 MSI NDVI SAVI und EVI.
+Als erste Aktion benötigen wir diese Daten in einem *"Rasterstapel"* also einem Mehrkanalbild. Weiterhin überlegen wir uns welche weiteren Produkte verfügbar bzw. sinnvoll sind. Unter anderen sind dies die spektralen Indices Indices EVI, MSAVI2 MSI NDVI SAVI und EVI.
 
-Diese müssen nun eingelesen werden:
+Diese Daten müssen für einen Ausschnitt besorgt und vorbereitet werden:
 
 ```{r datendownload, message = FALSE, warnings = FALSE}
 
@@ -170,9 +173,9 @@ mapview(mask)
 
 ## Schritt 3 erster Überblick mit einer K-Means Klassifikation
 
-Die bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering, das auch als der *"einfachster  Algorithmus des maschinellen Lernens"* bezeichnet wird.
+Die wohl bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering, das auch als der *"einfachster  Algorithmus des maschinellen Lernens"* bezeichnet wird.
 
-In unserem Beispiel (für 2 Klassen angewandt und der Einfachheit halber mit `RStoolbox` ausgeführt) sieht es wie folgt aus:
+In unserem Beispiel (auf 2 Klassen angewendet und mit `unsuperClass` Funktion aus dem `RStoolbox` Paket ausgeführt) sieht das wie folgt aus:
 
 ```{r kmeans}
 ## k-means über RStoolbox
@@ -188,7 +191,8 @@ mapview(prediction_kmeans_2020$map, col = c('darkgreen', 'burlywood', 'green'))
 
 
 ## Schritt 4 Trainingsdaten erstellen
-Der nächste Schritt ist optional, bietet aber die Möglichkeit, schnell und effektiv einige Trainingsflächen zu digitalisieren, ohne die RStudio-Welt zu verlassen. Für größere Aufgaben ist es unerlässlich, auf den hohen Komfort der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir `mapedit`, ein kleines, aber feines Paket, das die Digitalisierung am Bildschirm in Rstudio oder in einem Browser ermöglicht. In Kombination mit `mapview` ist es sehr komfortabel für schnelles Digitalisieren. Besonders hilfreich ist die bequeme Möglichkeit, echte oder falsche [Farbkomposita](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/) zu erzeugen. 
+
+Der nächste Schritt ist optional, bietet aber die Möglichkeit, schnell und effektiv einige Trainingsflächen zu digitalisieren, ohne die RStudio-Welt zu verlassen. Für größere Aufgaben ist es unerlässlich, auf den hohen Komfort der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir `mapedit`, ein kleines, aber feines Paket, das die Digitalisierung am Bildschirm in Rstudio oder in einem Browser ermöglicht. In Kombination mit `mapview` ist es auch sehr komfortabel für schnelle Digitalisierungsaufgaben. Besonders hilfreich ist die Möglichkeit, beliebige  [Farbkomposita](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/) als Grundlage einzulesen. 
 
 ### Farbkomposita für bessere Trainingsergebnisse
 
@@ -200,15 +204,15 @@ mapview::viewRGB(pred_stack_2019, r = 1, g = 2, b = 3, maxpixels =  1693870) +
 `
 
 Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
-  Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches "farbiges" Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
+  Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches *"farbiges"* Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
   Falschfarbenbilder werden häufig mit den Spektralkanälen für das nahe Infrarot, Rot und Grün erzeugt. Sie eignen sich hervorragend für die Einschätzung der Vegetation, da Pflanzen nahes Infrarot und grünes Licht reflektieren, während sie rotes Licht absorbieren (Red Edge Effect). Ein dichterer Pflanzenbewuchs ist dunkler rot. Städte und offener Boden sind grau oder hellbraun, und Wasser erscheint blau oder schwarz. 
 
 
 ### Quick & Dirty Trainingsdaten digitalisieren
 
-Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: Wald, Nicht-Wald, Abholzungen.
-Jede Klasse wird **einzeln** digitalisiert.  Im Anschluss werden die Trainingsdatenmerkmale des jeweiligen Rasterstacks extrahiert und auf Fehlwerte bereiningt. 
-Falls dieser Teil bereits absolviert wurde kann die logische Variable `digitize` auf `FALSE`  gesetzt werden und es wird dann der `ELSE` Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
+Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: Abholzungen und Anderes.
+Jede Klasse wird **einzeln** digitalisiert.  Im Anschluss werden in den Trainingsgebieten die Merkmale des jeweiligen Rasterstacks extrahiert und auf Fehlwerte bereiningt. 
+Falls dieser Teil bereits absolviert wurde kann die logische Variable (am Anfang des Scripts definiert) `digitize` auf `FALSE`  gesetzt werden und es wird dann der `ELSE` Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
 
 ```{r digitize, echo=TRUE , message = FALSE, warnings = FALSE}
 #---- Digitalisierung der Trainingsdaten ----
