@@ -187,7 +187,7 @@ Die Interpretation der Kappa Metrik ist schlicht jedoch von den Fragestellungen 
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-Ein Indexwert von > 0.99 gilt somit als perfekte Übereinstimmung der beiden Datensätze ist aber insbesondere bei Fernerkundungsdaten mit einem sehr grossen N extrem unwahrscheinlich und **immer** mit Vorsicht zu betrachten. 
+Ein Kappa Wert von > 0.99 gilt somit als perfekte Übereinstimmung der beiden Datensätze. Hohe Kappa Werte (> 0.95) sind aber insbesondere bei kategorial klassifizierten Fernerkundungsdaten, die mit  einem sehr grossen und häufig ungleich verteilten N einhergehen, extrem unwahrscheinlich und **immer** mit Vorsicht zu betrachten. 
 
 ### Kappaberechnung für quantitative und lagebezogene Ähnlichkeiten 
 
@@ -208,11 +208,11 @@ $K=K_{histo}*K_{location}$
 Also gibt  $K_{histo}$ die quantitative Ähnlichkeit von 2 Karten an wird aus dem Histogramm der einzelnen Kategorien berechnet.  Der Index sagt aus wie gut die Verteilung der Pixel auf die einzelnen Kategorien übereinstimmt.  $K_{location}$ hingegen gibt die Ähnlichkeit der räumlichen Lage der Kategorien an. Die Ähnlichkeit der Karten wird skaliert auf die maximal erreichbare Ähnlichkeit entsprechend der gegebenen Pixelzahlen der Kategorien.  $K_{location}$ ist daher der Kappaindex der erreicht werden könnte wenn  $K_{histo} = 1$  wäre.
 
 
-### Kappaberechnung der Mengenabweichung (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
+### Kappaberechnung der Mengen- (quantity disagreement) und Zuordnungsabweichung (allocation disagreement)
 
-Da auch $K_{histo} $ und  $ K_{location}$ keine gute Metrik für die Übereinstimmung von Anzahl und Lage bieten (z.B. wenn Klasse 1 >> Klasse 2 ist) schlagen (@Pontius_Milliones2011) als einfach zu berechnende Metrik aus einer Kreuztabelle vor, die Abweichungs-Metriken *quantity disagreement* (QD) und *allocation disagreement* (QD) zu verwenden. Diese Parameter bieten bei simpler Berechnung eine gute Einschätzung der Übereinstimmung von Mengen- und Lagequalität kategorialer Daten.
+Da auch $K_{histo}$ und  $K_{location}$ nicht optimal für die Abschätzung der  Übereinstimmung von Anzahl und Lage sind (z.B. wenn `Klasse 1 >> Klasse 2` ist), haben (@Pontius_Milliones2011) als aus einer Kreuztabelle einfach zu berechnende Metriken die Abweichungs-Metriken *quantity disagreement* (QD) und *allocation disagreement* (QD) entwickelt. Diese Parameter bieten bei simpler Berechnung eine gute Einschätzung der Übereinstimmung von Mengen- und Lagequalität kategorialer Raum-Daten.
 
-Die Abweichungen können wie folgt berechnet werden.
+Die Disagreement Metriken werden wie folgt berechnet:
 
 $allocation \ disagreement=100*(Pmax-PA)$
 
@@ -220,12 +220,9 @@ $quantity \ disagreement=100*(1-Pmax)$
 
 Im Paket `Rsenal` [@Rsenal] ist die Funktion `kstat()` zur Berechnung der obigen Metriken implementiert (siehe Setup Sektion). Mit ihr ist die Berechnung sämtlicher Kappa-Metriken, auch für multikategoriale Ausprägungen, komfortabel durchführbar.
 
+#### Berechnung für MLC vs RF 2019
 
 ```{r Kappa-2019}
-
-# ---- kappa ----
-# Vergleich der Übereinstimmung unterschiedlicher Klassifikationen (hier MaxLike
-# und RF) mit Hilfe diverser Kappa Werte. 
 
 # 2019
 kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:8)]  %>%
@@ -233,6 +230,8 @@ kstat(prediction_mlc_2019$map,prediction_rf_2019, perCategory = FALSE)[,c(1:3,7:
   kable_classic(full_width = F)
 ```
 
+
+#### Berechnung für MLC vs RF 2020
 
 ```{r Kappa-2020}
 # 2020
@@ -292,11 +291,14 @@ tmap::tmap_arrange(m,sync = TRUE)
 ```
 
 
-### Musterbasierte  räumliche Analyse der Veränderungen 
+
+## Musterbasierte  räumliche Analyse der Veränderungen 
+
 Eine aufwendigere aber insbesondere für multi-spatio-temporale Zeitreihen veilversprechende Vorgehensweise ist die musterbasierten räumliche Analyse. Grundsätzlich ist die Erfassung der Metriken ähnlich. Die Muster werden auf der Basis verschiedener Co-Occurrence-Matrizen sogenannten *räumlichen Signaturen*  auf beliebig wählbaren Aggregationsstufen ermittelt. So ist u.a. die Erkennung von Veränderungen und das Zusammenfassung von ähnlichen Gebieten unter Ausweisung einer Wahrscheienlichkeit möglich.
 
 
 ### Analyse der räumlich aggregierten  Veränderungswahrscheinlichkeit 
+
 Der Vergleich räumlicher Muster ermöglicht die Erkennung von ihren Veränderungen
 zwischen zwei Zeitebenen. In unserem Beispiel möchten wir vergleichen, wie sich die Landbedeckung Im Harz (Lichtung/Wald) zwischen 2019 und 2020 verändert hat. Die notwendigen kategoriale Rasterdatensätze mit gleicher
 derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen  das   Paket `motif`, das unter andern die  Funktion `lsp_compare()` für den Vergleich verfügbar macht. Mit dieser Funktion wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
