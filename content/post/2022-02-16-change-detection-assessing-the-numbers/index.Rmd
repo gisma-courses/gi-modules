@@ -380,22 +380,27 @@ Die so erzeugten *Superpixel* ermöglichen bequem den selektiven Zugriff auf die
 # Extraktion nach der sortierten Liste lc_comapare_sel  werden die top 10 change
 # detection hotspots Daten extrahiert und in die liste lc geschrieben
 lc = lapply(seq(1:10),function(i){
-  lsp_extract(c(st_as_stars(prediction_rf_2019),
+zz =  lsp_extract(c(st_as_stars(prediction_rf_2019),
                 st_as_stars(prediction_rf_2020)),
               window = win_size,
               id = lc_am_compare_sel$id[i])
 })
 
+
 # Erzeugen der top 4 Change Detection Hotspots Karten-Ausschnitte
 mv_lc = lapply(seq(1:4),function(i){
-  mapview(lc[[i]])
+  leafsync::latticeView(c(mapview(lc[[i]][1],layer.name= "2019") ,mapview(lc[[i]][2],layer.name="2020")) ,sync.cursor = TRUE, sync = "all",ncol = 2)
 })
 
 # plotten der erzeugten Karten
-leafsync::latticeView(leafsync::sync(mv_lc))
+leafsync::latticeView(mv_lc,ncol = 1)
 
 #####
 
 ```
 
+
+
 # References
+
+
