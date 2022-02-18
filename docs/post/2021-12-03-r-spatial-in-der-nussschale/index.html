@@ -73,7 +73,7 @@
     
     
 
-<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github-gist.min.css' rel='stylesheet' type='text/css' />
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css' rel='stylesheet' type='text/css' />
 
 
 
@@ -178,6 +178,16 @@
 
 
 
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/gi-modules/js/codefolding.js"></script>
+
+
 <style type="text/css">
     header.intro-header {
         background-image: url('/gi-modules/assets/images/harz-sp.jpg');
@@ -202,6 +212,7 @@
         </div>
     </div>
 </header>
+
 
 
 
@@ -273,7 +284,6 @@ installieren:</p>
 </p>
 <p>Klicken sie auf das Viereck und ziehen sie den Ausschnitt für den sie Sentinel Daten suchen. Beenden sie den Vorgang mit <code>Done</code>.</p>
 <p>Die <a href="https://sen2r.ranghetti.info/">sen2r vignette</a> bietet viele hilfreiche Informationen über die Benutzung der GUI und den Zugriff auf die Funktionen von <code>sen2r</code> aus <code>R</code> heraus.</p>
-<p>Für die Berechnung nutzen wir eine Transferfunktion (lineare Regression) und  die Funktion <code>stack</code> aus dem Paket <code>raster</code>.  Durch die Verwendung der <code>::</code>-Syntax, d.h. <code>Paket::Funktion</code>, garantieren wir, dass wir eine bestimmte Funktion aus einem bestimmten Paket verwenden. Dieses Konzept ist wichtig, um sicherzustellen, dass wir die richtige Funktion verwenden (da einige Pakete die gleichen Funktionsnamen verwenden, was als Maskierung bezeichnet wird).</p>
 <h2 id="zusammenfassung">Zusammenfassung</h2>
 <ul>
 <li>Das Projekt-Setup mit envimaR und das Auswerte Skript bietet Ihnen einen vollständigen organisatorischen Rahmen zur Bearabeitung aller auch  komplexerer und aufwendigerer Aufgaben</li>

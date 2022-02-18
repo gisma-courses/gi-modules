@@ -132,7 +132,8 @@ Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfol
       <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
-      <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht.</description>
+      <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung auch globaler Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpassung dieser bzw.die Entwicklung eigener Methoden.
+Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis).</description>
     </item>
     
     <item>
@@ -142,7 +143,7 @@ Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfol
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
       <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.
-Setup # # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
+Setup  Einlesen der Datensätze In den beiden Beiträgen Forstflächenverluste im Harz und Klassifikation von Landuse/Landcover Veränderungen sind verschiedene Klassifikation und Hilfsdatensätze berechnet worden.</description>
     </item>
     
     <item>

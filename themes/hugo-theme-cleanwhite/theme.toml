@@ -10,6 +10,12 @@ tags = [ "minimal", "responsive", "blog","light", "clean", "search"]
 features = ["disqus", "site search", "responsive", "google analytics", "side bar"]
 min_version = 0.10
 
+# Set to true to disable code folding
+disable_codefolding = false
+# Set to "hide" or "show" all codes by default
+codefolding_show = "hide"
+codeblocks = ["pre.sourceCode", "pre.r", "pre.python"]
+
 [author]
   name = "Huabing Zhao"
   homepage = "https://github.com/zhaohuabing"

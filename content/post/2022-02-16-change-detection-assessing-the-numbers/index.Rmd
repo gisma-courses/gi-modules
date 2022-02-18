@@ -21,8 +21,8 @@ weight: 503
 Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.
 
 ## Setup
-
-```{r setup , echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE}
+```{r setup, include=FALSE}
+root_folder = "~/edu/geoinfo/"
 
 #
 # Type: script
@@ -63,8 +63,14 @@ source(file.path(root_folder, "src/functions/fun_tmap.R"))
 ```
 
 
+
+
+
 ## Einlesen der Datensätze
 In den beiden Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/) und [Klassifikation von Landuse/Landcover Veränderungen](/gi-modules/post/2021-12-16-change-detection/) sind verschiedene Klassifikation und Hilfsdatensätze berechnet worden. Diese sollen nun sowohl auf ihre Qualität als auch ihre Ähnlichkeiten/Unähnlichkeiten (also die Veränderung) untersucht werden. 
+
+
+
 
 ```{r download, comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
 
@@ -115,7 +121,9 @@ Die Validierungsdaten bzw. der sog *Ground Truth* ist für die Berechnung elemen
 
 Der hiefür gebräuchlichste Ansatz ist eine Fehlermatrix oder Konfusionstabelle. Die Vor allem die Kappa-Koeffizienten sind üblicherweise die grundlegenden Kennzahlen der Genauigkeitsbewertung.
 
-### Berechnung einer Konfusionmatrix
+
+
+### Berechnung einer Kreuztabelle
 
 Die Berechnung vom Qualitätsmassen basiert auf einer Kreuztabelle von zwei Karten. Dabei ist die eine Karte in in Zeilen und die andere in Spalten angeordnet. Die Zeilensummen zeigen den Anteil der Pixel für jede Klasse in Karte A, die Spaltensummen für Karte B. Die Tabelle gibt an, wie viel % der Pixel in beiden Karten übereinstimmen (Diagonale) sowie wie viel % der Pixel in jeder Klasse nicht übereinstimmen. In den nachflgden Beipielen vergleichen wir Random Forest mit der korrespondierenden Maximum Likelihood Klassifikation. Ziel ist es die Vergleichbarkeit beider Klassifikation zu bewerten, also Metriken zu berechnen wie gut die beiden Klassifikation übreinstimmen. 
 
@@ -139,6 +147,9 @@ ct %>%
   kbl(caption = "Crosstab rf vs mlc (2019)") %>%
   kable_classic(full_width = F)
 ```
+
+
+
 
 
 ### Quantitative Qualitätsmessung - Berechung der Kappa Metriken

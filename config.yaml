@@ -78,7 +78,7 @@ params:
   highlightjsVersion: 9.12.0
   highlightjsCDN:  //cdnjs.cloudflare.com/ajax/libs
   highlightjsLang:  ["r", "yaml"]
-  highlightjsTheme:  "github-gist"  
+  highlightjsTheme:  "docco"  
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:
