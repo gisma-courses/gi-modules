@@ -1,5 +1,5 @@
 ---
-title: 'Change Detection - Qualitätseinschätzung und Auswertung'
+title: 'Change Detection - Auswertung'
 author: Chris Reudenbach
 date: '2022-02-16'
 bibliography: references.bib
@@ -18,10 +18,11 @@ output:
     keep_md: yes
 weight: 503
 ---
-Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.
+
+Da bei jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.
 
 ## Setup
-```{r setup, include=FALSE}
+```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
 root_folder = "~/edu/geoinfo/"
 
 #
@@ -43,6 +44,7 @@ root_folder = "~/edu/geoinfo/"
 #--- laden der notwendigen Bibliotheken
 # Achtung Pakete müssen evtl. manuell installiert werden
 library(envimaR)
+library(remotes)
 
 # SDMTools und RSenal sind für die extended Kappa Berechnung notwendig
 remotes::install_version("SDMTools", version = "1.1-221.2")
@@ -72,7 +74,7 @@ In den beiden Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-1
 
 
 
-```{r download, comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
+```{r download, echo=TRUE, message = FALSE, warnings = FALSE, results = TRUE }
 
 # Größe des Aggregationsfensters für die Auswertung Distanz-Schwellenwert motif
 # Achtung! "dist" ist abhängig von wins_size. Je kleiner win_size desto größer muss 
@@ -297,8 +299,10 @@ for(cat1 in categories)  { # für jede Kategorie
   # zähle die äußere Schleife hoch
   i = i + 1
 }
+
 # Interaktive und synchronisierte Karten
 tmap::tmap_arrange(m,sync = TRUE)
+
 ```
 
 
@@ -339,7 +343,7 @@ mapview::mapView(mrf_compare_2020_2019[4],
                  zcol = 'dist', 
                  layer.name = "jensen-shannon 0.9", 
                  col.regions = RColorBrewer::brewer.pal(11, "YlOrRd"), 
-                 at = c(0, 0.001, 0.01, 0.1, 1.01))
+                 at = c(0, 0.001, 0.01, 0.1, 1.01),fgb=FALSE)
 
 ```
 
@@ -362,15 +366,13 @@ lc_am_compare_sel
 ##- Visualsierung
 # Plotten der top ten gebiete wir nutzen die selbst geschriebene Funktion tm_plot()
 # siehe src/functions/fun_tmap.R
-#tm_plot(sel=lc_am_compare_sel[1:nrow(lc_am_compare_sel),],ov = T)
-# als interaktive karte
-tm_plot(sel=lc_am_compare_sel[1:nrow(lc_am_compare_sel),],vt = "plot",ov = T)
+tm_plot(sel=lc_am_compare_sel[1:nrow(lc_am_compare_sel),],vt = "view",ov = T)
 
 ```
 
 
 ### Visulisierung der Top Veränderungs-Superpixel
-Natürlcih können diese Superpixel auch wiede rücktransformiert werden.
+Die so erzeugten *Superpixel* ermöglichen bequem den selektiven Zugriff auf die originale Klassifikation.
 
 ```{r motif3}
 
@@ -384,23 +386,16 @@ lc = lapply(seq(1:10),function(i){
               id = lc_am_compare_sel$id[i])
 })
 
-# Erzeugen der top 3 Change Detection Hotspots Karten-Ausschnitte
-tm_lc = lapply(seq(1:3),function(i){
-  tm_plot(lc[[i]],vt = "view",ov = T)
+# Erzeugen der top 4 Change Detection Hotspots Karten-Ausschnitte
+mv_lc = lapply(seq(1:4),function(i){
+  mapview(lc[[i]])
 })
 
 # plotten der erzeugten Karten
-tmap_arrange(tm_lc)
-
-# Erzeugen der top 3 Change Detection Hotspots Karten-Ausschnitte
-tm_lc = lapply(seq(1:3),function(i){
-  tm_plot(lc[[i]],vt = "plot",ov = T)
-})
-
-# plotten der erzeugten Karten
-tmap_arrange(tm_lc)
+leafsync::latticeView(leafsync::sync(mv_lc))
 
 #####
 
 ```
+
 # References

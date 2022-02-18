@@ -142,7 +142,7 @@ Diese Daten müssen für den gewünschten Zeitslot und Raumausschnitt besorgt un
   <div class="card card-body">
 
 
-```{bash ,json , echo off}
+```
 {
   "preprocess": [true],
   "s2_levels": ["l1c", "l2a"],
