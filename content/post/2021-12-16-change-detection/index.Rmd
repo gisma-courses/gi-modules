@@ -4,8 +4,6 @@ author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
 bibliography: references.bib
-editor_options: 
-  chunk_output_type: console
 categories:
   - bGIS
 tags:
@@ -13,7 +11,7 @@ tags:
   - Change Detection   
 subtitle: ''
 description: 'In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden.'
-image: '/assets/images/harz2-sp.jpg'
+image: '/assets/images/harz3-sp.jpg'
 toc: yes
 output:
   blogdown::html_page:
@@ -41,12 +39,25 @@ Wir werden uns mit den folgenden Themen beschäftigen:
 
 1. Vorbereiten der Arbeitsumgebung und Laden der Daten
 1. Digtalisierung von Trainingsbereichen 
-1. Unüberwachte/überwachte Klassifizierung 
-  * k-means (über `RStoolbox`)
-  * Rekursive Partitionierung und Regressionsbäume (über `caret`)
-  * Miximum Likelihood (über `RStoolbox`) 
+1. Unüberwachte Klassifizierung (kmeans clustering)
+1. Modelltraining
+1. Überwachte Klassifizierung (random forest, Maximum Likelihood)
+1. Güteschätzung Modell
 
-## Kurze Einführung in Klassifkation
+
+##  Klassifizierung von Fernerkundungsdaten
+
+Bitte beachten Sie, dass alle Arten der Klassifizierung eine ind der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können um schließlich  in dr Datennachverarbeitung als wesentlichen Bestandteil die inhaltliche Interpretation der Ergebnisse durchzuführen. Wir werden versuchen die notendigen Minimalanforderungen in der Kurseinheiten zu erarbeiten.
+
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
+    Exkurs: Kurze Einführung in Klassifkation
+  </button>
+</p>
+<div class="collapse" id="collapse_1">
+  <div class="card card-body">
+
 
 
 ### Überwachte Klassifizierung
@@ -56,24 +67,25 @@ Bei der überwachten Klassifizierung von Landbedeckungen wird aus einer begrenzt
 ![](images/supervised_classification.jpg)
 
 
-Solche Klassifizierungen erfordern im Allgemeinen mindestens fünf Schritte:
+Ganz pragmatisch erfordern Klassifizierungsaufgaben im Allgemeinen die folgenden Schritte:
 
-1. Zusammenstellung eines umfassenden Eingabedatensatzes, der eine oder mehrere Rasterebenen enthält.
-1. Auswahl von Trainingsgebieten, d.h. Teilmengen von Eingabedatensätzen, für die der Fernerkundungsexperte den Landbedeckungstyp kennt. Das Wissen über die Landbedeckung kann z.B. aus eigenen oder fremden *in situ* Beobachtungen, Managementinformationen oder anderen Fernerkundungsprodukten (z.B. hochauflösenden Luftbildern) gewonnen werden.
-1. Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.
-1. Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.
-
-Bitte beachten Sie, dass alle Arten der Klassifizierung eine gründliche Datenvor- und nachverarbeitung erfordern, die im Mittelpunkt der kommenden Kurseinheiten stehen wird.
+* Zusammenstellung eines umfassenden Eingabedatensatzes, der eine oder mehrere Rasterebenen enthält.
+* Auswahl von Trainingsgebieten, d.h. Teilmengen von Eingabedatensätzen, für die der Fernerkundungsexperte den Landbedeckungstyp kennt. Das Wissen über die Landbedeckung kann z.B. aus eigenen oder fremden *in situ* Beobachtungen, Managementinformationen oder anderen Fernerkundungsprodukten (z.B. hochauflösenden Luftbildern) gewonnen werden.
+* Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.
+* Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.
 
 Die folgende Abbildung zeigt die Schritte einer überwachten Klassifikation im Detail. Die optionalen Segmentierungsoperationen sind obligatorisch für objektorientierte Klassifizierungen, die sich nicht nur auf die Geometrie der Objekte, sondern auch auf die Werte jeder einzelnen Rasterzelle im Eingabedatensatz stützen. Um einzelne Objekte wie Häuser oder Baumkronen abzugrenzen, verwenden Fernerkundungsexperten Segmentierungsalgorithmen, die die Homogenität der Pixelwerte innerhalb ihrer räumlichen Nachbarschaft berücksichtigen. 
 
 ![](images/supervised_classification_concept.jpg)
+  
+  </div>
+</div>
 
 ## Change Detection Waldveränderung Nord-West-Harz
 
 In diesem Tutorium werden die Sentinel-2-Bilder aus der vorherigen Übung verwendet. 
 
-## Schritt 1 - Einrichten des der Arbeitsumgebung
+## Start - Einrichten des der Arbeitsumgebung
 Sie können entweder die gespeicherten Daten aus der vorangegangenen Einheit verwenden oder einen neuen Raumausschnitt bestimmen, herunterladen und bearbeiten. Im Prinzip wird jedoch zuerst die Arbeitsumgebung geladen.
 
 ```{r setup , message = FALSE, warnings = FALSE}
@@ -104,7 +116,7 @@ Bitte ergänzen Sie (bei auftreteneden Fehlermeldungen) etwaig fehlende oder def
 Auf der Grundlage der verfügbaren Sentinel Daten sollten nun als Erstes geeignete Datensätze für eine Oberflächenklassifikation identifiziert werden. Hierzu kann der vollständige Datensatz auch vom Kursdatenserver [heruntergeladen](http://gofile.me/3Z8AJ/7Ika7zY9x) werden (Bitte beachten Sie dass sie im VPN bzw. UniNetz angemeldet sein müssen). Entpacken Sie diese Daten in das Wurzelverzeichnis des Kursprojekts. Das heisst der dort bereits vorhandene Ordner `data` wird ersetzt/ergänzt.
 
 
-## Schritt 2  Übersicht verschaffen 
+## Schritt 1  Übersicht verschaffen 
 
 Bei näherer Betrachtung der RGB Bilder (RGB432B) zeigt sich, das vier Datensätze aufgrund der  Bildqualität und geringen Wolkenbedeckung geeignet zu sein scheinen. Es handelt sich um den 19.06. bzw. 24.7. 2019 und den 33.06 bzw. 30.7. 2020. Aufgrund des früheren Vegetationszeitpunktes wurden die Maibilder gewählt, da hier evtl. Aufwuchs auf den Rodungsflächen weniger stark sichtbar sein könnte. 
 
@@ -113,10 +125,94 @@ Zunächst müssen diese Daten in einem *"Rasterstapel"* also einem Mehrkanalbild
 * Normalized Difference Vegetation Index [NDVI](https://www.indexdatabase.de/db/i-single.php?id=58)
 * Modified Soil Adjusted Vegetation Index [MSAVI2](https://www.indexdatabase.de/db/i-single.php?id=44)
 * Simple Ratio 1600/820 Moisture Stress Index [MSI](https://www.indexdatabase.de/db/i-single.php?id=48) 
-* Modified Soil Adjusted Vegetation Index [SAVI](https://www.indexdatabase.de/db/i-single.php?id=87) * Enhanced Vegetation Index [EVI](https://www.indexdatabase.de/db/i-single.php?id=16).
+* Modified Soil Adjusted Vegetation Index [SAVI](https://www.indexdatabase.de/db/i-single.php?id=87) 
+* Enhanced Vegetation Index [EVI](https://www.indexdatabase.de/db/i-single.php?id=16)
+
 
 Diese Daten müssen für den gewünschten Zeitslot und Raumausschnitt besorgt und vorbereitet werden. Aus Gründen der Vereinfachung gibt es für den Kurs eine entsprechende sen2R-Projektdatei:
 
+
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_json" aria-expanded="false" aria-controls="collapse_json">
+    Ansicht sen2R-Projektdatei
+  </button>
+</p>
+<div class="collapse" id="collapse_json">
+  <div class="card card-body">
+
+
+```{bash ,json , echo off}
+{
+  "preprocess": [true],
+  "s2_levels": ["l1c", "l2a"],
+  "sel_sensor": ["s2a", "s2b"],
+  "online": [true],
+  "server": ["scihub"],
+  "order_lta": [true],
+  "downloader": ["builtin"],
+  "overwrite_safe": [false],
+  "rm_safe": ["yes"],
+  "max_cloud_safe": [5],
+  "step_atmcorr": ["auto"],
+  "sen2cor_use_dem": [true],
+  "sen2cor_gipp": [null],
+  "timewindow": ["2019-06-01", "2020-08-31"],
+  "timeperiod": ["seasonal"],
+  "extent": ["{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"properties\": {\n        \"X_leaflet_id\": 2080,\n        \"layerId\": \"2080\",\n        \"edit_id\": \"2080\"\n      },\n      \"geometry\": {\n        \"type\": \"Polygon\",\n        \"coordinates\": [\n          [\n            [10.198975, 51.848575],\n            [10.198975, 51.947721],\n            [10.413895, 51.947721],\n            [10.413895, 51.848575],\n            [10.198975, 51.848575]\n          ]\n        ]\n      }\n    }\n  ]\n}"],
+  "s2tiles_selected": ["32UNC"],
+  "s2orbits_selected": [null],
+  "list_prods": ["BOA", "SCL", "CLD"],
+  "list_indices": ["ARVI", "EVI", "MSAVI2", "MSI", "NDVI", "SAVI"],
+  "list_rgb": ["RGB432B", "RGB843B"],
+  "rgb_ranges": [
+    [null],
+    [
+      [0, 7500],
+      [0, 2500],
+      [0, 2500]
+    ]
+  ],
+  "index_source": ["BOA"],
+  "mask_type": ["nodata"],
+  "max_mask": [5],
+  "mask_smooth": [0],
+  "mask_buffer": [0],
+  "clip_on_extent": [true],
+  "extent_as_mask": [true],
+  "extent_name": ["harz"],
+  "reference_path": [null],
+  "res": [null],
+  "res_s2": ["10m"],
+  "unit": ["Meter"],
+  "proj": [null],
+  "resampling": ["near"],
+  "resampling_scl": ["near"],
+  "outformat": ["GTiff"],
+  "rgb_outformat": ["GTiff"],
+  "index_datatype": ["Int16"],
+  "compression": ["DEFLATE"],
+  "rgb_compression": ["DEFLATE"],
+  "overwrite": [true],
+  "path_l1c": ["~/edu/geoinfo/data/data_lev0"],
+  "path_l2a": ["~/edu/geoinfo/data/data_lev0"],
+  "path_tiles": [null],
+  "path_merged": [null],
+  "path_out": ["~/edu/geoinfo/data/data_lev1"],
+  "path_rgb": ["~/edu/geoinfo/data/data_lev1"],
+  "path_indices": [""],
+  "path_subdirs": [true],
+  "thumbnails": [true],
+  "log": ["~/edu/geoinfo//doc/nw-harz.log"],
+  "parallel": [true],
+  "processing_order": ["by_date"],
+  "pkg_version": ["1.5.0.9000"]
+}
+
+```
+
+</div>
+</div>
 
 
 ```{r datendownload, message = FALSE, warnings = FALSE}
@@ -178,9 +274,9 @@ mask = reclassify(corine,c(-100,22,0,22,26,1,26,500,0))
 mapview(mask)
 ```
 
-## Schritt 3 erster Überblick mit einer K-Means Klassifikation
+###  K-Means Cluster-Klassifikation  
 
-Die wohl bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering, das auch als der *"einfachster  Algorithmus des maschinellen Lernens"* bezeichnet wird.
+Die wohl bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clustering, das auch als der *"einfachster  Algorithmus des maschinellen Lernens"* bezeichnet wird. Er wird häufig angewendet um einen ersten Überblick zu erhaltne ob die Rasterdaten im Merkmalsraum ausreichend trennbar sind.
 
 In unserem Beispiel (auf 2 Klassen angewendet und mit `unsuperClass` Funktion aus dem `RStoolbox` Paket ausgeführt) sieht das wie folgt aus:
 
@@ -197,42 +293,66 @@ mapview(prediction_kmeans_2020$map, col = c('darkgreen', 'burlywood', 'green'))
 
 
 
-## Schritt 4 Trainingsdaten erstellen
+## Schritt 2 - Trainingsdaten erstellen
+
+Trainingsdaten werden vielfach durch abdigitalisieren manuell erfasst. Dies kann recht komfortabel in RStudio durchgeführt werden, falls nur schnell und effektiv einige wenige Trainingsflächen zu digitalisieren sind. 
+
+Für größere Aufgaben ist es sinnvoll, auf den hohen Komfort z.b. der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir `mapedit`, ein kleines, aber feines Paket, das die Digitalisieren und Editieren  von Vektordaten im Rstudio- oder externen -browser ermöglicht. In Kombination mit `mapview` können auch beliebige  [Farbkomposita](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/) als Grundlage für die Digitalisierung verwendet werden. 
 
 
-Der nächste Schritt ist hinischtlich seiner Durchführung in R optional, bietet aber die Möglichkeit, schnell und effektiv einige Trainingsflächen zu digitalisieren, ohne die RStudio-Welt zu verlassen. Für größere Aufgaben ist es unerlässlich, auf den hohen Komfort der QGIS-Arbeitsumgebung zurückzugreifen. Für diese Übung verwenden wir `mapedit`, ein kleines, aber feines Paket, das die Digitalisierung am Bildschirm in Rstudio oder in einem Browser ermöglicht. In Kombination mit `mapview` ist es auch sehr komfortabel für schnelle Digitalisierungsaufgaben. Besonders hilfreich ist die Möglichkeit, beliebige  [Farbkomposita](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/) als Grundlage einzulesen. 
+### Trainingsdaten digitalisieren
+
+Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: *clearcut* (Abholzungen) und *other* (Anderes). Mit mapedit `muss jede Klasse **einzeln** digitalisiert werden. Sobald die Trainingsgebiete als Vektordaten verfügbar sind können die Merkmale des jeweiligen Rasterstacks entsprechend der digitalisierten Klassen in eine Tabelle extrahiert und auf etwaige Fehlwerte bereiningt werden. 
+
+
+<div class="boxSuccess">
+<p class="textline"> 
+Falls dieser Teil bereits absolviert wurde kann die logische Variable (am Anfang des Scripts definiert) *digitize* auf *FALSE*  gesetzt werden und es wird dann der *else* Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
+</p>
+</div>
 
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Exkurs: Trainingsgebiete mit mapedit erfassen
-  </button>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2">
 </p>
-<div class="collapse" id="collapseExample">
+Exkurs: Trainingsgebiete mit mapedit erfassen
+</button>
+<div class="collapse" id="collapse_2">
   <div class="card card-body">
+  
 
+### Verwendung von Farbkomposita für bessere Trainingsergebnisse
 
-### Farbkomposita für bessere Trainingsergebnisse
+```{r farbkomposita, echo=TRUE, messages=FALSE, warnings=FALSE}
 
-```{r}
-mapview::viewRGB(pred_stack_2019, r = 1, g = 2, b = 3, maxpixels =  1693870) +
-  mapview::viewRGB(pred_stack_2019, r = 5, g = 6, b = 7, maxpixels =  1693870) 
+m1 = tm_shape(pred_stack_2019) + tm_rgb(r=1, g=2, b=3) +
+  tm_layout(legend.outside.position = "right",
+            legend.outside = T,
+            panel.label.height=0.6,
+            panel.label.size=0.6,
+            panel.labels = c("r=1, g=2, b=3")) +
+  tm_grid()
+
+m2 = tm_shape(pred_stack_2019) + tm_rgb(r=4, g=5, b=6) +
+  tm_layout(legend.outside.position = "right",
+            legend.outside = T,
+            panel.label.height=0.6,
+            panel.label.size=0.6,
+            panel.labels = c("r=4, g=5, b=6")) +
+  tm_grid()
+tmap::tmap_arrange(m1,m2)
   
 ```
-`
+
 
 Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
   Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches *"farbiges"* Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
   Falschfarbenbilder werden häufig mit den Spektralkanälen für das nahe Infrarot, Rot und Grün erzeugt. Sie eignen sich hervorragend für die Einschätzung der Vegetation, da Pflanzen nahes Infrarot und grünes Licht reflektieren, während sie rotes Licht absorbieren (Red Edge Effect). Ein dichterer Pflanzenbewuchs ist dunkler rot. Städte und offener Boden sind grau oder hellbraun, und Wasser erscheint blau oder schwarz. 
 
-
-### Quick & Dirty Trainingsdaten digitalisieren
-
-Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: Abholzungen und Anderes.
-Jede Klasse wird **einzeln** digitalisiert.  Im Anschluss werden in den Trainingsgebieten die Merkmale des jeweiligen Rasterstacks extrahiert und auf Fehlwerte bereiningt. 
-Falls dieser Teil bereits absolviert wurde kann die logische Variable (am Anfang des Scripts definiert) `digitize` auf `FALSE`  gesetzt werden und es wird dann der `ELSE` Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
+  
 
 ```{r digitize, echo=TRUE}
+
 #---- Digitalisierung der Trainingsdaten ----
 
 if (digitize) {
@@ -256,7 +376,7 @@ if (digitize) {
   
   # Umprojizieren auf die Raster Datei
   train_areas_2019 = sf::st_transform(train_areas_2019,crs = sf::st_crs(pred_stack_2019))
-  
+  mapview(train_areas_2019, zcol="class")
   
   # Extraktion der Trainingsdaten für die digitalisierten Flächen
   tDF_2019 = exactextractr::exact_extract(pred_stack_2019, train_areas_2019,  force_df = TRUE,
@@ -279,18 +399,19 @@ if (digitize) {
   
   # # ---- Das gleiche muss für 2020 wiederholt werden zum digitalisieren und extrahieren bitte ent-kommentieren ----
   
-  # # Kahlschlag
-  # train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3,maxpixels =  1693870) %>% mapedit::editMap()
-  # clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 1)
-  # train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3) %>% mapedit::editMap()
-  # other <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "other", id = 2)
-  # train_areas_2020 <- rbind(clearcut, other)
-  # train_areas_2020 = sf::st_transform(train_areas_2020,crs = sf::st_crs(pred_stack_2020))
-  # tDF_2020 = exactextractr::exact_extract(pred_stack_2020, train_areas_2020,  force_df = TRUE,
-  #                                         include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
-  # tDF_2020 = dplyr::bind_rows(tDF_2020)
-  # tDF_2020 = tDF_2020[  rowSums(is.na(tDF_2020)) == 0,]
-  # saveRDS(tDF_2020, paste0(envrmt$path_data,"train_areas_2020.rds"))
+  # Kahlschlag
+  train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3,maxpixels =  1693870) %>% mapedit::editMap()
+  clearcut <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "clearcut", id = 1)
+  train_area <- mapview::viewRGB(pred_stack_2020, r = 1, g = 2, b = 3) %>% mapedit::editMap()
+  other <- train_area$finished$geometry %>% st_sf() %>% mutate(class = "other", id = 2)
+  train_areas_2020 <- rbind(clearcut, other)
+  train_areas_2020 = sf::st_transform(train_areas_2020,crs = sf::st_crs(pred_stack_2020))
+  mapview(train_areas_2020, zcol="class")
+  tDF_2020 = exactextractr::exact_extract(pred_stack_2020, train_areas_2020,  force_df = TRUE,
+                                          include_cell = TRUE,include_xy = TRUE,full_colnames = TRUE,include_cols = "class")
+  tDF_2020 = dplyr::bind_rows(tDF_2020)
+  tDF_2020 = tDF_2020[  rowSums(is.na(tDF_2020)) == 0,]
+  saveRDS(tDF_2020, paste0(envrmt$path_data,"train_areas_2020.rds"))
   
 } else {
   train_areas_2019 = readRDS(paste0(envrmt$path_data,"train_areas_2019.rds"))
@@ -298,27 +419,38 @@ if (digitize) {
   
 }
 
-
 ```
 
+Als Resultat ligen nun zwei tabellarische Trainingsdatensätze  für 2019 und 2020 vor. Beide Datensätze beinhalten alle Rasterinformationen die von den Polygonen für die Klassen *"clearcut"* und *"other"* abgedeckt werden.
 
-  
-  </div>
+```{r raw_train, echo=TRUE}
+head(train_areas_2019)
+head(train_areas_2020) 
+```  
+
+</div>
 </div>
 
 
+## Schritt 3 - Modelltraining und Prüfen der Modellgüte
 
-## Schritt 5 - Klassifizierung und Prüfen der Modellgüte
+Klassifikatoren (z.B der Maximum-Likelihood Klassikator) oder Algorithmen des maschinellen Lernens (wie z. B. Random Forest)  ermitteln auf Basis der Trainingsdaten Beschreibungsmodelle die z.b.  statistische Signaturen,  Klassifikationsbäume  oder andere Funktionen darstellen. Im Rahmen der Güte der Trainingsdaten  sind solche Modelle geeignet und repräsentativ um  Vorhersagen für Räume zu treffen falls die Prädiktoren aus dem Modell flächendeckend vorhanden sind. 
 
-Maschinelles Lernen wie z. B. Random Forest, Algorithmen können so trainiert werden, dass sie automatisiert Muster in  Daten finden. Solange die Trainingsdaten  geeignet und repräsentativ sind , können  auch Vorhersagen für Räume getroffen werden, für die keine Daten vorhanden sind. 
+Wir wollen nun die räumlichen Merkmale Kahlschlag/kein Wald exemplarisch mit einer Maximum Likelihood Klassifikation und mit Random Forest vorhersagen und Standardmethoden der Zufallsvalidierung und Modellgüteeinschätzung anwenden. 
 
-Wir wollen nun die räumlichen Merkmale Kahlschlag/kein Wald mit Techniken des maschinellen Lernens vorhersagen und Methoden der Zufallsvalidierung anwenden. 
-
-Wir wollen ein Modell erstellen, das zwischen den Pixeln eines Kahlschlages und allen anderen Pixeln unterscheiden kann. Dazu nutzen wir die HEruntergeladnen Daten im Vorhersage Rasterstack.
+Ziel ist es Kahlschläge von allen anderen Pixeln zu trennen und die Unterschide von 2019/2020 zu quantifizieren.
 
 
 ## Random forest
 
+<p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
+</p>
+Exkurs: Random Forest
+</button>
+<div class="collapse" id="collapse_3">
+  <div class="card card-body">
+  
 Random Forests können sowohl für Regressions- als auch für Klassifizierungsaufgaben verwendet werden, wobei letztere besonders in der Umwelt-Fernerkundung relevant sind. Wie bei jeder maschinellen Lernmethode lernt auch das Random-Forest-Modell, Muster und Strukturen in den Daten selbst zu erkennen.
 
 ![](images/Random_forest_diagram_complete.png)!
@@ -327,8 +459,11 @@ Abbildung: Vereinfachte Darstellung der Klassifizierung von Daten durch Random F
 
 Ein Random-Forest-Algorithmus lernt über die Daten, indem er viele Entscheidungsbäume erstellt - daher auch der Name "Forest". Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz aus eines Baumes aus dem Trainingsdatensatz  und weist dem Pixel dies Klasse zu. Dies wird mit allen verfügbaren Entschidungsbäuumen so gemacht und letzlich wird nach dem Winner takes it all Ansatz die Instanz der Klasse zugeordnet, die das Ergebnis der meisten Bäume ist.
 
-Da der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich um eine überwachte Lernmethode. Das bedeutet, dass wir als Nutzer dem Algorithmus sagen müssen, was er vorhersagen soll. In unserem Fall müssen die Trainingsdaten verschiedene Kategorien oder Klassifizierungen der Bodenbedeckung (z. B. Kahlschlag, Rest) enthalten und mit mit einem Tag so gekennzeichnet sein.
+</div>
+</div>
 
+Da der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich um eine überwachte Lernmethode. Das bedeutet, dass wir als Nutzer dem Algorithmus Daten zur Verfügung stellen müssen, die im Wissen über die vorherzusagenden Klassen vermitteln.
+Diese Daten werden dann in Trainings- und Testdaten aufgeteilt.
 
 ```{r random_forest , message = FALSE, warnings = FALSE}
 ## ---- Überwachte  mit Klassifikation Random Forest ----
@@ -374,12 +509,15 @@ cv_model_2019
 
 Die Testdaten werden nun für die unabhängige Qualitätsprüfung des Modells verwendet. Eine Wahrheits- oder Konfusionsmatrix zeigt an, wie präzise das Modell die korrekten Klassen vorhersagt. Die Hauptdiagonale der Matrix zeigt die Fälle an, in denen das Modell korrekt ist. In diesem Falle mit nur 2 Klassen gilt der Sonderfall der [Beurteilung eines binären Klassifikators](https://en.wikipedia.org/wiki/Evaluation_of_binary_classifiers). 
 Speziell für die hier verwendete Funktion finden sich ausführliche Erläuertungen in der [caret Hilfe](https://topepo.github.io/caret/measuring-performance.html#measures-for-predicted-classes).
-Die wesentlichen Ausagen sind :
 
-* 'Positive' Class = clearcut: wird mit der Sensitivität (true positive rate) erfasst, die die  Wahrscheinlichkeit angibt, mit der ein positives Objekt korrekt als positiv klassifiziert wird.
-* ' Negative Class' = other: wird mit der Spezifität (true negative rate) erfasst und gibt die Wahrscheinlichkeit an, mit der ein negatives Objekt korrekt als negativ klassifiziert wird
-* Positive and negative predictive values geben für clearcut bzw. other an. Sie sind um die reale Häufikeit korrigiert und ein Schätzmass für die Präzision bzw. Pereformance des Modells. 
-Trotz der hohen Werte sehen wir das die Klasse clearcut deutlich abfällt. Insgesamt kann das Modell jedoch als gut bezeichnet werden.
+Die wesentlichen Ausagen zur Modellgüte sind : 
+* *'Positive' Class* = **clearcut**: wird mit der Sensitivität (true positive rate) erfasst, die die  Wahrscheinlichkeit angibt, mit der ein positives Objekt korrekt als positiv klassifiziert wird.
+* *'Negative Class'* = **other**: wird mit der Spezifität (true negative rate) erfasst und gibt die Wahrscheinlichkeit an, mit der ein negatives Objekt korrekt als negativ klassifiziert wird
+* *Positive and negative predictive values*  geben für *clearcut* bzw. *other* die reale Perfomance an. Sie sind um die reale Häufikeitsverteilung korrigiert und ein Schätzmass für die Präzision bzw. Pereformance des Modells bezüglich der jeweiligen Klassen. 
+
+Trotz der hohen Werte sehen wir das die Klasse *clearcut* hier deutlich abfällt also durchaus noch Verbesserungsbedarf für eine guten Klassifikation vorliegt. 
+
+Insgesamt kann das Modell jedoch als gut bezeichnet werden.
 
 
 ```{r konfusiomatrix2019, message = FALSE, warnings = FALSE}
@@ -390,11 +528,22 @@ cm_rf
 ```
 
 
+### Vorhersage auf die Ausgangsdaten
+
+Nun sind wir soweit das überprüfte Modell auf unseren Datensatz anzuwenden. Üblicherweise wird das in der Fernerkundung Klassifikation genannt. 
+
 ```{r klassifikation2019, message = FALSE, warnings = FALSE}
 # Klassifikation (auch Vorhersage genannt)
 prediction_rf_2019  = raster::predict(pred_stack_2019 ,cv_model_2019 )
 ```
 
+<p>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4">
+</p>
+Training und Vorhersage für das Jahr 2020
+</button>
+<div class="collapse" id="collapse_4">
+  <div class="card card-body">
 
 
 ```{r prediction2020, message = FALSE, warnings = FALSE}
@@ -412,7 +561,8 @@ cv_model_2020
 prediction_rf_2020  = raster::predict(pred_stack_2020 ,cv_model_2020)
 ```
 
-
+</div>
+</div>
 
 
 
@@ -475,7 +625,10 @@ Die beiden ersten Beiträge sind rein technische Tutorials. Die weiteren Beiträ
 
 Ich möchte ausdrücklich Valentin Stefan den Autor des  Blogbeitrags [pixel-based supervised classification](https://valentinitnelav.github.io/satellite-image-classification-r/) zitieren: 
 
+
+
+<div class="boxSuccess">
+<p class="textline"> 
 *"[...] Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein. [...]"* 
-
-# References
-
+</p>
+</div>

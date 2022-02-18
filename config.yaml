@@ -77,8 +77,8 @@ params:
   MathJaxVersion: 2.7.5
   highlightjsVersion: 9.12.0
   highlightjsCDN:  //cdnjs.cloudflare.com/ajax/libs
-  highlightjsLang:  ["r", "yaml"]
-  highlightjsTheme:  "docco"  
+  highlightjsLang:  ["r", "yaml", "python", "bash"]
+  highlightjsTheme:  "idea"  
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:
