@@ -7,8 +7,9 @@ bibliography: references.bib
 categories:
   - bGIS
 tags:
-  - Remote Sensing
-  - Change Detection   
+  - remote sensing
+  - change detection   
+  - forest
 subtitle: ''
 description: 'In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden.'
 image: '/assets/images/harz3-sp.jpg'

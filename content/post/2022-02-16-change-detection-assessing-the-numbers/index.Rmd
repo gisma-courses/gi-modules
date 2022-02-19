@@ -7,8 +7,9 @@ slug: []
 categories:
   - bGIS
 tags:
-  - Remote Sensing
-  - Change Detection   
+  - forest
+  - remote sensing
+  - change detection
 subtitle: ''
 description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimbar sind, ist ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.'
 image: '/assets/images/forest-sp.jpg'
@@ -316,7 +317,7 @@ Eine aufwendigere aber insbesondere für multi-spatio-temporale Zeitreihen veilv
 
 Der Vergleich räumlicher Muster ermöglicht die Erkennung von ihren Veränderungen
 zwischen zwei Zeitebenen. In unserem Beispiel möchten wir vergleichen, wie sich die Landbedeckung Im Harz (Lichtung/Wald) zwischen 2019 und 2020 verändert hat. Die notwendigen kategoriale Rasterdatensätze mit gleicher
-derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen  das   Paket `motif`, das unter andern die  Funktion `lsp_compare()` für den Vergleich verfügbar macht. Mit dieser Funktion wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
+derselben Auflösung und Ausdehnung gelesen sind unsere Klassifikationsdatensätze. 2019 und 2020. Wir nutzen  das   Paket `motif` [@motif], das unter andern die  Funktion `lsp_compare()` für den Vergleich verfügbar macht. Mit dieser Funktion wird ein Co-Occurrence-Vektor als Signatur verwendet und der Jensen-Shannon-Abstand als Ähnlichkeitsmass. Für unser Beispiel haben wir eine Region von 25 Zellen im Quadrat (250**m).
  
 Das resultierende Objekt gibt einen Überblick über die Veränderungen der Waldbedeckung im Nordwest-Harz.
 Die Abbildung zeigt zeigt auchmehrere Gebiete mit den größten Landbedeckungsveränderungen. Diese können mit der Funktion `sp_extract()` extrahiert wurden. 

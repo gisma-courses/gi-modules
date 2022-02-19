@@ -6,8 +6,9 @@ slug: []
 categories:
   - bGIS
 tags:
-  - Remote Sensing
-  - Change Detection 
+  - remote sensing
+  - change detection 
+  - forest
 subtitle: ''
 description: 'Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.'
 image: '/assets/images/harz-sp.jpg'

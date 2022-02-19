@@ -4,7 +4,7 @@ author: Chris Reudenbach
 date: '2021-11-20'
 slug: []
 categories: ["aGIS"]
-tags: ["forest", "lidar","ecology","forestry"]
+tags: ["forest", "lidar","ecology"]
 description: ''
 image: '/assets/images/forest-sp.jpg'
 toc: true
