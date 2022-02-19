@@ -1,5 +1,5 @@
 ---
-title: Analysis of massive sentinel data using STAC and gdalcubes
+title: Analysis of massive Remote Sensing data
 author: Marius Appel, Chris Reudenbach
 date: '2022-02-15'
 slug: []
@@ -11,8 +11,8 @@ tags:
   - forest
   - Remote Sensing
   - Change Detection   
-subtitle: 'Time series and change detection using COG imagery and gdalcubes'
-description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level'
+subtitle: 'gdalcubes and STAC - new dimensions in time series and change detection analysis'
+description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level. However it data pre-, processing and post processing is challenging. gdalcubes following the STAC protocol and COG are extremly promising for massive data analysis task'
 image: '/assets/images/restefond-sp.jpg'
 editor_options: 
   chunk_output_type: console
@@ -23,51 +23,9 @@ output:
 weight: 100
 ---
 
-```{r setup,comment = NA, echo=FALSE, message = FALSE, warnings = FALSE, results = FALSE }
-
+```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
 tutorialDir = path.expand("~/edu/agis/doc/data/tutorial/")
 
-```
-
-
-## Introduction
-
-Big thanks to Marius Appel who gave 2021 at OpenGeoHub Summer School 2021 a great  [workshop](https://appelmar.github.io/ogh2021/tutorial.html). This tutorial is an adapted version of it.
-
-Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.
-
- There are two operational Sentinel-2 satellites: Sentinel-2A and Sentinel-2B, both in sun-synchronous polar orbits and 180 degrees out of phase. This arrangement allows them to cover the Earth at mid-latitudes with a flyover time of about 5 days. 
-
-The Sentinel-2 data are therefore predestined to record spatial and temporal changes on the Earth's surface (in early summer the forest was green, in late summer it has disappeared). They are ideal for timely studies before and after natural disasters or for biomass balancing, etc. 
-
-### Cloud-Optimised GeoTIFFs (COGs)
-
-Unfortunately, the official [Sentinel-2 archives](https://scihub.copernicus.eu/dhus/#/home) are anything but really user-friendly.  Even with highly convenient toos as [`sen2r`](https://sen2r.ranghetti.info/) it is sometimes cumbersome to process tTechnically the processed product levels are available to for download preprocessed as L1C and L2A products in JP2K format. Most of the data is stored on the long term storages. the preferred file format is JP2K which is storage efficient but has to be fully downloaded locally by the user and thus have high access costs and huge requirements for local storage space. The Cloud-Optimised GeoTIFFs (COGs) allow only the areas of interest to be loaded and also the processing is significantly faster. However, it requires optimised cloud services and technically a different access logic than in the processing chains used so far.
-
-### SpatioTemporal Asset Catalog (STAC) 
-
-The [SpatioTemporal Asset Catalog](https://stacspec.org/) (STAC) provides a common language for simplified indexing and searching of geospatial data. A "spatio-temporal asset" is a file that contains information in a specific space and time.
-
-This approach allows all providers of spatio-temporal data (imagery, SAR, point clouds, data cubes, full motion video, etc.) to provide SpatioTemporal Asset Catalogs (STAC) for their data. STAC focuses on an easy to implement standard that organisations can use to make their data available in a durable and reliable way.
-
-[Element84](https://www.element84.com/) has provided a public API called Earth-search, a central search catalogue for all public AWS datasets using STAC (including the new Sentinel-2 COGs). this contains, beginning 1 November 2017, more than 11.4 million Sentinel-2 scenes worldwide. 
-
-## Goals
-
-This tutorial demonstrates how we can access and process Sentinel-2 data in the cloud using the R packages: [`rstac`](https://cran.r-project.org/package=rstac) [@rstac] and [`gdalcubes`](https://cran.r-project.org/package=gdalcubes) [@gdalcubes]. Other packages used in this tutorial include [`stars`](https://cran.r-project.org/package=stars)[@stars] and [`tmap`](https://cran.r-project.org/package=tmap)[@tmap] for creating interactive maps, [`sf`](https://cran.r-project.org/package=sf)[@sf] for processing vector data, and [`colorspace`](https://cran.r-project.org/package=colorspace)[@colorspace] for visualizations with accessible colors.
-
-*Notice that the examples have been selected to yield computation times acceptable for a live demonstration. Please feel free to apply the examples on larger areas of interest and/or using a higher spatial resolution.*
-
-
-Furthermore, it shows different approaches to time series and difference analyses with different indices using the example of the Marburg Open Forest (MOF) for the period 1997-2021. 
-
-
-Other packages used in this tutorial include [`stars`](https://cran.r-project.org/package=stars) and [`tmap`](https://cran.r-project.org/package=tmap) for creating interactive maps, [`sf`](https://cran.r-project.org/package=sf) for processing vector data, and 
-
-### Retrieve an Area of Interest
-Most of the earth surface related remote sensing activities are heavily "disturbed" by the atmosphere , especially by clouds. So we aim to find a cloud-free sentinel data of an (arbitrary) AOI. The `rstac` package provides a convenient tool to find and filter adequate Sentinel-2 images. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the bounding box to latitude / longitude (WGS84) values, for which we use the `st_bbox()` and `st_transform()` functions. In addition we adapt the projection of the referencing vector objects to all later needs. Please note to project to three different CRS is for this examples convenience and clarity and somewhat cumbersome. The MOF geometry is provided in the data section. You may have a look at tutorial one for examples of retrieving vector geometries for this purpose.
-
-```{r geometries}
 library(sf)
 library(raster)
 library(tidyverse)
@@ -79,6 +37,51 @@ library(gdalcubes)
 library(OpenStreetMap)
 library(stars)
 
+```
+
+
+# Introduction
+
+Big thanks to Marius Appel, who beside other contributions, gave 2021 at OpenGeoHub Summer School 2021 a great  [workshop](https://appelmar.github.io/ogh2021/tutorial.html). This blog post builds on that workshop and integrates some additional application aspects.
+
+Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.
+
+ There are two operational Sentinel-2 satellites: Sentinel-2A and Sentinel-2B, both in sun-synchronous polar orbits and 180 degrees out of phase. This arrangement allows them to cover the Earth at mid-latitudes with a flyover time of about 5 days. 
+
+The Sentinel-2 data are therefore predestined to record spatial and temporal changes on the Earth's surface (in early summer the forest was green, in late summer it has disappeared). They are ideal for timely studies before and after natural disasters or for biomass balancing, etc. 
+
+## Cloud-Optimised GeoTIFFs (COGs)
+
+Unfortunately, the official [Sentinel-2 archives](https://scihub.copernicus.eu/dhus/#/home) are anything but really user-friendly.  Even with highly convenient toos as [`sen2r`](https://sen2r.ranghetti.info/) it is sometimes cumbersome to process tTechnically the processed product levels are available to for download preprocessed as L1C and L2A products in JP2K format. Most of the data is stored on the long term storages. the preferred file format is JP2K which is storage efficient but has to be fully downloaded locally by the user and thus have high access costs and huge requirements for local storage space. The Cloud-Optimised GeoTIFFs (COGs) allow only the areas of interest to be loaded and also the processing is significantly faster. However, it requires optimised cloud services and technically a different access logic than in the processing chains used so far.
+
+## SpatioTemporal Asset Catalog (STAC) 
+
+The [SpatioTemporal Asset Catalog](https://stacspec.org/) (STAC) provides a common language for simplified indexing and searching of geospatial data. A "spatio-temporal asset" is a file that contains information in a specific space and time.
+
+This approach allows all providers of spatio-temporal data (imagery, SAR, point clouds, data cubes, full motion video, etc.) to provide SpatioTemporal Asset Catalogs (STAC) for their data. STAC focuses on an easy to implement standard that organisations can use to make their data available in a durable and reliable way.
+
+[Element84](https://www.element84.com/) has provided a public API called Earth-search, a central search catalogue for all public AWS datasets using STAC (including the new Sentinel-2 COGs). this contains, beginning 1 November 2017, more than 11.4 million Sentinel-2 scenes worldwide. 
+
+# Goals
+This example shows how complex times series methods from external R packages can be applied in cloud computing environments using [`[rstac`](https://cran.r-project.org/package=rstac)  [@rstac] and [`gdalcubes`](https://cran.r-project.org/package=gdalcubes) [@gdalcubes]. We will use the [`bfast` R package](https://cran.r-project.org/package=bfast) containing unsupervised change detection methods identifying structural breakpoints in vegetation index time series. Specifically, we will use the `bfastmonitor()` function to monitor changes on a dedicated timeperiod of a time series of Sentinel-2 imagery.
+
+Other packages used in this tutorial include [`stars`](https://cran.r-project.org/package=stars) [@stars], [`tmap`](https://cran.r-project.org/package=tmap) [@tmap] and [mapview](https://cran.r-project.org/package=tmap) [@mapview] for creating interactive maps, [`sf`](https://cran.r-project.org/package=sf) [@sf] for processing vector data, and [`colorspace`](https://cran.r-project.org/package=colorspace) [@colorspace] for visualizations with accessible colors.
+
+Various approaches to time series and difference analyses with different indices will be applied using the example of the MOF AOI for the time period 1997 - 2021. 
+
+# Starting the Analysis
+
+## Defining the Area of Interest 
+
+One major challange is the fact that most of the earth surface related remote sensing activities are heavily *"disturbed"* by the atmosphere, especially by clouds. So to find cloud free satellite imagery is a common and cumbersome task. This task is supported by the `rstac` package which provides a convenient tool to find and filter adequate Sentinel-2 images out of the COG data storage. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the required bounding box to WGS84 geocoordinats, easily done with the `sf` functions  `st_bbox()` and `st_transform()`. In addition we adapt the projection of the referencing vector objects to all other later projection needs. 
+
+<div class="boxSuccess">
+<p class="textline"> 
+Please note to project to three different CRS is for this examples convenience and clarity and somewhat superfluous. Only the corner coordinates of the sections are required and not the complete geometries. However, it creates more clarity for the later process to already have the data needed in different projections.   
+</div>
+
+
+```{r geometries}
 forest = st_read(paste0(tutorialDir,"forest/only_forest.shp"))
 forest_4326 =st_transform(forest,crs = 4326)
 forest_3035 =st_transform(forest,crs = 3035)
@@ -95,20 +98,14 @@ tmap_options(check.and.fix = TRUE) +
   tm_polygons(alpha = 0.4, col="ZIELBESTOC")
 ```
 
-The area is the Marbug Open forest (MOF) the Research Forest of the Marburg University.
-
-## Time series analysis
-
-This example shows how complex times series methods from external R packages can be applied in cloud computing environments using [`[rstac`](https://cran.r-project.org/package=rstac)  and [`gdalcubes`](https://cran.r-project.org/package=gdalcubes). We will use the [`bfast` R package](https://cran.r-project.org/package=bfast) containing unsupervised change detection methods identifying structural breakpoints in vegetation index time series. Specifically, we will use the `bfastmonitor()` function to monitor changes on a time series of Sentinel-2 imagery.
-
-Compared to the first example, our study area is rather small, covering a small forest area in the southeast of Berlin. The area of interest is again available as a polygon in a GeoPackage file `gruenheide_forest.gpkg`, which for example can be visualized in a map using the [`tmap` package](https://cran.r-project.org/package=tmap) package.
-
+Our study area is rather small, covering a 4 by 4 km forest area northeast of Marburg. The core part of the AOI is the Marburg Open Forest (MOF) a field research facility of the Philipps University Marburg.
 
 ### Querying images with `rstac`
 
 Using the `rstac` package, we first request all available images from 2017 to 2020 that intersect with our region of interest. Here, since the polygon has WGS84 as CRS, we do **not** need to transform the bounding box before using the `stac_search()` function.
 
 ```{r stac2}
+# search the data stack for the given period and area
 library(rstac)
 s = stac("https://earth-search.aws.element84.com/v0")
 items <- s |>
@@ -121,15 +118,16 @@ items <- s |>
                 limit = 1000) |>
     post_request() 
 items
-# Date and time of first and last images
+
+# print date and time of first and last images
 range(sapply(items$features, function(x) {x$properties$datetime}))
 ```
 
-This gives us 516 images recorded between Nov. 2017 and Dec. 2021.
+This gives us 294 matching images  recorded between Januar 2017 and December 2021.
 
 ### Creating a monthly Sentinel-2 data cube
 
-To build a regular monthly data cube, we again need to create a gdalcubes image collection from the STAC query result. Notice that to include the `SCL` band containing per-pixel quality flags (classification as clouds, cloud-shadows, and others), we need to explicitly list the names of the assets. We furthermore ignore images with 75% or more cloud coverage.
+To build a regular monthly data cube, we again need to create a *gdalcube image collection* from the STAC query result. Notice that to include the `SCL` band containing per-pixel quality flags (classification as clouds, cloud-shadows, and others), we need to explicitly list the names of the assets. We furthermore ignore images with 75% or more cloud coverage.
 
 ```{r add_cube_assets}
 library(gdalcubes)
@@ -138,9 +136,16 @@ s2_collection = stac_image_collection(items$features, asset_names = assets, prop
 s2_collection
 ```
 
-The result still contains 92 images, from which we can now create a data cube. We use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling and derive monthly median values for all pixel values from multiple images within a month, if available. Notice that we add 100m to each side of the cube.
+The result still contains 139 images which means roughly 2.3 images per month, from which we can now create a data cube. For doinfg so we will use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling (for the coarsere Sentinel channels) and also defined derive monthly median values for all pixel values from the available images within a month. Notice that we add a border seam to each side of the cube. 
+
+<div class="boxSuccess">
+<p class="textline"> 
+The *gdalcube image collection* can be considered as a proxy structure object which will be applied on the COGs.
+</div>
+
 
 ```{r create_cubeview}
+b = 50
 v = cube_view(srs = "EPSG:32632", 
               dx = 10, 
               dy = 10, 
@@ -148,15 +153,21 @@ v = cube_view(srs = "EPSG:32632",
               aggregation = "median", 
               extent = list(t0 = "2017-01",
                             t1 = "2021-12", 
-                            left = st_bbox(forest_32632)["xmin"]-100, 
-                            right = st_bbox(forest_32632)["xmax"]+100,
-                            bottom = st_bbox(forest_32632)["ymin"]-100, 
-                            top = st_bbox(forest_32632)["ymax"]+100),
+                            left = st_bbox(forest_32632)["xmin"] - b, 
+                            right = st_bbox(forest_32632)["xmax"] + b,
+                            bottom = st_bbox(forest_32632)["ymin"] - b, 
+                            top = st_bbox(forest_32632)["ymax"] + b),
               resampling = "bilinear")
 v
 ```
 
+
 Next, we create a data cube, subset the red and near infrared bands and crop by our polygon, which simply sets pixel values outside of the polygon to NA. Afterwards we save the data cube as a single netCDF file. Notice that this is not neccessary but storing intermediate results makes debugging sometimes easier, especially if the methods applied afterwards are computationally intensive.
+
+<div class="boxSuccess">
+<p class="textline"> 
+Only calling a final *action* will start the processing on the COG-Server. In this case 'write_ncdf'.
+</div>
 
 
 ```{r write_ncdf}
@@ -172,17 +183,15 @@ Next, we create a data cube, subset the red and near infrared bands and crop by 
 
 ### Reduction over space and time
 
-To get an overview of the data, we can compute simple summary statistics (applying reducer functions) over dimensions. 
-
-The `"count"` reducer is often very useful to get an initial understanding of an image collection:
+To get an overview of the data, we can compute simple summary statistics applying `reducer` functions over dimensions. Using the `count` reducer we learn about the temporal coverage for each aggregated pixel and hence an initial understanding of the image collection.
 
 ```{r count}
 ncdf_cube(file.path(tutorialDir,"lahntal.nc")) |>
-  reduce_time("count(B04)") |>
-  plot(key.pos = 1, zlim=c(0,50), col = viridis::viridis, nbreaks = 10)
+  reduce_time("count(B04)") |> 
+  plot(key.pos = 1, zlim=c(35,45), col = viridis::viridis, nbreaks = 10)
 ```
 
-We can see that most time series contain valid observations for 30-50 months, which should be sufficient for our example. Similarly, it is also possible to reduce over space, leading to summary time series.
+ We can see that most time series contain valid observations for 35-45 months, which should be sufficient for our example. Similarly, it is also possible to reduce over space, leading to summary time series.
 
 ## Straightforward NDVI
 
@@ -225,24 +234,20 @@ ncdf_cube(file.path(tutorialDir,"lahntal.nc")) |>
 The above examples can be applied  in a more flexible complex and and automatic way. Below you will find the growing season NDVI and the [kNDVI](https://advances.sciencemag.org/content/7/9/eabc7447) Median Difference calculated for 5 years.
 
 ```{r NDVI_kNDVI_automatic }
-library(stars)
-library(rstac)
-library(gdalcubes)
-library(tmaptools)
-library(tmap)
 
 gdalcubes_options(threads = 12)
 
 # percentage
-cloud_cover = 30
+cloud_cover = 75
 
 # spatial resolution
-dx = 10
-dy = 10
+dx = 50
+dy = 50
 
 # ndvi operand
 basic_ndvi_type = "median(NDVI)"
 basic_kndvi_type = "median(kNDVI)"
+
 # time slots as tibble
 ts = tibble(t0 = c("2017-04-01","2018-04-01","2019-04-01","2020-04-01","2021-04-01"), 
             t1= c("2017-09-01","2018-09-01","2019-09-01","2020-09-01","2021-09-01"))
@@ -341,8 +346,8 @@ tm_kndvi = lapply(seq(2:length(names_ndvi) -1),function(i){
     tm_grid()
 })
 
-tmap_arrange(tm_ndvi,ncol = 2,nrow=2)
-tmap_arrange(tm_kndvi,ncol = 2,nrow=2)
+tmap_arrange(tm_ndvi,ncol = 2,nrow=2 ,asp = NA)
+tmap_arrange(tm_kndvi,ncol = 2,nrow=2 , asp = NA)
 
 
 ```
@@ -425,8 +430,8 @@ gdalcubes_options(threads = 12)
   
 # plotting it from the local ncdf  
 tmap_mode("plot")
-ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
-  st_as_stars() -> x
+gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
+  stars::st_as_stars() -> x
 m1 = tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[1]) + 
   tm_raster(n = 6)  +
@@ -446,7 +451,7 @@ m2 =  tm_shape(osm_forest) + tm_rgb() +
     legend.text.size = 0.4,
     legend.outside = TRUE) +
   tm_grid() 
-tmap_arrange(m1,m2)
+tmap_arrange(m1,m2,asp=NA,nrow = 2)
 
 ```
 

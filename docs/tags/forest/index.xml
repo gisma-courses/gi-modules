@@ -8,12 +8,12 @@
     <language>en-us^</language>
     <lastBuildDate>Tue, 15 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/forest/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Analysis of massive sentinel data using STAC and gdalcubes</title>
+      <title>Analysis of massive Remote Sensing data</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</link>
       <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</guid>
-      <description>Introduction Big thanks to Marius Appel who gave 2021 at OpenGeoHub Summer School 2021 a great workshop. This tutorial is an adapted version of it.
+      <description>tutorialDir = path.expand(&amp;quot;~/edu/agis/doc/data/tutorial/&amp;quot;) library(sf) library(raster) library(tidyverse) library(downloader) library(tmap) library(tmaptools) library(mapview) library(gdalcubes) library(OpenStreetMap) library(stars) Introduction Big thanks to Marius Appel, who beside other contributions, gave 2021 at OpenGeoHub Summer School 2021 a great workshop. This blog post builds on that workshop and integrates some additional application aspects.
 Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.</description>
     </item>
     
