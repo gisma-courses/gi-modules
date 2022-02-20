@@ -45,15 +45,12 @@ Wir werden uns mit den folgenden Themen beschäftigen:
 1. Überwachte Klassifizierung (random forest, Maximum Likelihood)
 1. Güteschätzung Modell
 
-
-
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-    Exkurs: Kurze Einführung in Klassifkation
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_class" aria-expanded="false" aria-controls="collapse_class">
+    Exkurs Klassifikation
   </button>
-<div class="collapse" id="collapse_1">
+<div class="collapse" id="collapse_clss">
   <div class="card card-body">
-
 
 #  Klassifizierung von Fernerkundungsdaten
 
@@ -74,7 +71,7 @@ Ganz pragmatisch erfordern Klassifizierungsaufgaben im Allgemeinen die folgenden
 * Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.
 * Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.
 
-  </div>
+</div>
 </div>
 
 # Change Detection Waldveränderung Nord-West-Harz
