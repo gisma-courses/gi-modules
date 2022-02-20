@@ -82,7 +82,7 @@ In den beiden Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-1
 # der Schwellenwert gesetzt werden
 win_size = 25
 
-#--- Download der Daten
+#--- Laden der Vorhersagekarten aus den vorrausgegangenen Übungen
 train_areas_2019 = readRDS(paste0(envrmt$path_data,"train_areas_2019.rds"))
 train_areas_2020 = readRDS(paste0(envrmt$path_data,"train_areas_2020.rds"))
 
@@ -92,7 +92,8 @@ prediction_rf_2020 = readRDS(paste0(envrmt$path_data,"pred_rf_2020.rds"))
 prediction_mlc_2019 = readRDS(paste0(envrmt$path_data,"pred_mlc_2019.rds"))
 prediction_mlc_2020 = readRDS(paste0(envrmt$path_data,"pred_mlc_2020.rds"))
 
-# ansonsten den Beipieldatensatz laden
+# corine datensatz download
+utils::download.file(url="https://github.com/gisma/gismaData/raw/master/geoinfo/corine.tif",destfile=file.path(envrmt$path_data_lev0,"corine.tif"))
 corine = raster::raster(file.path(envrmt$path_data_lev0,"corine.tif"))
 
 # Erstellen einer Wald-Maske
@@ -306,6 +307,8 @@ tmap::tmap_arrange(m,sync = TRUE)
 
 ```
 
+```
+```
 
 
 ## Musterbasierte  räumliche Analyse der Veränderungen 

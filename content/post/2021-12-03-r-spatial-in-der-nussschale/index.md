@@ -114,3 +114,9 @@ Die [sen2r vignette](https://sen2r.ranghetti.info/) bietet viele hilfreiche Info
 * Das Projekt-Setup mit envimaR und das Auswerte Skript bietet Ihnen einen vollständigen organisatorischen Rahmen zur Bearabeitung aller auch  komplexerer und aufwendigerer Aufgaben
 * sen2r liefert Ihnen einen sehr komfortablen und reproduzierbaren Zugriff auf umfangreiche Sentinel Daten
 * Prinzipiell kennen Sie nun die zentralen Werkezeuge und Vorgehensweisen um mit Hilfe von R automatisiert und reproduzierbar räumliche Analysen durchzuführen
+
+
+<div class="boxInfo">
+<p class="textline"> 
+Sie können alle notwendigen Skripte und Daten aus dem github repository [laden](https://github.com/gisma/geoinfo/archive/refs/heads/main.zip). Alternativ können sie das Repo auch als Projekt in Rstudio anlegen [Rstudio github](https://www.r-bloggers.com/2015/07/rstudio-and-github/).
+´</div>
