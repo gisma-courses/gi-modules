@@ -1,5 +1,5 @@
 ---
-title: Change detection - Klassifikationsverfahren 
+title: Change Detection - Klassifikationsverfahren 
 author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
@@ -45,16 +45,10 @@ Wir werden uns mit den folgenden Themen beschäftigen:
 1. Überwachte Klassifizierung (random forest, Maximum Likelihood)
 1. Güteschätzung Modell
 
-<p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_class" aria-expanded="false" aria-controls="collapse_class">
-    Exkurs Klassifikation
-  </button>
-<div class="collapse" id="collapse_clss">
-  <div class="card card-body">
 
 #  Klassifizierung von Fernerkundungsdaten
 
-Bitte beachten Sie, dass alle Arten der Klassifizierung eine ind der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können um schließlich  in dr Datennachverarbeitung als wesentlichen Bestandteil die inhaltliche Interpretation der Ergebnisse durchzuführen. Wir werden versuchen die notendigen Minimalanforderungen in der Kurseinheiten zu erarbeiten.
+Bitte beachten Sie, dass alle Arten der Klassifizierung eine in der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können um schließlich  in dr Datennachverarbeitung als wesentlichen Bestandteil die inhaltliche Interpretation der Ergebnisse durchzuführen. Wir werden versuchen die notendigen Minimalanforderungen in der Kurseinheiten zu erarbeiten.
 
 
 ## Überwachte Klassifizierung
@@ -71,8 +65,6 @@ Ganz pragmatisch erfordern Klassifizierungsaufgaben im Allgemeinen die folgenden
 * Training eines Modells unter Verwendung der Trainingsflächen. Zu Validierungszwecken werden die Trainingsflächen häufig in eine oder mehrere Test- und Trainingsstichproben unterteilt, um die Leistung des Modellalgorithmus zu bewerten.
 * Anwendung des trainierten Modells auf den gesamten Datensatz, d. h. Vorhersage der Bodenbedeckungsart auf der Grundlage der Ähnlichkeit der Daten an jedem Ort mit den Klasseneigenschaften des Trainingsdatensatzes.
 
-</div>
-</div>
 
 # Change Detection Waldveränderung Nord-West-Harz
 
@@ -206,7 +198,7 @@ Diese Daten müssen für den gewünschten Zeitslot und Raumausschnitt besorgt un
 
 ```
 
-</div>
+ </div>
 </div>
 
 
@@ -347,7 +339,6 @@ Wir nehmen an, dass wir zwei Arten von Landbedeckung klassifizieren wollen: *cle
 <div class="boxSuccess">
 <p class="textline"> 
 Falls dieser Teil bereits absolviert wurde kann die logische Variable (am Anfang des Scripts definiert) *digitize* auf *FALSE*  gesetzt werden und es wird dann der *else* Teil der Verzweigung durchlaufen - also nur noch die existierenden Daten eingelesen.
-</p>
 </div>
 
 
@@ -631,7 +622,7 @@ Ich möchte ausdrücklich Valentin Stefan den Autor des  Blogbeitrags [pixel-bas
 <div class="boxSuccess">
 <p class="textline"> 
 *"[...] Betrachten Sie diesen Inhalt als einen Blogbeitrag und nichts weiter. Er erhebt nicht den Anspruch, eine erschöpfende Übung oder ein Ersatz für Ihr kritisches Denken zu sein. [...]"* 
-´</div>
+</div>
 
 <div class="boxInfo">
 <p class="textline"> 
