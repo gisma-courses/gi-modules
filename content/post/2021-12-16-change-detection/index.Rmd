@@ -10,8 +10,8 @@ tags:
   - remote sensing
   - change detection   
   - forest
-subtitle: 'Von unüberwachter Clusteranalyse bis über Maximum-Likelihood- bis zu Maschinenlernverfahren wie Random Forest'
-description: 'In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung großer räumlicher Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpssung und Entwicklung eigener Methoden.'
+subtitle: 'Clusteranalyse, Maximum-Likelihood und Maschinenlernverfahren'
+description: 'In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.'
 image: '/assets/images/harz3-sp.jpg'
 toc: true
 output:
@@ -20,17 +20,17 @@ output:
 weight: 501
 ---
 
-In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung auch globaler Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpassung dieser bzw.die  Entwicklung eigener Methoden. 
+In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.
 
 # Einleitung 
 
-Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis). Oft wird dies in Verbindung mit bio- und geophysikalischen oder auch vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Dabei sind Bildanalysemethoden von hervorgehobener Bedeutung, um Informationen zu extrahieren, die es erlauben, die zugrunde liegenden Prozesse zu identifizieren. Ein ständig wachsender Bereich  ist die Integration von immensen Datenmengen sog. Big Data in die Analysen.
+In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall. Oft werden solche Ergebnisse mit bio- und geophysikalischen oder anthropogenen Prozessen in Verbindung gebracht, um ein sowohl ein tieferes Verständnis als auch die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Um räumliche Informationen aus den zugrundeliegenden Prozessen zu erzeugen sind Bildanalysemethoden von hervorgehobener Bedeutung. Da diese Bildaten ein immens wachsender Bereich sind, ist es zunehmend notwendig sog. Big Data Konzepte in die Analysen zu integrieren, also mit enormen Datenmengen automatisiert und nachvollziehbar umzugehen.
 
-Die nahezu exponetiell wachsende und bereits gegenwärtig kaum noch zu bewältigende Flut an verfügbaren Bild- und Fernerkundungsdaten muss einfach und automatisiert zugänglich sein um sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben nutzbar zu sein. Wir beginnen mit einer anwendungs orientierten Aufgabe in dieser Übung.
+Dies ist sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben zwingend. Wir starten wie bereits einleitend ausgeführt mit einer skalierbaren Change Detection Analyse von Waldschäden in Mittelgebirgen, also einer typischen anwendungsorientierten Aufgabe.
 
 ## Informationen aus Bilddaten
 
-Unverarbeitete Satellitenbilder sind nicht zwingend informativ. Unser Auge kann zwar ein Echtfarbenbild relativ schlüssig und intuitiv interpretieren, aber eine zuverlässige und reproduzierbare wissenschaftliche Interpretation erfordert andere Ansätze. Zudem können Bild analysemethoden zusätzliche,unsichtbare und spezifischere Informationen ableiten. Wir haben bereits einfache Indizes berechnet. Auch die Ableitung des NDVI oder der Oberflächenalbedo ist eine physikalisch begründete Umwandlung von Bildsignalen in eine Meßgröße. 
+Unverarbeitete Satellitenbilder sind nicht notwendigerweise auch informativ. Unser Auge kann zwar ein Echtfarbenbild relativ schlüssig und intuitiv interpretieren, aber eine zuverlässige und reproduzierbare d.h. wissenschaftlich belastbare Interpretation erfordert andere Vorgehensweisen. Ein erhblicher Vorteil von typischen Bildanalysemethoden gegenüber einer visuellen Interpretation ist es zusätzliche, gleichsam *unsichtbare* Informationen ableiten zu können. Wir haben bereits solche einfachen Indizes  wie etwa den NDVI oder die Oberflächenalbedo als physikalisch begründete Umwandlung von Bildsignalen in eine Meßgröße, berechnet. 
 
 Um nützliche oder zielführende Informationen, z. B. über die Bodenbedeckung in einem Gebiet, zu erhalten, müssen wir die Daten daher fragestellungszentriert analysieren. Der wohl bekannteste und gängigste Ansatz ist die überwachte Klassifizierung von Bilddaten in Kategorien die von Interesse sind.
 
@@ -48,7 +48,7 @@ Wir werden uns mit den folgenden Themen beschäftigen:
 
 #  Klassifizierung von Fernerkundungsdaten
 
-Bitte beachten Sie, dass alle Arten der Klassifizierung eine in der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können um schließlich  in dr Datennachverarbeitung als wesentlichen Bestandteil die inhaltliche Interpretation der Ergebnisse durchzuführen. Wir werden versuchen die notendigen Minimalanforderungen in der Kurseinheiten zu erarbeiten.
+Bitte beachten Sie, dass alle Arten der Klassifizierung eine in der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung, die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können, um schließlich  in der Datennachverarbeitung die inhaltliche Interpretation der Ergebnisse abzuleiten. Wir werden schrittweise die notwendigen Aufgaben erarbeiten.
 
 
 ## Überwachte Klassifizierung

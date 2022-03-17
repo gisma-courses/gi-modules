@@ -23,7 +23,7 @@ Sentinel-2 is currently the most important platform for Earth observation in all
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</guid>
-      <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
+      <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
     </item>
     
     <item>
@@ -62,7 +62,7 @@ Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist di
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
-      <description>Da bei jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art und häufig nicht bestimmbar sind, ist die Bewertung der Qualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mich den grundlegensten Bewertungsmethoden.</description>
+      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit grundständigen Auswertungskonzepten.</description>
     </item>
     
   </channel>

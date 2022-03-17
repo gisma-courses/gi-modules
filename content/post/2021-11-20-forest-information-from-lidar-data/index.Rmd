@@ -147,7 +147,7 @@ The `ctg` catalog  shows the extent of the original las file as provided by the 
 
 ```{r vis-ctg,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 #--- plots
-mapview::mapview(norm_ctg, zcol="Max.Z")
+plot(norm_ctg, zcol="Max.Z")
 ```
 
 

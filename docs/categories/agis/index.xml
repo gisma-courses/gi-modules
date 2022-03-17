@@ -23,7 +23,7 @@ If you also need to access additional software, like GIS, the appropriate binari
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</guid>
-      <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
+      <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
     </item>
     
     <item>
@@ -42,7 +42,7 @@ Among the top ten is The lidR package book .</description>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-agis-ressourcen/</guid>
-      <description>Data, Readings and more Forest related ressources  del Río, M., Pretzsch, H., Alberdi, I. et al. Characterization of the structure, dynamics, and productivity of mixed-species stands: review and perspectives. Eur J Forest Res 135, 23–49 (2016). https://doi.org/10.1007/s10342-015-0927-6. (VPN necessary) Estimating Forest Structure Indices for Evalution of Forest Bird Habitats by an Airborne Laser-Scanner H. Hashimoto, J. Imanishi, A. Hagiwara, Y. Morimoto, K. Kitada Conference Paper Barnes, C.; Balzter, H.; Barrett, K.</description>
+      <description>Data, Readings and more Forest related ressources  del Río, M., Pretzsch, H., Alberdi, I. et al. Characterization of the structure, dynamics, and productivity of mixed-species stands: review and perspectives. Eur J Forest Res 135, 23–49 (2016). https://doi.org/10.1007/s10342-015-0927-6. (VPN necessary) Estimating Forest Structure Indices for Evalution of Forest Bird Habitats by an Airborne Laser-Scanner H. Hashimoto, J. Imanishi, A. Hagiwara, Y. Morimoto, K. Kitada Conference Paper Barnes, C.; Balzter, H.</description>
     </item>
     
     <item>

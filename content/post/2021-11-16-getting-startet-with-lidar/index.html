@@ -1,0 +1,83 @@
+---
+title: "Getting startet with LiDAR"
+author: Chris Reudenbach
+date: '2021-11-16'
+slug: []
+categories: ["aGIS"]
+tags: ["forest", "lidar","ecology"]
+description: 'Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.'
+image: '/img/bayern-religion-sp.jpg'
+toc: true
+output:
+  blogdown::html_page:
+    keep_md: yes
+weight: 100
+---
+
+
+<div id="TOC">
+
+</div>
+
+<div id="lidar-data-and-las-data-format" class="section level2">
+<h2>LiDAR data and LAS data format</h2>
+<p>Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the <a href="https://www.asprs.org/a/society/committees/standards/LAS_1_4_r13.pdf">American Society for Photogrammetry &amp; Remote Sensing LAS documentation file</a>). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</p>
+</div>
+<div id="brief-overview-of-lidar-software-tools" class="section level2">
+<h2>Brief Overview of LiDAR Software Tools</h2>
+<p>The development of the software is rapid. A few years ago, it was only possible to manipulate, manage and analyze LiDAR data with complex special tools. Especially the (partly (commercial) <a href="https://rapidlasso.com/lastools/">LAStools</a> software was unrivaled for many years. Many remote sensing and remote sensing software tools have acquired licenses on this basis or developed components independently. Examples are <a href="http://grasswiki.osgeo.org/wiki/LIDAR">GRASS GIS</a> and <a href="https://desktop.arcgis.com/en/arcmap/10.3/manage-data/las-dataset/a-quick-tour-of-lidar-in-arcgis.htm">ArcGIS</a>.
+Beside the GIS packages there are a number of powerful specialists. Two important and typical representatives are <a href="https://www.3dforest.eu/#about">3D forest</a> and <a href="http://forsys.cfr.washington.edu/FUSION/fusion_overview.html">FUSION</a>.</p>
+<p>However all solution can be linked to R (we did it over the years) the <code>lidr</code> package has revolutionized the processing of LiDAR data in the R ecotop and is definitely by far the best choice (and even faster an more reliable than commercial tools). Extensive documentation and workflow examples can be found in the Wiki of the respective <a href="https://github.com/Jean-Romain/lidR">GitHub repository</a>. A very recent publication is avaiblable at Remote Sensing of Environment <a href="https://www.sciencedirect.com/science/article/pii/S0034425720304314#f0015">idR: An R package for analysis of Airborne Laser Scanning (ALS) data</a>.</p>
+</div>
+<div id="start-up-test" class="section level2">
+<h2>Start up test</h2>
+<p>For the following, make sure these libraries are part of your setup (should be the case if you follow [project oriented workflow post]( {{&lt; ref “2021-11-13-project-oriented-workflow” &gt;}})).</p>
+<p>We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. first set up your project environment:</p>
+<pre class="r"><code># 0 - specific setup
+#-----------------------------
+
+require(envimaR)
+
+# MANDANTORY: defining the root folder DO NOT change this line
+rootDIR = &quot;~/edu/agis&quot;
+# define  additional packages comment if not needed
+appendpackagesToLoad = c(&quot;lidR&quot;,&quot;future&quot;)
+# define additional subfolders comment if not needed
+appendProjectDirList =  c(&quot;data/lidar/&quot;,&quot;data/lidar/l_raster&quot;,&quot;data/lidar/l_raw&quot;,&quot;data/lidar/l_norm&quot;)
+
+## define current projection (It is not magic you need to check the meta data or ask your instructor) 
+## ETRS89 / UTM zone 32N
+proj4 = &quot;+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0&quot;
+epsg_number = 25832
+
+# MANDANTORY: calling the setup script also DO NOT change this line
+source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),&quot;src/agis_setup.R&quot;), echo = FALSE,verbose = FALSE)</code></pre>
+<pre><code>Warning in system(&quot;timedatectl&quot;, intern = TRUE): Ausführung von Kommando
+&#39;timedatectl&#39; ergab Status 1</code></pre>
+<pre class="r"><code># NOTE file size is about 12MB
+utils::download.file(url=&quot;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&quot;,
+                     destfile=paste0(envrmt$path_tmp,&quot;/chm.zip&quot;))
+unzip(paste0(envrmt$path_tmp,&quot;/chm.zip&quot;),
+      exdir = envrmt$path_tmp,  
+      overwrite = TRUE)
+
+las_files = list.files(envrmt$path_tmp,
+                       pattern = glob2rx(&quot;*.las&quot;),
+                       full.names = TRUE)</code></pre>
+<p>If you want to read a single (not to big) LAS file, you can use the <code>readLAS</code> function. Plotting the data set results in a 3D interactive screen which opens from within R.</p>
+<pre class="r"><code>library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+lidar_file = readLAS(las_files[1])</code></pre>
+<pre><code>Warning: Invalid data: ScanAngleRank greater than 90 degrees</code></pre>
+<pre class="r"><code>plot(lidar_file, bg = &quot;green&quot;, color = &quot;Z&quot;,colorPalette = mvTop(256))</code></pre>
+<img src="/gi-modules/assets/videos/las_mof_plot.gif" />
+<figure>
+<figcaption>
+Example forest LiDAR data set.
+</figcaption>
+</figure>
+<p>If this works, you’re [good to go]( {{&lt; ref “2021-11-20-forest-information-from-lidar-data” &gt;}}) for LiDAR data analysis.</p>
+</div>
+<div id="comments-suggestions" class="section level2">
+<h2>Comments &amp; Suggestions</h2>
+</div>

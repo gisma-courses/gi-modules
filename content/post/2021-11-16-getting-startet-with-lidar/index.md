@@ -63,6 +63,11 @@ epsg_number = 25832
 source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),"src/agis_setup.R"), echo = FALSE,verbose = FALSE)
 ```
 
+```
+Warning in system("timedatectl", intern = TRUE): Ausführung von Kommando
+'timedatectl' ergab Status 1
+```
+
 
 
 ```r
