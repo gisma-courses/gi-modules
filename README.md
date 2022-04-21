@@ -1,4 +1,4 @@
-![Course Header]("https://gisma-courses.github.io/gi-modules///assets/images/face-sp.jpg "Image source: C.Reudenbach")
+![Course Header](https://gisma-courses.github.io/gi-modules///assets/images/face-sp.jpg "Image source: C.Reudenbach")
 
 
 
