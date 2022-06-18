@@ -77,7 +77,7 @@ knitr::knit_global()
 require(envimaR)
 
 # MANDANTORY: defining the root folder DO NOT change this line
-root_folder = "~/edu/agis"
+root_folder = "/media/creu/meta/active/agis"
 
 #-- Further customization of the setup by the user this section
 #-- can be freely customized only the definition of additional packages

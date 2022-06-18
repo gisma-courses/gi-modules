@@ -45,7 +45,7 @@
 
     <title>Getting startet with LiDAR-your title</title>
 
-    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
+    <link rel="canonical" href="/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
     
 
   <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
@@ -92,8 +92,6 @@
 </head>
 
 
-
-
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
 
     <div class="container-fluid">
@@ -105,7 +103,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/gi-modules/"> HOME </a>
+            <a class="navbar-brand" href="/"> HOME </a>
         </div>
 
         
@@ -125,10 +123,6 @@
                         </li>
                         
                         <li>
-                            <a href="/gi-modules/categories/giswerk">giswerk</a>
-                        </li>
-                        
-                        <li>
                             <a href="/gi-modules/categories/rs-spatial">rs-spatial</a>
                         </li>
                         
@@ -139,7 +133,7 @@
                     
                     
 		    
-                        <li><a href="/gi-modules/top/archive/">CONTENT</a></li>
+                        <li><a href="/top/archive/">CONTENT</a></li>
                     
 
                     
@@ -182,20 +176,9 @@
 
 
 
-
- 
-  <script>
-  $(document).ready(function () {
-    window.initializeCodeFolding("show" === "hide");
-  });
-  </script>
-  <script src="/gi-modules/js/codefolding.js"></script>
-
-
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/img/bayern-religion-sp.jpg');
-  max-height: 350px
+        background-image: url('/img/bayern-religion-sp.jpg')
     }
 </style>
 
@@ -203,12 +186,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                   
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/forest" title="forest">
+                            forest
+                        </a>
+                        
+                        <a class="tag" href="/tags/lidar" title="lidar">
+                            lidar
+                        </a>
+                        
+                        <a class="tag" href="/tags/ecology" title="ecology">
+                            ecology
+                        </a>
+                        
+                    </div>
                     <h1>Getting startet with LiDAR</h1>
-                   
-            
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                Chris Reudenbach
+                             
+                            on 
+                            Tuesday, November 16, 2021
+                            
+                            
+                            
                             
                     </span>
                 </div>
@@ -216,7 +223,6 @@
         </div>
     </div>
 </header>
-
 
 
 
@@ -258,7 +264,7 @@ Beside the GIS packages there are a number of powerful specialists. Two importan
 require(envimaR)
 
 # MANDANTORY: defining the root folder DO NOT change this line
-rootDIR = &quot;~/edu/agis&quot;
+root_folder = &quot;/media/creu/meta/active/agis/&quot;
 # define  additional packages comment if not needed
 appendpackagesToLoad = c(&quot;lidR&quot;,&quot;future&quot;)
 # define additional subfolders comment if not needed
@@ -269,10 +275,10 @@ appendProjectDirList =  c(&quot;data/lidar/&quot;,&quot;data/lidar/l_raster&quot
 proj4 = &quot;+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0&quot;
 epsg_number = 25832
 
-# MANDANTORY: calling the setup script also DO NOT change this line
-source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),&quot;src/agis_setup.R&quot;), echo = FALSE,verbose = FALSE)</code></pre>
-<pre><code>Warning in system(&quot;timedatectl&quot;, intern = TRUE): Ausführung von Kommando
-&#39;timedatectl&#39; ergab Status 1</code></pre>
+ # MANDANTORY: calling the setup script also DO NOT change this line
+source(paste0(root_folder,&quot;src/000-rspatial-setup.R&quot;), echo = FALSE,verbose = FALSE)</code></pre>
+<pre><code>Warning: option &#39;fgb&#39; requires GDAL &gt;= 3.1.0! Your version is 3.0.4. Setting fgb
+= FALSE</code></pre>
 <pre class="r"><code># NOTE file size is about 12MB
 utils::download.file(url=&quot;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&quot;,
                      destfile=paste0(envrmt$path_tmp,&quot;/chm.zip&quot;))
@@ -301,6 +307,24 @@ Example forest LiDAR data set.
 <h2>Comments &amp; Suggestions</h2>
 </div>
 
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/gi-modules/post/2021-11-20-forest-information-from-lidar-data/" data-toggle="tooltip" data-placement="top" title="Forest Information from LiDAR data">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/" data-toggle="tooltip" data-placement="top" title="Analysis of massive Remote Sensing data">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
                 <style>
 .button {
   border: none;
@@ -376,24 +400,6 @@ Example forest LiDAR data set.
     
 </div>
 
-                
-                
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/gi-modules/post/2021-11-20-forest-information-from-lidar-data/" data-toggle="tooltip" data-placement="top" title="Forest Information from LiDAR data">&larr;
-                            Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/" data-toggle="tooltip" data-placement="top" title="Analysis of massive Remote Sensing data">Next
-                            Post &rarr;</a>
-                    </li>
-                    
-                </ul>
-
             </div>
 
             
@@ -406,115 +412,105 @@ Example forest LiDAR data set.
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">Content</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
             </div>
             
-            
-            
 
             
             <div class="
-                col-lg-2 col-lg-offset-0
-                col-md-3 col-md-offset-1
-                sidebar-container
-                catalog-container">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
                 
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">Tag Nav</a></h5>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         
                         
                         
-                        <a href="/gi-modules/tags/change-detection" title="change-detection">
+                        <a href="/tags/change-detection" title="change-detection">
                             change-detection
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/ecology" title="ecology">
+                        <a href="/tags/ecology" title="ecology">
                             ecology
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/forest" title="forest">
+                        <a href="/tags/forest" title="forest">
                             forest
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/gis" title="gis">
-                            gis
-                        </a>
-                        
-                        
-                        
-                        <a href="/gi-modules/tags/lidar" title="lidar">
+                        <a href="/tags/lidar" title="lidar">
                             lidar
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/project-management" title="project-management">
+                        <a href="/tags/project-management" title="project-management">
                             project-management
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/remote-sensing" title="remote-sensing">
+                        <a href="/tags/remote-sensing" title="remote-sensing">
                             remote-sensing
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/reproducibility" title="reproducibility">
+                        <a href="/tags/reproducibility" title="reproducibility">
                             reproducibility
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/resources" title="resources">
+                        <a href="/tags/resources" title="resources">
                             resources
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/rmarkdown" title="rmarkdown">
+                        <a href="/tags/rmarkdown" title="rmarkdown">
                             rmarkdown
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/scidoc" title="scidoc">
+                        <a href="/tags/scidoc" title="scidoc">
                             scidoc
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/scripts" title="scripts">
+                        <a href="/tags/scripts" title="scripts">
                             scripts
                         </a>
                         
                         
                         
-                        <a href="/gi-modules/tags/xtra" title="xtra">
+                        <a href="/tags/xtra" title="xtra">
                             xtra
                         </a>
                         
                         
                     </div>
                 </section>
-                 
+                
 
                 
                 
-                      
             </div>
         </div>
     </div>

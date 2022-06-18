@@ -24,7 +24,7 @@ Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfol
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
       <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung auch globaler Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpassung dieser bzw.die Entwicklung eigener Methoden.
-Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis).</description>
+Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis). Oft wird dies in Verbindung mit bio- und geophysikalischen oder auch vom Menschen verursachten Prozessen genutzt, um ein tieferes Verständnis und die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten.</description>
     </item>
     
     <item>
@@ -33,7 +33,8 @@ Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist di
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
-      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit grundständigen Auswertungskonzepten.</description>
+      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit grundständigen Auswertungskonzepten.
+Setup root_folder = &amp;quot;/media/creu/meta/active/geoinfo&amp;quot; # # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
     </item>
     
   </channel>
