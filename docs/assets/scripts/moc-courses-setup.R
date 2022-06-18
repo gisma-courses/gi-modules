@@ -6,16 +6,15 @@ packagesToLoad = c("mapview", "raster", "sf")
 
 # Source setup script
 require(envimaR)
-rootDir = envimaR::alternativeEnvi(root_folder = "~/edu/geoAI",
+root_folder = envimaR::alternativeEnvi(root_folder = "~/edu/geoAI",
                                    alt_env_id = "COMPUTERNAME",
                                    alt_env_value = "PCRZP",
                                    alt_env_root_folder = "F:/BEN/edu")
 
-
-"run/",                # folder for runtime data storage
+F
 
 # Now set automatically root direcory, folder structure and load libraries
-envrmt = envimaR::createEnvi(root_folder = rootDir,
+envrmt = envimaR::createEnvi(root_folder = root_folder,
                              folders = projectDirList,
                              path_prefix = "path_",
                              libs = packagesToLoad,

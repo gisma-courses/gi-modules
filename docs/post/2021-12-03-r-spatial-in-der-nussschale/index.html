@@ -30,30 +30,16 @@
     <meta property="twitter:card" content="summary" />
     
     
-    
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/gi-modules/css/hugo-cite.css" />
-
-
-<script src="https://gisma-courses.github.io/gi-modules/js/highlight.min.js"></script>
- 
-<script>hljs.highlightAll();</script>
 
     <meta name="keyword"  content="gisma">
     <link rel="shortcut icon" href="/gi-modules/img/favicon.ico">
 
-    <title>Change Detection - Entwaldung im Harz-your title</title>
+    <title>Change Detection - Entwaldung im Harz | your title</title>
 
-    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/">
+    <link rel="canonical" href="/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/">
+
     
-
-  <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
     
-    <link href="https://gisma-courses.github.io/gi-modules/css/boxes.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/gi-modules/css/iDisqus.min.css"/>
-
     
     <link rel="stylesheet" href="/gi-modules/css/bootstrap.min.css">
 
@@ -64,18 +50,10 @@
     <link rel="stylesheet" href="/gi-modules/css/zanshang.css">
 
     
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
-
-    
-     
-    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
 
     
     
-
-<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/idea.min.css' rel='stylesheet' type='text/css' />
-
-
 
     
     <script src="/gi-modules/js/jquery.min.js"></script>
@@ -90,7 +68,6 @@
     
 
 </head>
-
 
 
 
@@ -122,10 +99,6 @@
                         
                         <li>
                             <a href="/gi-modules/categories/bgis">bgis</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/gi-modules/categories/giswerk">giswerk</a>
                         </li>
                         
                         <li>
@@ -182,20 +155,9 @@
 
 
 
-
- 
-  <script>
-  $(document).ready(function () {
-    window.initializeCodeFolding("show" === "hide");
-  });
-  </script>
-  <script src="/gi-modules/js/codefolding.js"></script>
-
-
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/assets/images/harz-sp.jpg');
-  max-height: 350px
+        background-image: url('/gi-modules/assets/images/harz-sp.jpg')
     }
 </style>
 
@@ -203,12 +165,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                   
+                    <div class="tags">
+                        
+                        <a class="tag" href="/gi-modules/tags/remote-sensing" title="remote sensing">
+                            remote sensing
+                        </a>
+                        
+                        <a class="tag" href="/gi-modules/tags/change-detection" title="change detection">
+                            change detection
+                        </a>
+                        
+                        <a class="tag" href="/gi-modules/tags/forest" title="forest">
+                            forest
+                        </a>
+                        
+                    </div>
                     <h1>Change Detection - Entwaldung im Harz</h1>
-                   
-            
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                Chris Reudenbach
+                             
+                            on 
+                            Friday, December 3, 2021
+                            
+                            
+                            
                             
                     </span>
                 </div>
@@ -216,7 +202,6 @@
         </div>
     </div>
 </header>
-
 
 
 
@@ -236,13 +221,13 @@
 <h1 id="setup">Setup</h1>
 <p>Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket <code>envimaR</code>. Da das Paket auf <code>Github</code> zur Verfügung gestellt wird müssen wir es wie folgt
 installieren:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#75715e"># first install the utility package devtools</span>
-<span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;devtools)
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74"># Install envimaR
-</span><span style="color:#e6db74">devtools::install_github(&#34;</span>envima<span style="color:#f92672">/</span>envimaR<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
-</code></pre></div><p>Wir benötigen dieses Paket um bequem eine definierte Areitsumgebung zu erzeugen.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># first install the utility package devtools</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;devtools)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># Install envimaR
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">devtools::install_github(&#34;</span>envima<span style="color:#f92672">/</span>envimaR<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span></code></pre></div><p>Wir benötigen dieses Paket um bequem eine definierte Areitsumgebung zu erzeugen.</p>
 <p>Nach der Installation navigieren Sie zu <code>File-&gt;New Project-&gt;New Directory</code>. Dann scrollen Sie nach unten bis zur Auswahl <code>Project structure with envimaR</code>. Diese wählen Sie aus. Navigieren sie zu einem Verzeichnis ihrer Wahl. Geben sie einen Projektnamen ein z.B. <code>geoinfo</code>. Das Projekt wird im angegebenen Ordner geöffnet und sollte im Reiter <code>Files</code> so aussehen:</p>
 <p>
   <img src="images/folder.png" alt="">
@@ -263,13 +248,13 @@ installieren:</p>
 <li>Führen Sie <code>find_rtools()</code> aus &ndash; wenn <code>TRUE</code>, hat die Installation korrekt funktioniert</li>
 </ol>
 <p>Dann muss das Paket nur noch wie jedes andere Paket installiert werden:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;sen2r&#34;</span>)
-<span style="color:#a6e22e">library</span>(sen2r)
-</code></pre></div><h3 id="die-sen2r-gui">Die <code>sen2r</code>-GUI</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;sen2r&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(sen2r)
+</span></span></code></pre></div><h3 id="die-sen2r-gui">Die <code>sen2r</code>-GUI</h3>
 <p>Damit Sie Sentinel Daten benutzen können müssen Sie bei SciHub ein <a href="https://scihub.copernicus.eu/dhus/#/self-registration">Konto anlegen</a>!</p>
 <p>Der einfachste Weg, <code>sen2r</code> zu benutzen, ist, die grafische Benutzeroberfläche (GUI) zu öffnen und sie im interaktiven Modus zu benutzen. Allerdings muss man hier in den Einstellungen aus einer Vielzahl von Optionen wählen. Die dafür erforderlichen Kenntnisse sind auch für die unten vorgestellte Kommandozeilenversion notwendig. Beide Schnittstellen können automatisiert werden. Wir empfehlen die API, aber letztlich bleibt es Ihnen überlassen. Verwenden Sie dazu die gleichnamige Funktion.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sen2r<span style="color:#f92672">::</span><span style="color:#a6e22e">sen2r</span>()
-</code></pre></div><h2 id="change-detection-mit-sentinel-daten">Change Detection mit Sentinel Daten</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>sen2r<span style="color:#f92672">::</span><span style="color:#a6e22e">sen2r</span>()
+</span></span></code></pre></div><h2 id="change-detection-mit-sentinel-daten">Change Detection mit Sentinel Daten</h2>
 <p>Wir eingangs bereits angesprochen planen wir die Veränderung der Waldbedeckung im Harz zu quantifizieren. Nachdem wir die Vorbereitung abgeschlossen haben (Anlegen der Projektumgebung und Einrichten des sen2r Pakets inkl. des Kontos bei Copernicus) kann es nun losgehen.</p>
 <p>Was zu tun ist:</p>
 <ol>
@@ -305,7 +290,11 @@ Rstudio github
       </a>.    
 </div>
 
-                <style>
+
+                
+
+                <hr>
+             <style>
 .button {
   border: none;
   border-radius: 4px 4px; 
@@ -380,24 +369,6 @@ Rstudio github
     
 </div>
 
-                
-                
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/gi-modules/post/2021-12-16-change-detection/" data-toggle="tooltip" data-placement="top" title="Change Detection - Klassifikationsverfahren">&larr;
-                            Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/gi-modules/post/2021-11-21-impressum/" data-toggle="tooltip" data-placement="top" title="Impressum">Next
-                            Post &rarr;</a>
-                    </li>
-                    
-                </ul>
-
             </div>
 
             
@@ -410,27 +381,24 @@ Rstudio github
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">Content</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
             </div>
             
-            
-            
 
             
             <div class="
-                col-lg-2 col-lg-offset-0
-                col-md-3 col-md-offset-1
-                sidebar-container
-                catalog-container">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
                 
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">Tag Nav</a></h5>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         
                         
@@ -449,12 +417,6 @@ Rstudio github
                         
                         <a href="/gi-modules/tags/forest" title="forest">
                             forest
-                        </a>
-                        
-                        
-                        
-                        <a href="/gi-modules/tags/gis" title="gis">
-                            gis
                         </a>
                         
                         
@@ -514,11 +476,10 @@ Rstudio github
                         
                     </div>
                 </section>
-                 
+                
 
                 
                 
-                      
             </div>
         </div>
     </div>

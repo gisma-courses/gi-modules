@@ -48,7 +48,7 @@ We make a short general check that we can start over with the real processing, i
 require(envimaR)
 
 # MANDANTORY: defining the root folder DO NOT change this line
-rootDIR = "~/edu/agis"
+root_folder = "~/edu/agis"
 # define  additional packages comment if not needed
 appendpackagesToLoad = c("lidR","future")
 # define additional subfolders comment if not needed

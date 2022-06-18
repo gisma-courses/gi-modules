@@ -30,30 +30,16 @@
     <meta property="twitter:card" content="summary" />
     
     
-    
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/gi-modules/css/hugo-cite.css" />
-
-
-<script src="https://gisma-courses.github.io/gi-modules/js/highlight.min.js"></script>
- 
-<script>hljs.highlightAll();</script>
 
     <meta name="keyword"  content="gisma">
     <link rel="shortcut icon" href="/gi-modules/img/favicon.ico">
 
-    <title>Academic writing made easy-your title</title>
+    <title>Academic writing made easy | your title</title>
 
-    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-11-16-making-of-academic-websites/">
+    <link rel="canonical" href="/gi-modules/post/2021-11-16-making-of-academic-websites/">
+
     
-
-  <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
     
-    <link href="https://gisma-courses.github.io/gi-modules/css/boxes.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/gi-modules/css/iDisqus.min.css"/>
-
     
     <link rel="stylesheet" href="/gi-modules/css/bootstrap.min.css">
 
@@ -64,18 +50,10 @@
     <link rel="stylesheet" href="/gi-modules/css/zanshang.css">
 
     
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
-
-    
-     
-    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
 
     
     
-
-<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/idea.min.css' rel='stylesheet' type='text/css' />
-
-
 
     
     <script src="/gi-modules/js/jquery.min.js"></script>
@@ -90,7 +68,6 @@
     
 
 </head>
-
 
 
 
@@ -122,10 +99,6 @@
                         
                         <li>
                             <a href="/gi-modules/categories/bgis">bgis</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/gi-modules/categories/giswerk">giswerk</a>
                         </li>
                         
                         <li>
@@ -182,20 +155,9 @@
 
 
 
-
- 
-  <script>
-  $(document).ready(function () {
-    window.initializeCodeFolding("show" === "hide");
-  });
-  </script>
-  <script src="/gi-modules/js/codefolding.js"></script>
-
-
 <style type="text/css">
     header.intro-header {
-        background-image: url('/gi-modules/assets/images/head-assign.jpg');
-  max-height: 350px
+        background-image: url('/gi-modules/assets/images/head-assign.jpg')
     }
 </style>
 
@@ -203,12 +165,40 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                   
+                    <div class="tags">
+                        
+                        <a class="tag" href="/gi-modules/tags/scidoc" title="scidoc">
+                            scidoc
+                        </a>
+                        
+                        <a class="tag" href="/gi-modules/tags/reproducibility" title="reproducibility">
+                            reproducibility
+                        </a>
+                        
+                        <a class="tag" href="/gi-modules/tags/project-management" title="project management">
+                            project management
+                        </a>
+                        
+                        <a class="tag" href="/gi-modules/tags/rmarkdown" title="Rmarkdown">
+                            Rmarkdown
+                        </a>
+                        
+                    </div>
                     <h1>Academic writing made easy</h1>
-                   
-            
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                Chris Reudenbach
+                             
+                            on 
+                            Tuesday, November 16, 2021
+                            
+                            
+                            
                             
                     </span>
                 </div>
@@ -216,7 +206,6 @@
         </div>
     </div>
 </header>
-
 
 
 
@@ -234,12 +223,12 @@
                 
                 <h2 id="setting-up-the-blogdown-project">Setting up the blogdown Project</h2>
 <p>We will use blogdown as an incredible easy to use an effiecient tool for setting up websites and producing content. First you need to install the neccessary packages:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install blogdown </span>
-<span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;blogdown&#34;</span>)
-<span style="color:#75715e"># Install the &#34;hugo&#34; website framework</span>
-blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">install_hugo</span>(force <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
-<span style="color:#a6e22e">library</span>(blogdown)
-</code></pre></div><p>To initialize a blogdown website I strongly recommend to use the menu bar of RStudio.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Install blogdown </span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">install.packages</span>(<span style="color:#e6db74">&#34;blogdown&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install the &#34;hugo&#34; website framework</span>
+</span></span><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">install_hugo</span>(force <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(blogdown)
+</span></span></code></pre></div><p>To initialize a blogdown website I strongly recommend to use the menu bar of RStudio.</p>
 <ul>
 <li><code>RStudio toolbar -&gt; File -&gt; New Project -&gt; New Directory -&gt; blogdown website</code></li>
 <li>Copy <code>gisma-courses/hugo-theme-cleanwhite-gc</code> into the Hugo theme field</li>
@@ -255,16 +244,16 @@ blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">install
 <p>Please <strong>first</strong> check if the <code>Git</code> tab is already visible. If so, please navigate to <code>Project Options -&gt; Git/SVN</code> and set <code>Version control systems</code> to <code>none</code>. this will avoid later hazzles.</p>
 <h3 id="mandatory-adaptions">Mandatory Adaptions</h3>
 <p>You must once open the <code>config.yaml</code> file which is located in the root folder of the new course and adapt at least <code>title</code>, <code>URL</code> and <code>publishDir</code>. This settings are found at the beginning of the yaml file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">baseurl<span style="color:#f92672">:</span> https<span style="color:#f92672">://</span>your<span style="color:#f92672">-</span>github<span style="color:#f92672">-</span>name.github.io<span style="color:#f92672">/</span>your<span style="color:#f92672">-</span>repo<span style="color:#f92672">-</span>name <span style="color:#75715e"># Website URL</span>
-publishDir<span style="color:#f92672">:</span> docs
-title<span style="color:#f92672">:</span> name<span style="color:#f92672">-</span>of<span style="color:#f92672">-</span>my<span style="color:#f92672">-</span>blog  <span style="color:#75715e"># Website Name </span>
-</code></pre></div><p>Now please delete the folder <code>public</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>baseurl<span style="color:#f92672">:</span> https<span style="color:#f92672">://</span>your<span style="color:#f92672">-</span>github<span style="color:#f92672">-</span>name.github.io<span style="color:#f92672">/</span>your<span style="color:#f92672">-</span>repo<span style="color:#f92672">-</span>name <span style="color:#75715e"># Website URL</span>
+</span></span><span style="display:flex;"><span>publishDir<span style="color:#f92672">:</span> docs
+</span></span><span style="display:flex;"><span>title<span style="color:#f92672">:</span> name<span style="color:#f92672">-</span>of<span style="color:#f92672">-</span>my<span style="color:#f92672">-</span>blog  <span style="color:#75715e"># Website Name </span>
+</span></span></code></pre></div><p>Now please delete the folder <code>public</code></p>
 <h3 id="build-the-pages">Build the pages</h3>
 <p>Now build the site for publishing.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
-<span style="color:#75715e"># for singele pages you may use </span>
-blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;page-name&#34;</span>)
-</code></pre></div><p>The argument <code>build_rmd = TRUE</code> <strong>forces</strong> a rebuild of all Rmarkdown files.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for singele pages you may use </span>
+</span></span><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>(build_rmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;page-name&#34;</span>)
+</span></span></code></pre></div><p>The argument <code>build_rmd = TRUE</code> <strong>forces</strong> a rebuild of all Rmarkdown files.</p>
 <style>
 .headline{
   color: black;
@@ -320,9 +309,9 @@ Sometimes after the rebuild of the site it is neccessary to restart the rsession
 and confirm your choice. You notice that the Git tab is included now.</p>
 <h3 id="setup-git-for-rstudio-if-not-already-done">Setup git for Rstudio (if not already done)</h3>
 <p>Use your GitHub credentials.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">git config <span style="color:#f92672">--</span>global user.email <span style="color:#e6db74">&#34;your-name@your.email&#34;</span>
-git config <span style="color:#f92672">--</span>global user.name <span style="color:#e6db74">&#34;your github name&#34;</span>
-</code></pre></div><h3 id="track-all-project-files">Track all project files.</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>git config <span style="color:#f92672">--</span>global user.email <span style="color:#e6db74">&#34;your-name@your.email&#34;</span>
+</span></span><span style="display:flex;"><span>git config <span style="color:#f92672">--</span>global user.name <span style="color:#e6db74">&#34;your github name&#34;</span>
+</span></span></code></pre></div><h3 id="track-all-project-files">Track all project files.</h3>
 <p>*Solution 1: *
 Tick all files in the git pane of RStudio -&gt; click on <code>Commit</code> add “<strong>First commit</strong>” in the text field and click again on <code>commit</code>.</p>
 <p>*Solution 2: *
@@ -336,12 +325,11 @@ switch to the terminal tab (beside the console tab) and type:</p>
 <li>Create a new repository on your GitHub account <strong>without adding anything</strong></li>
 <li>Link your local repo to remote repo by switching back to the terminal tab and type:</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote add origin https://github.com/gisma-courses/myBlog.git
-
-<span style="color:#75715e"># please note due tu inlusion codex Github is changing the default branch name from master to main so please check and adapt</span>
-git push -u origin main
-
-</code></pre></div><p>You obviously Have to sign in with either a webbased login or with your token.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git remote add origin https://github.com/gisma-courses/myBlog.git
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># please note due tu inlusion codex Github is changing the default branch name from master to main so please check and adapt</span>
+</span></span><span style="display:flex;"><span>git push -u origin main
+</span></span></code></pre></div><p>You obviously Have to sign in with either a webbased login or with your token.</p>
 <h3 id="if-you-want---publish-your-website-on-github">If you want - publish your Website on Github</h3>
 <ol>
 <li>Navigate on GitHub to <code>Repository -&gt; Settings -&gt; Pages</code></li>
@@ -455,7 +443,11 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
 <p>Of course you are welcome to choose other themes. There are <a href="https://bookdown.org/yihui/blogdown/other-themes.html">countless</a>. However, you should make sure that they offer Rmarkdown support.</p>
 <h2 id="comments--suggestions">Comments &amp; Suggestions</h2>
 
-                <style>
+
+                
+
+                <hr>
+             <style>
 .button {
   border: none;
   border-radius: 4px 4px; 
@@ -530,24 +522,6 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
     
 </div>
 
-                
-                
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/gi-modules/post/2021-11-13-learning-environment/" data-toggle="tooltip" data-placement="top" title="About Learning environment">&larr;
-                            Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/gi-modules/post/2021-11-15-howto-gi-modules/" data-toggle="tooltip" data-placement="top" title="About GI-Modules">Next
-                            Post &rarr;</a>
-                    </li>
-                    
-                </ul>
-
             </div>
 
             
@@ -560,27 +534,24 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">Content</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
             </div>
             
-            
-            
 
             
             <div class="
-                col-lg-2 col-lg-offset-0
-                col-md-3 col-md-offset-1
-                sidebar-container
-                catalog-container">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
                 
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">Tag Nav</a></h5>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         
                         
@@ -599,12 +570,6 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
                         
                         <a href="/gi-modules/tags/forest" title="forest">
                             forest
-                        </a>
-                        
-                        
-                        
-                        <a href="/gi-modules/tags/gis" title="gis">
-                            gis
                         </a>
                         
                         
@@ -664,11 +629,10 @@ I strongly suggest to Use only Rstudio for pushing and pulling in your blogdown 
                         
                     </div>
                 </section>
-                 
+                
 
                 
                 
-                      
             </div>
         </div>
     </div>
