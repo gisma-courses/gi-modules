@@ -24,7 +24,7 @@ Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und d
 
 ## Setup
 ```{r setup,comment = NA, echo=TRUE, message = FALSE, warnings = FALSE, results = FALSE }
-root_folder = "/media/creu/meta/active/geoinfo"
+root_folder = "~/edu/geoinfo/"
 
 #
 # Type: script
@@ -44,8 +44,8 @@ root_folder = "/media/creu/meta/active/geoinfo"
 
 #--- laden der notwendigen Bibliotheken
 # Achtung Pakete müssen evtl. manuell installiert werden
-require(envimaR)
-require(remotes)
+library(envimaR)
+library(remotes)
 
 # SDMTools und RSenal sind für die extended Kappa Berechnung notwendig
 remotes::install_version("SDMTools", version = "1.1-221.2")
@@ -54,13 +54,16 @@ remotes::install_github("environmentalinformatics-marburg/Rsenal")
 library(Rsenal)
 
 # Paket zu Mustererkennung
-require(motif)
+library(motif)
+
+## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
+#root_folder = find_rstudio_root_file()
+root_folder = "~/edu/geoinfo/"
 
 # einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))
 source(file.path(root_folder, "src/functions/fun_helper.R"))
 source(file.path(root_folder, "src/functions/fun_tmap.R"))
-#source(file.path(root_folder, "src/functions/fun_kappa.R"))
 ```
 
 

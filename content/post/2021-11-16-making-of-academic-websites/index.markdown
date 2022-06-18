@@ -105,7 +105,7 @@ git config --global user.name "your github name"
 ### Track all project files.
 
 *Solution 1: *
-Tick all files in the git pane of RStudio -\> click on `Commit` add “**First commit**” in the text field and click again on `commit`.
+Tick all files in the git pane of RStudio -> click on `Commit` add “**First commit**” in the text field and click again on `commit`.
 
 *Solution 2: *
 switch to the terminal tab (beside the console tab) and type:

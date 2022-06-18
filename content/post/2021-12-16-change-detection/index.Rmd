@@ -87,7 +87,7 @@ digitize = FALSE
 
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
-root_folder = "/media/creu/meta/active/geoinfo"
+root_folder = "~/edu/geoinfo/"
 
 # Einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))

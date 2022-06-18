@@ -45,7 +45,7 @@
 
     <title>Project-Oriented Workflow-your title</title>
 
-    <link rel="canonical" href="/gi-modules/post/2021-11-13-project-oriented-workflow/">
+    <link rel="canonical" href="/gi-modules/gi-modules/post/2021-11-13-project-oriented-workflow/">
     
 
   <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
@@ -92,6 +92,8 @@
 </head>
 
 
+
+
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
 
     <div class="container-fluid">
@@ -103,7 +105,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"> HOME </a>
+            <a class="navbar-brand" href="/gi-modules/"> HOME </a>
         </div>
 
         
@@ -123,6 +125,10 @@
                         </li>
                         
                         <li>
+                            <a href="/gi-modules/categories/giswerk">giswerk</a>
+                        </li>
+                        
+                        <li>
                             <a href="/gi-modules/categories/rs-spatial">rs-spatial</a>
                         </li>
                         
@@ -133,7 +139,7 @@
                     
                     
 		    
-                        <li><a href="/top/archive/">CONTENT</a></li>
+                        <li><a href="/gi-modules/top/archive/">CONTENT</a></li>
                     
 
                     
@@ -176,9 +182,20 @@
 
 
 
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/gi-modules/js/codefolding.js"></script>
+
+
 <style type="text/css">
     header.intro-header {
-        background-image: url('/img/code.png')
+        background-image: url('/gi-modules/img/code.png');
+  max-height: 350px
     }
 </style>
 
@@ -186,36 +203,12 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-lg-0 col-lg-offset-0 col-md-0 col-md-offset-0">
                 <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/reproducibility" title="reproducibility">
-                            reproducibility
-                        </a>
-                        
-                        <a class="tag" href="/tags/scripts" title="scripts">
-                            scripts
-                        </a>
-                        
-                        <a class="tag" href="/tags/project-management" title="project management">
-                            project management
-                        </a>
-                        
-                    </div>
+                   
                     <h1>Project-Oriented Workflow</h1>
-                    <h2 class="subheading"></h2>
-                    <span class="meta">
-                        
-                            Posted by 
-                            
-                                Chris Reudenbach
-                             
-                            on 
-                            Saturday, November 13, 2021
-                            
-                            
-                            
+                   
+            
                             
                     </span>
                 </div>
@@ -223,6 +216,7 @@
         </div>
     </div>
 </header>
+
 
 
 
@@ -260,12 +254,12 @@
 <p>One solution to this problem is to agree on a common structure <em>relative</em> to your individual R home directory using symbolic links (Linux flavor systems) or junctions (Windows flavor systems).</p>
 <p>Example: Create a top-level folder name which hosts all of your student projects. For example, this folder is called <code>edu</code>. Within <code>edu</code>, the project folder of this course is called <code>course-name-provided-by-the-instructor</code>. Create the folder <code>edu</code> anywhere you want, e.g. at <code>D:\stuff\important\edu</code>. Then create a so called symbolic link to this folder within your R home directory i.e. the directory where the R function <code>path.expand(&quot;~&quot;)</code> points to.</p>
 <p>To create this link on Windows flavor systems, start a command prompt window (e.g. press [Windows], type “CMD,” press [Return]) and change the directory of the command prompt window to your R home directory which is by default <code>C:\Users\your-user-name\Documents</code>. Then use the <code>mklink \J</code> command to create the symbolic link. In summary and given the paths above:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\y</span>our-user-name<span style="color:#ae81ff">\D</span>ocuments
-</span></span><span style="display:flex;"><span>mklink /J edu D:<span style="color:#ae81ff">\s</span>tuff<span style="color:#ae81ff">\i</span>mportant<span style="color:#ae81ff">\e</span>du
-</span></span></code></pre></div><p>On Linux flavor systems, the R home directory is your home directory by default, i.e. <code>/home/your-user-name/</code>. If you create your edu folder on <code>/media/memory/interesting/edu</code>, the symbolic link can be created using your bash environment:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /home/&lt;your-user-name&gt;/
-</span></span><span style="display:flex;"><span>ln -s /media/memory/interesting/edu edu
-</span></span></code></pre></div><p>Now one can access the <code>edu</code> folder on both the Windows and the Linux example via the home directory, i.e. <code>~/edu/</code>. All problems solved.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\y</span>our-user-name<span style="color:#ae81ff">\D</span>ocuments
+mklink /J edu D:<span style="color:#ae81ff">\s</span>tuff<span style="color:#ae81ff">\i</span>mportant<span style="color:#ae81ff">\e</span>du
+</code></pre></div><p>On Linux flavor systems, the R home directory is your home directory by default, i.e. <code>/home/your-user-name/</code>. If you create your edu folder on <code>/media/memory/interesting/edu</code>, the symbolic link can be created using your bash environment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /home/&lt;your-user-name&gt;/
+ln -s /media/memory/interesting/edu edu
+</code></pre></div><p>Now one can access the <code>edu</code> folder on both the Windows and the Linux example via the home directory, i.e. <code>~/edu/</code>. All problems solved.</p>
 <p>While this will work on all of your private computers, it will <strong>not</strong> work on the ones in the University’s computer lab. To handle that as smooth as possible, you can use the functionality of the <code>envimaR</code> package which allows to set defaults for all computers but one special type which is handled differently.</p>
 <h2 id="basic-workflow-of-the-setup-procedure">Basic workflow of the setup procedure</h2>
 <p>There are two aspects we would draw your attention to:</p>
@@ -392,19 +386,6 @@ Several errors are likely to pop up during this installation and setup process. 
 </ul>
 <h2 id="comments--suggestions">Comments &amp; Suggestions</h2>
 
-
-                
-
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/" data-toggle="tooltip" data-placement="top" title="Analysis of massive Remote Sensing data">&larr;
-                            Previous Post</a>
-                    </li>
-                    
-                    
-                </ul>
                 <style>
 .button {
   border: none;
@@ -480,6 +461,19 @@ Several errors are likely to pop up during this installation and setup process. 
     
 </div>
 
+                
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/gi-modules/post/2022-03-13-der-perfekte-gipfel/" data-toggle="tooltip" data-placement="top" title="Der perfekte Gipfel">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
             </div>
 
             
@@ -492,105 +486,115 @@ Several errors are likely to pop up during this installation and setup process. 
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
+                        <a class="catalog-toggle" href="#">Content</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
             </div>
             
+            
+            
 
             
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
+                col-lg-2 col-lg-offset-0
+                col-md-3 col-md-offset-1
+                sidebar-container
+                catalog-container">
 
                 
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <h5><a href="/tags/">Tag Nav</a></h5>
                     <div class="tags">
                         
                         
                         
-                        <a href="/tags/change-detection" title="change-detection">
+                        <a href="/gi-modules/tags/change-detection" title="change-detection">
                             change-detection
                         </a>
                         
                         
                         
-                        <a href="/tags/ecology" title="ecology">
+                        <a href="/gi-modules/tags/ecology" title="ecology">
                             ecology
                         </a>
                         
                         
                         
-                        <a href="/tags/forest" title="forest">
+                        <a href="/gi-modules/tags/forest" title="forest">
                             forest
                         </a>
                         
                         
                         
-                        <a href="/tags/lidar" title="lidar">
+                        <a href="/gi-modules/tags/gis" title="gis">
+                            gis
+                        </a>
+                        
+                        
+                        
+                        <a href="/gi-modules/tags/lidar" title="lidar">
                             lidar
                         </a>
                         
                         
                         
-                        <a href="/tags/project-management" title="project-management">
+                        <a href="/gi-modules/tags/project-management" title="project-management">
                             project-management
                         </a>
                         
                         
                         
-                        <a href="/tags/remote-sensing" title="remote-sensing">
+                        <a href="/gi-modules/tags/remote-sensing" title="remote-sensing">
                             remote-sensing
                         </a>
                         
                         
                         
-                        <a href="/tags/reproducibility" title="reproducibility">
+                        <a href="/gi-modules/tags/reproducibility" title="reproducibility">
                             reproducibility
                         </a>
                         
                         
                         
-                        <a href="/tags/resources" title="resources">
+                        <a href="/gi-modules/tags/resources" title="resources">
                             resources
                         </a>
                         
                         
                         
-                        <a href="/tags/rmarkdown" title="rmarkdown">
+                        <a href="/gi-modules/tags/rmarkdown" title="rmarkdown">
                             rmarkdown
                         </a>
                         
                         
                         
-                        <a href="/tags/scidoc" title="scidoc">
+                        <a href="/gi-modules/tags/scidoc" title="scidoc">
                             scidoc
                         </a>
                         
                         
                         
-                        <a href="/tags/scripts" title="scripts">
+                        <a href="/gi-modules/tags/scripts" title="scripts">
                             scripts
                         </a>
                         
                         
                         
-                        <a href="/tags/xtra" title="xtra">
+                        <a href="/gi-modules/tags/xtra" title="xtra">
                             xtra
                         </a>
                         
                         
                     </div>
                 </section>
-                
+                 
 
                 
                 
+                      
             </div>
         </div>
     </div>

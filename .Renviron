@@ -1,5 +1,0 @@
-git config --global credential.helper 'cache --timeout=9900000'
-GITHUB_PAT="	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"
-mapzen_key=mapzen-qxVdmnF
-R_TRAVIS_ORG=bF-kgqdn9SndSjwZpyxloA
-options(blogdown.hugo.version = '0.89.0')
