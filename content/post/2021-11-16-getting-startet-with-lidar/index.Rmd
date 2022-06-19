@@ -55,7 +55,7 @@ appendpackagesToLoad = c("lidR","future")
 appendProjectDirList =  c("data/lidar/","data/lidar/l_raster","data/lidar/l_raw","data/lidar/l_norm")
 
 ## define current projection (It is not magic you need to check the meta data or ask your instructor) 
-## ETRS89 / UTM zone 32N
+## ETRS89 / UTM zone 32N deprecated
 proj4 = "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 epsg_number = 25832
 
