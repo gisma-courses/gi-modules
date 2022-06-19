@@ -1,0 +1,140 @@
+---
+title: "Project-Oriented Workflow"
+author: "Chris Reudenbach"
+date: 2021-11-13
+slug: []
+toc: true
+output:
+  blogdown::html_page:
+    keep_md: yes
+categories: ["scidoc"]
+tags: ["working environment","reproducibility", "scripts","project management"]
+description: 'We value freedom of choice as an important good but giving our long-term experience freedom of choice comes to an end when we talk about the mandatory working environment for this course.'
+image: '/img/code.png'
+weight: 99
+---
+
+
+<div id="TOC">
+
+</div>
+
+<div id="flexible-but-reproducible-setup" class="section level2">
+<h2>Flexible but reproducible setup</h2>
+<p>To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.</p>
+<p>If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</p>
+<p>We value freedom of choice as an important good. But given our long-term experience as instructors of similar courses, there is <strong>no freedom of choice</strong> when it comes to the mandatory working environment for this course. The reason for this is simple: Assignments and chunks of code written on person A’s laptop should run on person B’s computer without requiring any changes. The greater the number of systems that should be able to run the code, the nastier this potential situation can become. So, let’s save everyone’s time and focus on the things that are really important. Once the course is finished, feel free to use any working environment structure you like.</p>
+</div>
+<div id="r-project-frameworks" class="section level2">
+<h2>R project frameworks</h2>
+<p>Setting up a working or project environment requires us to define different folder paths and load necessary R packages and additional functions. If, in addition, external APIs (application programming interface) are to be integrated stably and without great effort, the associated paths and environment variables must also be defined correctly.</p>
+<p>There is a growing number of R packages, such as e.g. <a href="https://jdblischak.github.io/workflowr/"><code>workflowR</code></a>, <a href="https://usethis.r-lib.org/"><code>usethis</code></a>, <a href="https://github.com/FrancoisGuillem/tinyProject"><code>tinyProject</code></a> or <a href="https://github.com/NikKrieger/projects"><code>projects</code></a> that provide a wide range of functions for such issues.</p>
+<p>For this introduction to a structured organization of R-based development projects, we suggest the <a href="https://github.com/envima/envimaR"><code>envimaR</code></a> package which was written for the needs of this course. It is a lightweight project management package that takes care of the basic project related tasks with respect to the special features of the University Labs. It can be installed as follows.</p>
+<pre><code>devtools::install_github(&quot;envima/envimaR&quot;)</code></pre>
+<p>Essentially, a project may be split at least in three categories of tasks:</p>
+<ul>
+<li>data (storage, cleaning/preprocessing…)</li>
+<li>scripts (for handling the data performing analysis, creating output…)</li>
+<li>documentation (compiling text, figures, reports…)</li>
+</ul>
+<p>The basis of the aforementioned categories is an adequate storage structure on a suitable permanent storage medium (hard disk, USB stick, cloud, etc.). We suggest a meaningful hierarchical directory structure.</p>
+</div>
+<div id="coping-with-different-absolute-paths-across-different-computers" class="section level2">
+<h2>Coping with different absolute paths across different computers</h2>
+<p>The biggest problem when it comes to cross-computer project path environments is not the project environment itself, i.e. the subfolders of your project <em>relative</em> to your project folder but the <em>absolute</em> path to your project folder. Imagine you agreed on a project folder called mpg-envinsys-plygrnd. On the laptop of person A, the absolute path to the root folder might be <code>C:\Users\UserA\University\mpg-courses\gi</code> while on the external hard disk of person B it might be <code>X:\university_courses\mpg-courses\gi</code>. If you want to read from your data subfolder you have to change the absolute directory path depending on which computer the script is running. Not good.</p>
+<p>One solution to this problem is to agree on a common structure <em>relative</em> to your individual R home directory using symbolic links (Linux flavor systems) or junctions (Windows flavor systems).</p>
+<p>Example: Create a top-level folder name which hosts all of your student projects. For example, this folder is called <code>edu</code>. Within <code>edu</code>, the project folder of this course is called <code>course-name-provided-by-the-instructor</code>. Create the folder <code>edu</code> anywhere you want, e.g. at <code>D:\stuff\important\edu</code>. Then create a so called symbolic link to this folder within your R home directory i.e. the directory where the R function <code>path.expand("~")</code> points to.</p>
+<p>To create this link on Windows flavor systems, start a command prompt window (e.g. press [Windows], type “CMD”, press [Return]) and change the directory of the command prompt window to your R home directory which is by default <code>C:\Users\your-user-name\Documents</code>. Then use the <code>mklink \J</code> command to create the symbolic link. In summary and given the paths above:</p>
+<pre class="bash"><code>cd C:\Users\your-user-name\Documents
+mklink /J edu D:\stuff\important\edu</code></pre>
+<p>On Linux flavor systems, the R home directory is your home directory by default, i.e. <code>/home/your-user-name/</code>. If you create your edu folder on <code>/media/memory/interesting/edu</code>, the symbolic link can be created using your bash environment:</p>
+<pre class="bash"><code>cd /home/&lt;your-user-name&gt;/
+ln -s /media/memory/interesting/edu edu</code></pre>
+<p>Now one can access the <code>edu</code> folder on both the Windows and the Linux example via the home directory, i.e. <code>~/edu/</code>. All problems solved.</p>
+<p>While this will work on all of your private computers, it will <strong>not</strong> work on the ones in the University’s computer lab. To handle that as smooth as possible, you can use the functionality of the <code>envimaR</code> package which allows to set defaults for all computers but one special type which is handled differently.</p>
+</div>
+<div id="basic-workflow-of-the-setup-procedure" class="section level2">
+<h2>Basic workflow of the setup procedure</h2>
+<p>There are two aspects we would draw your attention to:
+1. Define everything once not twice: It is a good idea to define your project
+folder structure, the required libraries and other settings in one place. A simple
+approach is a setup script, i.e. something like <code>course-name-provided-by-the-instructor_setup.R</code> that is sourced
+into each control or analysis script of your project.
+1. Use the same project folder structure in a team: Use the same folder structure
+relative to a fixed starting point across all computers and devices of your team.
+As a root folder, a folder in your home directory (e.g. as described before <code>~/edu</code>) is the recommended choice.
+Within this folder you can directly store your projects or use a symlink to any
+other place on your storage devices.</p>
+<div id="special-considerations-at-marburg-university-computer-labs" class="section level3">
+<h3>Special considerations at Marburg University computer labs</h3>
+<p>The R home directory on the computers in the labs at Marburg University points to
+the network drive <code>H:/Documents</code>. For storage space reasons, you could not use
+this drive for symlinks neither for the storage of the R-packages that you need to install. Therefore, you have to define an alternative starting point
+for your project folders to work with.</p>
+<p>To handle your project relative on all computers using something beneath your
+home directory <code>~</code> as a starting point except the
+University computer labs, we therefore recommend to use the <code>envimaR</code> package.</p>
+</div>
+<div id="conceptual-guideline" class="section level3">
+<h3>Conceptual Guideline</h3>
+<p>For the course it will be assumed that:</p>
+<ul>
+<li>your local starting point is <code>~/edu</code>,</li>
+<li>your project is called <code>course-name-provided-by-the-instructor</code>,</li>
+<li>your git repository is called <code>course-name-provided-by-the-instructor</code>,</li>
+<li>your setup script is called <code>course-name-provided-by-the-instructor_setup.R</code></li>
+<li>located at <code>course-name-provided-by-the-instructor/src</code>.</li>
+</ul>
+<p>This setup concept is a bit more than a guideline, it is a rule. Read it, learn it, live it and have a nice ride.</p>
+</div>
+</div>
+<div id="wrap-it-up-in-a-setup-script" class="section level2">
+<h2>Wrap it up in a setup script</h2>
+<p>Provided that I want to create a project with the mandantory folder structure, checking the PC (Personal or University) that I am working on, load all packages that I need and store all pathes in a list for later use, I have to define these settings and call the <code>createEnvi()</code> function to set up the basic working environment.</p>
+<p>In addition, we can use the setup function to define project related useful settings. E.g. it makes sense to to set an option for temporary actions in the <code>raster</code> package define some standard color palettes and so on.</p>
+<p>If we put everything together in one script, it looks like this:</p>
+<script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
+<p>{{% alert "IMPORTANT" "danger" "black" "black" "During the course it is mandantory to save this script in the *<src>* folder named *<course-name-provided-by-the-instructor_setup.R>*. Best practise is to source this script each time when you run an analysis etc. that is connected with this project." %}}</p>
+<p>{{% alert "NOTE" "info" "black" "black" "The first call of the above script needs some time for execution. If you encounter errors during this installation process, try to install the packages separately for making troubleshooting more convenient. In addition - please *check* the result by navigating to the directory using your favorite file manger. In addition please check the returned *<envrmt>* list. It contains all of the paths as character strings in a convenient list structure" %}}</p>
+</div>
+<div id="template-control-script" class="section level2">
+<h2>Template control script</h2>
+<p>It is strongly recommended that you use the following basic logic to start preprocessing analysis and all other project related tasks like analysis etc. You should use a common template for creating each new script that at least contains the following elements.</p>
+<script src="https://gist.github.com/gisma/99a429cb9f2ce800ec7783d063ad360b.js"></script>
+<p>Since the processing of data in a project usually requires a serial sequence of tasks, it makes sense to number these scripts. So something like this:
+- 10-data-download.R
+- 20-data-cleaning.R
+- 30-data-analysis.R
+- 40-figures.R</p>
+<p>Thus to summarize the above approach the basic setup script:</p>
+<ul>
+<li>creates/initializes the mandatory basic folder structure</li>
+<li>creates a list variable containing all paths as shortcuts<br />
+</li>
+<li>installs and initializes all packages and settings for the project</li>
+</ul>
+<p>all of which follow the logic of the template control script, are responsible for data acquisition, cleansing, analysis and result generation.</p>
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<ul>
+<li>Implement and check the recommende working environment setup</li>
+</ul>
+<div id="concluding-remarks" class="section level3">
+<h3>Concluding remarks</h3>
+<p>{{% alert "REMEMBER" "info" "black" "black" "Several errors are likely to pop up during this installation and setup process. As you will learn through this entire process of patching together different pieces of software, some error warnings are more descriptive than others." %}}</p>
+<p>This procedure is typical and usually necessary. For complex tasks, external software libraries and tools often need to be loaded and connected. Even if most software developers try to facilitate this to make it easier, it is often associated with an interactive and step-by-step approach.</p>
+<p>When in doubt (<strong>and before asking your instructor ;-)</strong>), ask Google! Not because we are too lazy to answer (we will answer you, of course) but because part of becoming a (data) scientist is learning how to solve these problems. We all learned (and continue to learn) this way as well and it is highly unlikely that you are the first person to ask whatever question you may have – Especially <a href="https://stackoverflow.com/questions/tagged/r">StackOverflow</a> is your friend!</p>
+</div>
+</div>
+<div id="readings" class="section level2">
+<h2>Readings</h2>
+<p>For a deeper understanding and some good reasons why we are making such an effort, the following links are helpful</p>
+<ul>
+<li><a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">Project-oriented workflow</a> or <em>“I set your Computer on fire”</em> by Jenny Brian</li>
+<li>Krieger NI, Perzynski AT, Dalton JE (2019) Facilitating reproducible project management and manuscript development in team science: The projects R package. PLOS ONE 14(7): e0212390. <a href="https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0212390&amp;type=printable">https://doi.org/10.1371/journal.pone.0212390</a></li>
+</ul>
+</div>
+<div id="comments-suggestions" class="section level2">
+<h2>Comments &amp; Suggestions</h2>
+</div>

@@ -8,11 +8,11 @@
     <language>en-us^</language>
     <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>bGIS</title>
-      <link>https://gisma-courses.github.io/gi-modules/categories/bgis/</link>
+      <title>workflows</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/workflows/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://gisma-courses.github.io/gi-modules/categories/bgis/</guid>
+      <guid>https://gisma-courses.github.io/gi-modules/categories/workflows/</guid>
       <description></description>
     </item>
     
@@ -26,11 +26,29 @@
     </item>
     
     <item>
+      <title>bGIS</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/bgis/</link>
+      <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/categories/bgis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>aGIS</title>
       <link>https://gisma-courses.github.io/gi-modules/categories/agis/</link>
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://gisma-courses.github.io/gi-modules/categories/agis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scidoc</title>
+      <link>https://gisma-courses.github.io/gi-modules/categories/scidoc/</link>
+      <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/categories/scidoc/</guid>
       <description></description>
     </item>
     

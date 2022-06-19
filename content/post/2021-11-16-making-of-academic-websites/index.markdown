@@ -3,8 +3,8 @@ title: Academic writing made easy
 author: Chris Reudenbach
 date: '2021-11-16'
 slug: []
-categories: ["aGIS"]
-tags: ["scidoc","reproducibility","project management","Rmarkdown"]
+categories: ["scidoc"]
+tags: ["reproducibility","project management","Rmarkdown"]
 description: 'The blogdown package provides a fully functional blogging tool from setting up websites to editing and discussing content. It is abel to handle both  markdown and R markdown content. The chosen hugo-theme-minima-gisma theme is a slightly adapted version of the hugo-theme-minima.It provides basic functionality and an incredible straightforward design.'
 image: '/assets/images/head-assign.jpg'
 toc: yes

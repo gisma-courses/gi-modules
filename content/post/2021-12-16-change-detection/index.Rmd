@@ -5,11 +5,12 @@ date: '2021-12-16'
 slug: []
 bibliography: references.bib
 categories:
-  - bGIS
+  - workflows
 tags:
+  - change detection 
   - remote sensing
-  - change detection   
   - forest
+  
 subtitle: 'Clusteranalyse, Maximum-Likelihood und Maschinenlernverfahren'
 description: 'In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.'
 image: '/assets/images/harz3-sp.jpg'
@@ -88,6 +89,9 @@ digitize = FALSE
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
+install.packages("exactextractr")
+
+library(exactextractr)
 
 # Einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))
@@ -315,11 +319,11 @@ In unserem Beispiel (auf 5 Klassen angewendet und mit `unsuperClass` Funktion au
 ```{r kmeans}
 ## k-means über RStoolbox
 # Modell
-prediction_kmeans_2019 = unsuperClass(pred_stack_2019, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
+prediction_kmeans_2019 = RStoolbox::unsuperClass(pred_stack_2019, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
 # Klassifikation
 mapview(prediction_kmeans_2019$map)
 
-prediction_kmeans_2020 = unsuperClass(pred_stack_2020, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
+prediction_kmeans_2020 = RStoolbox::unsuperClass(pred_stack_2020, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
 mapview(prediction_kmeans_2020$map)
 ```
 

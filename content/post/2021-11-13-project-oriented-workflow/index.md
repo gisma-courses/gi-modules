@@ -7,8 +7,8 @@ toc: true
 output:
   blogdown::html_page:
     keep_md: yes
-categories: ["aGIS"]
-tags: ["reproducibility", "scripts","project management"]
+categories: ["scidoc"]
+tags: ["working environment","reproducibility", "scripts","project management"]
 description: 'We value freedom of choice as an important good but giving our long-term experience freedom of choice comes to an end when we talk about the mandatory working environment for this course.'
 image: '/img/code.png'
 weight: 99

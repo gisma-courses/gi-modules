@@ -43,9 +43,6 @@
     <loc>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</loc>
     <lastmod>2022-02-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/categories/bgis/</loc>
-    <lastmod>2022-02-16T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/categories/</loc>
     <lastmod>2022-02-16T00:00:00+00:00</lastmod>
   </url><url>
@@ -67,11 +64,17 @@
     <loc>https://gisma-courses.github.io/gi-modules/tags/</loc>
     <lastmod>2022-02-16T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/categories/workflows/</loc>
+    <lastmod>2022-02-16T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/tags/ecology/</loc>
     <lastmod>2022-02-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/categories/rs-spatial/</loc>
     <lastmod>2022-02-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/categories/bgis/</loc>
+    <lastmod>2021-12-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/categories/agis/</loc>
     <lastmod>2021-11-20T00:00:00+00:00</lastmod>
@@ -91,7 +94,7 @@
     <loc>https://gisma-courses.github.io/gi-modules/tags/rmarkdown/</loc>
     <lastmod>2021-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://gisma-courses.github.io/gi-modules/tags/scidoc/</loc>
+    <loc>https://gisma-courses.github.io/gi-modules/categories/scidoc/</loc>
     <lastmod>2021-11-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/tags/xtra/</loc>
@@ -101,6 +104,9 @@
     <lastmod>2021-11-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/tags/scripts/</loc>
+    <lastmod>2021-11-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://gisma-courses.github.io/gi-modules/tags/working-environment/</loc>
     <lastmod>2021-11-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://gisma-courses.github.io/gi-modules/search/placeholder/</loc>
