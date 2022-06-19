@@ -48,24 +48,24 @@ We make a short general check that we can start over with the real processing, i
 require(envimaR)
 
 # MANDANTORY: defining the root folder DO NOT change this line
-root_folder = "~/edu/agis"
+root_folder = "~/edu/agis/"
 # define  additional packages comment if not needed
 appendpackagesToLoad = c("lidR","future")
 # define additional subfolders comment if not needed
 appendProjectDirList =  c("data/lidar/","data/lidar/l_raster","data/lidar/l_raw","data/lidar/l_norm")
 
 ## define current projection (It is not magic you need to check the meta data or ask your instructor) 
-## ETRS89 / UTM zone 32N
+## ETRS89 / UTM zone 32N deprecated
 proj4 = "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 epsg_number = 25832
 
 # MANDANTORY: calling the setup script also DO NOT change this line
-source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),"src/agis_setup.R"), echo = FALSE,verbose = FALSE)
+source(paste0(root_folder,"src/000-rspatial-setup.R"), echo = FALSE, verbose = FALSE)
 ```
 
 ```
-Warning in system("timedatectl", intern = TRUE): Ausführung von Kommando
-'timedatectl' ergab Status 1
+Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb
+= FALSE
 ```
 
 

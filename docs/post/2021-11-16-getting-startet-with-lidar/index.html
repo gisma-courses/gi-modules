@@ -243,21 +243,21 @@ Beside the GIS packages there are a number of powerful specialists. Two importan
 require(envimaR)
 
 # MANDANTORY: defining the root folder DO NOT change this line
-rootDIR = &quot;~/edu/agis&quot;
+root_folder = &quot;~/edu/agis/&quot;
 # define  additional packages comment if not needed
 appendpackagesToLoad = c(&quot;lidR&quot;,&quot;future&quot;)
 # define additional subfolders comment if not needed
 appendProjectDirList =  c(&quot;data/lidar/&quot;,&quot;data/lidar/l_raster&quot;,&quot;data/lidar/l_raw&quot;,&quot;data/lidar/l_norm&quot;)
 
 ## define current projection (It is not magic you need to check the meta data or ask your instructor) 
-## ETRS89 / UTM zone 32N
+## ETRS89 / UTM zone 32N deprecated
 proj4 = &quot;+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0&quot;
 epsg_number = 25832
 
 # MANDANTORY: calling the setup script also DO NOT change this line
-source(file.path(envimaR::alternativeEnvi(root_folder = rootDIR),&quot;src/agis_setup.R&quot;), echo = FALSE,verbose = FALSE)</code></pre>
-<pre><code>Warning in system(&quot;timedatectl&quot;, intern = TRUE): Ausführung von Kommando
-&#39;timedatectl&#39; ergab Status 1</code></pre>
+source(paste0(root_folder,&quot;src/000-rspatial-setup.R&quot;), echo = FALSE, verbose = FALSE)</code></pre>
+<pre><code>Warning: option &#39;fgb&#39; requires GDAL &gt;= 3.1.0! Your version is 3.0.4. Setting fgb
+= FALSE</code></pre>
 <pre class="r"><code># NOTE file size is about 12MB
 utils::download.file(url=&quot;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&quot;,
                      destfile=paste0(envrmt$path_tmp,&quot;/chm.zip&quot;))
