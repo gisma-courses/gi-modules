@@ -49,9 +49,8 @@ library(remotes)
 
 # SDMTools und RSenal sind für die extended Kappa Berechnung notwendig
 remotes::install_version("SDMTools", version = "1.1-221.2")
-remotes::install_version("SDMTools", version = "1.1-221.2")
 #remotes::install_github("environmentalinformatics-marburg/Rsenal")
-library(Rsenal)
+#library(Rsenal)
 
 # Paket zu Mustererkennung
 library(motif)
@@ -64,6 +63,7 @@ root_folder = "~/edu/geoinfo/"
 source(file.path(root_folder, "src/functions/000_setup.R"))
 source(file.path(root_folder, "src/functions/fun_helper.R"))
 source(file.path(root_folder, "src/functions/fun_tmap.R"))
+source(file.path(root_folder, "src/functions/fun_kappa.R"))
 ```
 
 
