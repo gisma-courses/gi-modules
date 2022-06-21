@@ -3,8 +3,8 @@ title: "Getting startet with LiDAR"
 author: Chris Reudenbach
 date: '2021-11-16'
 slug: []
-categories: ["aGIS"]
-tags: ["forest", "lidar","ecology"]
+categories: ["workflows"]
+tags: ["lidar","remote sensing","forest", "ecology"]
 description: 'Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.'
 image: '/img/bayern-religion-sp.jpg'
 toc: true
@@ -61,11 +61,6 @@ epsg_number = 25832
 
 # MANDANTORY: calling the setup script also DO NOT change this line
 source(paste0(root_folder,"src/000-rspatial-setup.R"), echo = FALSE, verbose = FALSE)
-```
-
-```
-Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb
-= FALSE
 ```
 
 

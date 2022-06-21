@@ -4,6 +4,7 @@ author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
 bibliography: references.bib
+
 categories:
   - workflows
 tags:
@@ -90,8 +91,8 @@ digitize = FALSE
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
 install.packages("exactextractr")
-
 library(exactextractr)
+
 
 # Einlesen des zuvor erstellten Setup-Skripts
 source(file.path(root_folder, "src/functions/000_setup.R"))
@@ -273,7 +274,7 @@ Sobald der Download erfolgreich war kann mit der eigenlichen Klassifizierungsarb
 
 # Alternativ den Beipieldatensatz herunterladen
 utils::download.file(url="https://github.com/gisma/gismaData/raw/master/geoinfo/corine.tif",destfile=file.path(envrmt$path_data_lev0,"corine.tif"))
-corine = raster::raster(file.path(envrmt$path_data_lev0,"corine.tif"))
+corine = raster("/home/creu/edu/geoinfo/data/data_lev0/corine.tif")
 
 # Erstellen einer Wald-Maske
 # Agro-forestry areas code=22, Broad-leaved forest code=23,

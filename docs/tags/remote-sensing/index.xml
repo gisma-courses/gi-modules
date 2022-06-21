@@ -18,6 +18,15 @@ Sentinel-2 is currently the most important platform for Earth observation in all
     </item>
     
     <item>
+      <title>Getting startet with LiDAR</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</link>
+      <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</guid>
+      <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
+    </item>
+    
+    <item>
       <title>Change Detection - Entwaldung im Harz</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
@@ -25,16 +34,6 @@ Sentinel-2 is currently the most important platform for Earth observation in all
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
       <description>Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
 Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
-    </item>
-    
-    <item>
-      <title>Change Detection - Klassifikationsverfahren</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</link>
-      <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
-      <description>In den Geowissenschaften ist die Fernerkundung die einzige Messtechnik, die eine vollständige meßtechnische Abdeckung auch globaler Skalen ermöglicht. Zur erfolgreichen Nutzung gehören die souverände Anwendung von existierenden und notwendigerweise auch die Anpassung dieser bzw.die Entwicklung eigener Methoden.
-Einleitung Ein wichtiger Anwendungsfall in der Geo- oder Umweltinformatik ist die Erfassung von Veränderungen mittels Satelliten-, Flugzeug- und Drohnenbildern (Change Detectin Analysis).</description>
     </item>
     
     <item>

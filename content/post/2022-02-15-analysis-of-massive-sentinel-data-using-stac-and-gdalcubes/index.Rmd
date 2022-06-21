@@ -5,12 +5,13 @@ date: '2022-02-15'
 slug: []
 bibliography: references.bib
 categories:
-  - rs-spatial
+  - workflows
 tags:
+  - change detection
+  - remote sensing
   - ecology
   - forest
-  - remote sensing
-  - change detection  
+ 
    
 subtitle: 'gdalcubes and STAC - new dimensions in time series and change detection analysis'
 description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level. However it data pre-, processing and post processing is challenging. gdalcubes following the STAC protocol and COG are extremly promising for massive data analysis task'
@@ -89,7 +90,7 @@ ano.col = diverging_hcl(7, palette = "Red-Green",  register = "rg")
 
 ## Defining the Area of Interest 
 
-One major challange is the fact that most of the earth surface related remote sensing activities are heavily *"disturbed"* by the atmosphere, especially by clouds. So to find cloud free satellite imagery is a common and cumbersome task. This task is supported by the `rstac` package which provides a convenient tool to find and filter adequate Sentinel-2 images out of the COG data storage. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the required bounding box to WGS84 geocoordinats, easily done with the `sf` functions  `st_bbox()` and `st_transform()`. In addition we adapt the projection of the referencing vector objects to all other later projection needs. 
+One major challenge is the fact that most of the earth surface related remote sensing activities are heavily *"disturbed"* by the atmosphere, especially by clouds. So to find cloud free satellite imagery is a common and cumbersome task. This task is supported by the `rstac` package which provides a convenient tool to find and filter adequate Sentinel-2 images out of the COG data storage. However, to address the AOI we need to provide the extend via the `bbox` argument of the corresponding function `stac_search()`. So first we  need to derive and transform the required bounding box to WGS84 geo-coordinates, easily done with the `sf` functions  `st_bbox()` and `st_transform()`. In addition we adapt the projection of the referencing vector objects to all other later projection needs. 
 
 <div class="boxSuccess">
 <br>
@@ -99,18 +100,20 @@ Please note to project to three different CRS is for this examples convenience a
 </p>
 
 ```{r geometries}
-
+library(tmap)
+library(tmaptools)
 utils::download.file(url="https://github.com/gisma/gismaData/raw/master/MOF/MOF_CORE.gpkg",destfile=paste0(tutorialDir,"forest/MOF_CORE.gpkg"))
 
 forest_mask = st_read(paste0(tutorialDir,"forest/MOF_CORE.gpkg"))
-
+sf::st_crs(forest_mask) <- 4326
+fm=bb(forest_mask,projection=4326)
 forest_4326 =st_transform(forest_mask,crs = 4326)
 forest_3035 =st_transform(forest_mask,crs = 3035)
 forest_32632 =st_transform(forest_mask,crs = 32632)
 
 
 # call background map
-osm_forest <- read_osm(forest_mask,type = "bing")
+osm_forest <- tmaptools::read_osm(fm,type = "bing")
 
 # mapping the extents and boundaries of the choosen geometries
 tmap_mode("view")
@@ -129,6 +132,7 @@ Using the `rstac` package, we first request all available images from 2017 to 20
 ```{r stac2}
 # search the data stack for the given period and area
 library(rstac)
+
 s = stac("https://earth-search.aws.element84.com/v0")
 items <- s |>
   stac_search(collections = "sentinel-s2-l2a-cogs",
@@ -158,7 +162,7 @@ s2_collection = stac_image_collection(items$features, asset_names = assets, prop
 s2_collection
 ```
 
-The result contains 91 images which means roughly 1.5 images per month, from which we can now create a data cube. For doinfg so we will use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling (for the coarsere Sentinel channels) and also defined derive monthly median values for all pixel values from the available images within a month. Notice that we add a border seam to each side of the cube. 
+The result contains 9blogdown::build_dir("content/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/")1 images which means roughly 1.5 images per month, from which we can now create a data cube. For doinfg so we will use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling (for the coarsere Sentinel channels) and also defined derive monthly median values for all pixel values from the available images within a month. Notice that we add a border seam to each side of the cube. 
 
 <div class="boxSuccess">
 <br>
@@ -253,7 +257,7 @@ ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
 
 ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
   apply_pixel("(B08-B04)/(B08+B04)", "NDVI") |>
-  zonal_statistics(forest_32632,
+  extract_geom(forest_32632,
                    expr = "median(NDVI)",
                    out_path = file.path(tutorialDir,"MOF_10.gpkg"),
                    overwrite = TRUE,  as_stars = TRUE) |>

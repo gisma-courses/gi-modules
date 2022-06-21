@@ -9,8 +9,8 @@ toc: yes
 output:
   blogdown::html_page:
     keep_md: yes
-categories: ["aGIS"]
-tags: ["resources",]    
+categories: ["xtra"]
+tags: ["resources","aGIS"]    
 weight: 120
 ---
 

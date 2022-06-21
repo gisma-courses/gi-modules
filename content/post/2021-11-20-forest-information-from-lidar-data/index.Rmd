@@ -3,8 +3,8 @@ title: Forest Information from LiDAR data
 author: Chris Reudenbach
 date: '2021-11-20'
 slug: []
-categories: ["aGIS"]
-tags: ["forest", "lidar","ecology"]
+categories: ["workflows"]
+tags: ["lidar","remote sensing","forest","ecology"]
 description: ''
 image: '/assets/images/forest-sp.jpg'
 toc: true
@@ -48,7 +48,7 @@ blogdown::shortcode("hp5", "/gi-modules/assets/misc/chm_one_tile.html","700", "6
 
 The above example is based on a las-tile of 250 by 250 meter. That means a fairly **small** tile size. If you did not run in memory or CPU problems you can deal with these tiles by simple looping.  
 
-**But** you have to keep in mind that even if a tile based processing can easily be handled with loops but has some pitfalls. E.g. if you compute some focal operations, you have to make sure that if the filter is close to the boundary of the tile that data from the neighboring tile is loaded in addition. Also the tile size may be a problem for your memory availability. 
+**But** you have to keep in mind that even if a tile based processing can easily be handled with loops but has some pitfalls. E.g. if you compute some focal operations, you have to make sure that if the filter is close to the boundary of the tile that data from the neighboring tile is loaded in addition. Also the`las` tile size may be a problem for your memory availability. 
 
 The `lidR` package comes with a feature called catalog and a set of catalog functions which make tile-based life easier. A catalog meta object also holds information on e.g. the cartographic reference system of the data or the cores used for parallel processing. So we start over again - this time with a **real** data set.
 
@@ -125,7 +125,7 @@ lidR::opt_progress(ctg) <- FALSE
 lidR::opt_laz_compression(ctg) <- TRUE
 ctg@output_options$drivers$Raster$param$overwrite <- TRUE
 
-#--- height nomalisaion within the point cloud
+#--- height normalization within the point cloud
 
 lidR::opt_output_files(ctg) <- paste0(envrmt$path_l_norm,"/{ID}","_norm_height")
 norm_ctg <- lidR::normalize_height(ctg,lidR::tin())
@@ -142,7 +142,7 @@ las_check(norm_ctg)
 
 ### The visualization of an operating lidR catalog action.
 
-The `ctg` catalog  shows the extent of the original las file as provided by the the data server. The vector that is visualized is the resulting `lidR` catalog containing all extracted parameters. Same with the `ctg` here you see the extracted maximum Altitude of each tile used for visualization. Feel free to investigate the catalog parameters by clicking on the tiles.  
+The `ctg` catalog  shows the extent of the original `las` file as provided by the the data server. The vector that is visualized is the resulting `lidR` catalog containing all extracted parameters. Same with the `ctg` here you see the extracted maximum Altitude of each tile used for visualization. Feel free to investigate the catalog parameters by clicking on the tiles.  
 
 
 ```{r vis-ctg,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
@@ -158,7 +158,7 @@ plot(norm_ctg, zcol="Max.Z")
 ### mapview 
 ```{r mapview,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 #- mapview plot
-mapview::mapview(chm[[1]],layer.name = "pitfree chm 1 m² cells height [m]",col.regions=lidR::height.colors(20))
+mapview::mapview(raster(chm),layer.name = "pitfree chm 1sqm tree height [m]",col.regions=lidR::height.colors(20))
 ```
 
 
@@ -167,7 +167,7 @@ mapview::mapview(chm[[1]],layer.name = "pitfree chm 1 m² cells height [m]",col.
 ```{r classic_plot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- classic plot
-plot( chm,
+plot( raster(chm),
       col = lidR::height.colors(20),
       main = "pitfree chm 1 m² cells",
       cex.main = 1) 
@@ -177,7 +177,7 @@ plot( chm,
 ```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- tmap plot
-tmap::tm_shape(chm) +
+tmap::tm_shape(raster(chm)) +
 tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.colors(20)) +
   tm_grid()+
   tm_layout(legend.outside = TRUE)
@@ -188,7 +188,7 @@ tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.color
 
 #- ggplot plot with stars
 ggplot2::ggplot() + 
-stars::geom_stars(data = stars::st_as_stars(chm)) + 
+stars::geom_stars(data = stars::st_as_stars(raster(chm))) + 
 ggplot2::scale_fill_gradientn(colours=lidR::height.colors(20)) +
 ggplot2::coord_equal()+
 ggplot2::guides(fill=guide_legend(title="pitfree chm 1 m² cells"))

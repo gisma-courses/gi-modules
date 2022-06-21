@@ -98,7 +98,11 @@
                         </li>
                         
                         <li>
-                            <a href="/gi-modules/categories/bgis">bgis</a>
+                            <a href="/gi-modules/categories/lidar">lidar</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/gi-modules/categories/resources">resources</a>
                         </li>
                         
                         <li>
@@ -254,6 +258,12 @@ epsg_number = 25832
 source(paste0(root_folder,&quot;src/000-rspatial-setup.R&quot;), echo = FALSE, verbose = FALSE)</code></pre>
 <pre><code>Warning: option &#39;fgb&#39; requires GDAL &gt;= 3.1.0! Your version is 3.0.4. Setting fgb
 = FALSE</code></pre>
+<pre><code>Warning in CPL_crs_from_input(x): GDAL Error 1: PROJ: proj_create_from_database:
+SQLite error on SELECT name, coordinate_system_auth_name,
+coordinate_system_code, geodetic_crs_auth_name, geodetic_crs_code,
+conversion_auth_name, conversion_code, area_of_use_auth_name, area_of_use_code,
+text_definition, deprecated FROM projected_crs WHERE auth_name = ? AND code = ?:
+no such column: area_of_use_auth_name</code></pre>
 <pre class="r"><code># NOTE file size is about 12MB
 utils::download.file(url=&quot;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&quot;,
                      destfile=paste0(envrmt$path_tmp,&quot;/chm.zip&quot;))
