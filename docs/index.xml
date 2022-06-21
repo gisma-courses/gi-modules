@@ -52,7 +52,7 @@ Sentinel-2 is currently the most important platform for Earth observation in all
       
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</guid>
       <description>How to get started? For this first example we take a typical situation: - we have no idea about the software and possible solutions - we have no idea about LiDAR data processing and analysis - we just google something like lidR package tutorial
-Among the top ten is The lidR package book .</description>
+Among the top ten is The lidR package book . So let’s follow the white rabbit…</description>
     </item>
     
     <item>
@@ -124,6 +124,16 @@ Content Responsibility The responsibility for the content rests with the instruc
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
       <description>Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
 Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
+    </item>
+    
+    <item>
+      <title>Change Detection - Klassifikationsverfahren</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</link>
+      <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
+      <description>In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.
+Einleitung In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall.</description>
     </item>
     
     <item>

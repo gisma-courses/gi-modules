@@ -90,7 +90,7 @@ digitize = FALSE
 ## setzen des aktuellen Projektverzeichnisses (erstellt mit envimaR) als root_folder
 #root_folder = find_rstudio_root_file()
 root_folder = "~/edu/geoinfo/"
-install.packages("exactextractr")
+#install.packages("exactextractr")
 library(exactextractr)
 
 
@@ -370,7 +370,7 @@ m1 = tm_shape(pred_stack_2019) + tm_rgb(r=4, g=3, b=2) +
             panel.labels = c("r=1, g=2, b=3")) +
   tm_grid()
 
-m2 = tm_shape(pred_stack_2019) + tm_rgb(r=4, g=3, b=2) +
+m2 = tm_shape(pred_stack_2019) + tm_rgb(r=6, g=5, b=4) +
   tm_layout(legend.outside.position = "right",
             legend.outside = T,
             panel.label.height=0.6,
@@ -449,7 +449,7 @@ if (digitize) {
 }
 ```
 
-Als Resultat liegt nun eineTabele mit den Trainingsdaten  für 2019 und 2020 vor. Der Datensatz beinhalten alle Rasterinformationen über alle Bänder die von den Polygonen für die Klassen *"clearcut"* und *"other"* abgedeckt werden. 
+Als Resultat liegt nun eine Tabele mit den Trainingsdaten  für 2019 und 2020 vor. Der Datensatz beinhalten alle Rasterinformationen über alle Bänder die von den Polygonen für die Klassen *"clearcut"* und *"other"* abgedeckt werden. 
 
 ```{r raw_train, echo=TRUE}
 head(tDF)
@@ -461,7 +461,7 @@ head(tDF)
 
 ## Schritt 3 - Modelltraining, Prüfen der Modellgüte, Klassifikation
 
-Klassifikatoren (z.B der Maximum-Likelihood Klassikator) oder Algorithmen des maschinellen Lernens (wie z. B. Random Forest)  ermitteln auf Basis der Trainingsdaten Beschreibungsmodelle die z.b.  statistische Signaturen,  Klassifikationsbäume  oder andere Funktionen darstellen. Im Rahmen der Güte der Trainingsdaten  sind solche Modelle geeignet und repräsentativ um  Vorhersagen für Räume zu treffen falls die Prädiktoren aus dem Modell flächendeckend vorhanden sind. 
+Klassifikatoren (z.B der Maximum-Likelihood Klassikator) oder Algorithmen des maschinellen Lernens (wie z. B. Random Forest)  ermitteln auf Basis der Trainingsdaten Beschreibungsmodelle die z.B. statistische Signaturen,  Klassifikationsbäume  oder andere Funktionen darstellen. Im Rahmen der Güte der Trainingsdaten  sind solche Modelle geeignet und repräsentativ um  Vorhersagen für Räume zu treffen falls die Prädiktoren aus dem Modell flächendeckend vorhanden sind. 
 
 Wir wollen nun die räumlichen Merkmale Kahlschlag/kein Wald exemplarisch mit einer Maximum Likelihood Klassifikation und mit Random Forest vorhersagen und Standardmethoden der Zufallsvalidierung und Modellgüteeinschätzung anwenden. 
 

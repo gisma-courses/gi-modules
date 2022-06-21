@@ -28,6 +28,16 @@ Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfol
     </item>
     
     <item>
+      <title>Change Detection - Klassifikationsverfahren</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</link>
+      <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
+      <description>In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.
+Einleitung In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall.</description>
+    </item>
+    
+    <item>
       <title>Change Detection - Auswertung</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
