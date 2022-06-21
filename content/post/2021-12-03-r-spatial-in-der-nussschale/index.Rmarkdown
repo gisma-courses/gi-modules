@@ -4,7 +4,7 @@ author: Chris Reudenbach
 date: '2021-12-03'
 slug: []
 categories:
-  - workflows
+  - modules
 tags:
   - change detection 
   - remote sensing

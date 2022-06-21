@@ -6,7 +6,7 @@ slug: []
 bibliography: references.bib
 
 categories:
-  - workflows
+  - modules
 tags:
   - change detection 
   - remote sensing

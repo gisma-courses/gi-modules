@@ -3,7 +3,7 @@ title: "Getting startet with LiDAR"
 author: Chris Reudenbach
 date: '2021-11-16'
 slug: []
-categories: ["workflows"]
+categories: ["modules"]
 tags: ["lidar","remote sensing","forest", "ecology"]
 description: 'Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.'
 image: '/img/bayern-religion-sp.jpg'

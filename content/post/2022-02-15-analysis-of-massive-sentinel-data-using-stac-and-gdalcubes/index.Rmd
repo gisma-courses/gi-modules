@@ -5,13 +5,12 @@ date: '2022-02-15'
 slug: []
 bibliography: references.bib
 categories:
-  - workflows
+  - modules
 tags:
   - change detection
   - remote sensing
   - ecology
   - forest
- 
    
 subtitle: 'gdalcubes and STAC - new dimensions in time series and change detection analysis'
 description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level. However it data pre-, processing and post processing is challenging. gdalcubes following the STAC protocol and COG are extremly promising for massive data analysis task'

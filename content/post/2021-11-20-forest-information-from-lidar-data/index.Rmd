@@ -3,7 +3,7 @@ title: Forest Information from LiDAR data
 author: Chris Reudenbach
 date: '2021-11-20'
 slug: []
-categories: ["workflows"]
+categories: ["modules"]
 tags: ["lidar","remote sensing","forest","ecology"]
 description: ''
 image: '/assets/images/forest-sp.jpg'
