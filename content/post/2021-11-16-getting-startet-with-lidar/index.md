@@ -63,6 +63,11 @@ epsg_number = 25832
 source(paste0(root_folder,"src/000-rspatial-setup.R"), echo = FALSE, verbose = FALSE)
 ```
 
+```
+Warning in CPL_crs_from_input(x): GDAL Error 1: PROJ: proj_create_from_database:
+Cannot find proj.db
+```
+
 
 
 ```r

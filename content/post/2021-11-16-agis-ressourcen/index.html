@@ -9,7 +9,7 @@ toc: yes
 output:
   blogdown::html_page:
     keep_md: yes
-categories: ["xtra"]
+categories: ["scidoc"]
 tags: ["resources","aGIS"]    
 weight: 120
 ---

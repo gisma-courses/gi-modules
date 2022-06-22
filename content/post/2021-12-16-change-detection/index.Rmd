@@ -4,7 +4,6 @@ author: Chris Reudenbach
 date: '2021-12-16'
 slug: []
 bibliography: references.bib
-
 categories:
   - modules
 tags:
@@ -14,6 +13,7 @@ tags:
   
 subtitle: 'Clusteranalyse, Maximum-Likelihood und Maschinenlernverfahren'
 description: 'In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.'
+
 image: '/assets/images/harz3-sp.jpg'
 toc: true
 output:
@@ -26,9 +26,9 @@ In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das ei
 
 # Einleitung 
 
-In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall. Oft werden solche Ergebnisse mit bio- und geophysikalischen oder anthropogenen Prozessen in Verbindung gebracht, um ein sowohl ein tieferes Verständnis als auch die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Um räumliche Informationen aus den zugrundeliegenden Prozessen zu erzeugen sind Bildanalysemethoden von hervorgehobener Bedeutung. Da diese Bildaten ein immens wachsender Bereich sind, ist es zunehmend notwendig sog. Big Data Konzepte in die Analysen zu integrieren, also mit enormen Datenmengen automatisiert und nachvollziehbar umzugehen.
+In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall. Oft werden solche Ergebnisse mit bio- und geophysikalischen oder anthropogenen Prozessen in Verbindung gebracht, um ein sowohl ein tieferes Verständnis als auch die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten. Um räumliche Informationen aus den zugrundeliegenden Prozessen zu erzeugen sind Bildanalysemethoden von hervorgehobener Bedeutung. Da sowohl Quantität als auch Qualität dieser *Bildaten* einen ständig wachsenden Anteil am Monitoring und der Modellierung der Umwelt übernimmt, ist es zunehmend notwendig *Big Data* Konzepte in die Analysen zu integrieren. Das heisst mit enormen Datenmengen (>> 10 GB) repoduzierbare Analysen vorzunehmen. Dies ist sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben unausweichlich. 
 
-Dies ist sowohl für den wissenschaftlichen Erkenntnisgewinn als auch für gesellschaftliche Zukunftsaufgaben zwingend. Wir starten wie bereits einleitend ausgeführt mit einer skalierbaren Change Detection Analyse von Waldschäden in Mittelgebirgen, also einer typischen anwendungsorientierten Aufgabe.
+Wir starten wie bereits einleitend ausgeführt mit einer skalierbaren Change Detection Analyse von Waldschäden in Mittelgebirgen, also einer typischen anwendungsorientierten Aufgabe. Skalierbar heisst dass wir die Analyse mit einem überschaubaren, den Nordwest-Harz abdeckenden Gebiet und auf zwei Zeitslots beschränken. Der resultierende Algorithmus kann jedoch auf räumlich andere oder größere Gebiete sowie zeitlich auf mehr Zeitebenen angewendet werden.
 
 ## Informationen aus Bilddaten
 
@@ -209,7 +209,7 @@ Diese Daten müssen für den gewünschten Zeitslot und Raumausschnitt besorgt un
 
  Bitte unbedingt beachten das die Daten die älter als 18 Monate sind  im Long Term Archive liegen. 
 
-```{r datendownload, message = FALSE, warnings = FALSE}
+```{r datendownload, message=FALSE, warning=FALSE}
 
 #--- Download der Daten
 # gui = TRUE ruft die GUI zur Kontrolle auf
@@ -242,8 +242,8 @@ In diesem Beispiel löst der obige Befehl eine *Bestellung* aus. `sen2r`  gibt d
 # ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
-Wichtig sind sind die beiden Befehle mit Vorgangsnummern: 
-Mit dem ersten Befehl kann gecheckt werden ob die Daten im Zugriff sind. Dies dauert in der Regel nicht länger als 30 Minuten. Mit dem zweiten Befehl können Sie dann heruntergeladen und prozessiert werden. Bitte beachten Sie dass dies eine gute Internetverbindung vorraussetzt. 
+Wichtig sind die beiden Befehle mit den *"Vorgangsnummern"*: 
+Mit dem ersten Befehl kann gecheckt werden ob die Daten bereits im Zugriff sind. Dies dauert in der Regel nicht länger als 30 Minuten. Mit dem zweiten Befehl können die bestellten Daten heruntergeladen und prozessiert werden. Bitte beachten Sie, dass eine gute Internetverbindung besteht. 
 
 ```
 safe_is_online("/home/creu/.sen2r/lta_orders/lta_20220220_134628.json")
@@ -253,7 +253,7 @@ sen2r("/home/creu/.sen2r/proc_par/s2proc_20220220_134550.json")
 
 ### Vorbereitung der Daten
 
-Sobald der Download erfolgreich war kann mit der eigenlichen Klassifizierungsarbeit begonnen werden. Zuerst müssen die Daten in geeigneter Weise nämlich als ein Multikanalbild organisiert werden. Zusätzlich wird eine aktuelle Corine Landnutzung geladen, um eine binäre Wald/nicht Wald Maske zu erzeugen. Für den [Download der Corine Daten](https://land.copernicus.eu/pan-european/corine-land-cover) kann das bereits verfügbare Copernicus Konto genutzt werden. Nach dem (manuellen) Download die Daten in das Verzeichnis `level0`  Verzeichnis entpacken (Achtung hier gibt es nach dem entpacken Archivs zahllose Unterverzeichnisse wir benötigen die Datei `U2018_CLC2018_V2020_20u1.tif`. Alternativ kann der bereits korrekt prozesierte und projizierte Datensatz vom github repository (siehe Skript) genutzt werden.
+Sobald der Download erfolgreich war kann mit der eigenlichen Klassifikation begonnen werden. Zuerst müssen die Daten in technisch geeigneter Weise als  Multikanalbild organisiert werden. Zusätzlich wird ein aktueller bzw. zeitlich korrespondierender Corine Landnutzungsdatensatz geladen, um eine binäre Wald/nicht Wald Maske zu erzeugen. Für den [Download der Corine Daten](https://land.copernicus.eu/pan-european/corine-land-cover) kann das bereits verfügbare Copernicus Konto genutzt werden. Nach dem (manuellen) Download die Daten in das Unterverzeichnis `level0`  entpacken (Achtung hier gibt es nach dem Entpacken des Archivs zahllose Unterverzeichnisse).  Wir benötigen die Datei `U2018_CLC2018_V2020_20u1.tif`. Alternativ kann der bereits korrekt prozesierte und projizierte Datensatz vom github repository (siehe Skript) genutzt werden.
 
 
 ```{r stack, message=FALSE, warnings=FALSE}
@@ -322,10 +322,10 @@ In unserem Beispiel (auf 5 Klassen angewendet und mit `unsuperClass` Funktion au
 # Modell
 prediction_kmeans_2019 = RStoolbox::unsuperClass(pred_stack_2019, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
 # Klassifikation
-mapview(prediction_kmeans_2019$map)
+plot(prediction_kmeans_2019$map)
 
 prediction_kmeans_2020 = RStoolbox::unsuperClass(pred_stack_2020, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
-mapview(prediction_kmeans_2020$map)
+plot(prediction_kmeans_2020$map)
 ```
 
 
@@ -370,12 +370,12 @@ m1 = tm_shape(pred_stack_2019) + tm_rgb(r=4, g=3, b=2) +
             panel.labels = c("r=1, g=2, b=3")) +
   tm_grid()
 
-m2 = tm_shape(pred_stack_2019) + tm_rgb(r=6, g=5, b=4) +
+m2 = tm_shape(pred_stack_2019) + tm_rgb(r=8, g=4, b=3) +
   tm_layout(legend.outside.position = "right",
             legend.outside = T,
             panel.label.height=0.6,
             panel.label.size=0.6,
-            panel.labels = c("r=4, g=5, b=6")) +
+            panel.labels = c("r=8, g=4, b=3")) +
   tm_grid()
 tmap::tmap_arrange(m1,m2)
   
@@ -507,10 +507,12 @@ crs(sp_trainDat) = crs(pred_stack_2019)
 crs(sp_testDat) = crs(pred_stack_2019)
 
 
-# superClass method "mlc" berechnet die Statisik und klassifiziert in einem aufruf
-prediction_mlc_2019       <- superClass(pred_stack_2019, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class", model = "mlc", tuneLength = 1, trainPartition = 0.7,verbose = TRUE)
+# superClass method "mlc" trainiert das Modell und klassifiziert im Anschluss
+raster::beginCluster(30)
+prediction_mlc_2019   <- superClass(pred_stack_2019, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class", model = "mlc", tuneLength = 1, trainPartition = 0.7,verbose = TRUE)
 
 prediction_mlc_2020       <- superClass(pred_stack_2020, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class",model = "mlc", tuneLength = 1, trainPartition = 0.7,verbose = TRUE)
+raster::endCluster()
 ```
 
 
@@ -523,7 +525,7 @@ Random Forests können sowohl für Regressions- als auch für Klassifizierungsau
 
 Abbildung: Vereinfachte Darstellung der Klassifizierung von Daten durch Random Forest während des Trainings. Venkata Jagannath [CC BY-SA 4.0] via wikipedia.org
 
-Ein Random-Forest-Algorithmus lernt über die Daten, indem er viele Entscheidungsbäume erstellt - daher auch der Name "Forest". Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz aus eines Baumes aus dem Trainingsdatensatz  und weist dem Pixel dies Klasse zu. Dies wird mit allen verfügbaren Entschidungsbäuumen so gemacht und letzlich wird nach dem Winner takes it all Ansatz die Instanz der Klasse zugeordnet, die das Ergebnis der meisten Bäume ist.
+Ein Random-Forest-Algorithmus lernt über die Daten, indem er  Entscheidungsbäume erstellt - daher auch der Name "Forest". Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz eines Entscheidungsbaumes aus dem Trainingsdatensatz und weist dem Pixel die korrespondierende Klasse zu. Dies wird mit allen verfügbaren Entscheidungsbäuumen wiederholt. Letzlichwird nach dem Winner-takes-it-all Prinzip das Pixel der Klasse zugeordnet, die die meisten Bäume aufweist.
 
 
 
@@ -550,16 +552,16 @@ saveRDS(rf_model, paste0(envrmt$path_data,"rf_model.rds"))
 
 ### Schätzung Modellgüte  
 
-Die Testdaten werden nun für die unabhängige Qualitätsprüfung des Modells verwendet. Eine Wahrheits- oder Konfusionsmatrix zeigt an, wie präzise das Modell die korrekten Klassen vorhersagt. Die Hauptdiagonale der Matrix zeigt die Fälle an, in denen das Modell korrekt ist. In diesem Falle mit nur 2 Klassen gilt der Sonderfall der [Beurteilung eines binären Klassifikators](https://en.wikipedia.org/wiki/Evaluation_of_binary_classifiers). 
+Die Testdaten werden nun für die unabhängige Qualitätsprüfung des Modells verwendet. Eine Wahrheits- oder Konfusionsmatrix zeigt an, wie präzise das Modell die korrekten Klassen vorhersagt. Die Hauptdiagonale der Matrix zeigt die Fälle an, in denen das Modell zutrifft. In unserer Klassifikation von nur 2 Klassen gilt allerdings der Sonderfall einer [Beurteilung eines binären Klassifikators](https://en.wikipedia.org/wiki/Evaluation_of_binary_classifiers). 
 Speziell für die hier verwendete Funktion finden sich ausführliche Erläuertungen in der [caret Hilfe](https://topepo.github.io/caret/measuring-performance.html#measures-for-predicted-classes).
 
 Die wesentlichen Ausagen zur Modellgüte sind : 
 
-*  *'Positive' Class* = **clearcut**: wird mit der Sensitivität (true positive rate) erfasst, die die  Wahrscheinlichkeit angibt, mit der ein positives Objekt korrekt als positiv klassifiziert wird.
-*  *'Negative Class'* = **other**: wird mit der Spezifität (true negative rate) erfasst und gibt die Wahrscheinlichkeit an, mit der ein negatives Objekt korrekt als negativ klassifiziert wird
-*  *Positive and negative predictive values*  geben für *clearcut* bzw. *other* die reale Perfomance an. Sie sind um die reale Häufikeitsverteilung korrigiert und ein Schätzmass für die Präzision bzw. Pereformance des Modells bezüglich der jeweiligen Klassen. 
+*  *'Positive' Class* = **clearcut**: wird mit der Sensitivität (*true positive rate*) erfasst, die die  Wahrscheinlichkeit angibt, mit der ein positives Objekt korrekt als positiv klassifiziert wird.
+*  *'Negative Class'* = **other**: wird mit der Spezifität (*true negative rate*) erfasst und gibt die Wahrscheinlichkeit an, mit der ein negatives Objekt korrekt als negativ klassifiziert wird
+*  *Positive and negative predictive values*  geben für *clearcut* bzw. *other* die reale Perfomance an. Sie sind um die reale Häufigkeitsverteilung korrigiert und ein Schätzmass für die Präzision bzw. Performance des Modells bezüglich der jeweiligen Klassen. 
 
-Trotz der hohen Werte sehen wir das die Klasse *clearcut* hier deutlich abfällt also durchaus noch Verbesserungsbedarf für eine guten Klassifikation vorliegt. 
+Trotz der hohen Werte sehen wir, dass die Klasse *clearcut* hier deutlich abfällt. Das kann durchaus als Hinweis auf die Notwendigkeit zur Verbesserung der Klassifikation aufgefasst werden. 
 
 Insgesamt kann das Modell jedoch als gut bezeichnet werden.
 
@@ -585,7 +587,7 @@ saveRDS(prediction_rf_2020, paste0(envrmt$path_data,"prediction_rf_2020.rds"))
 
 ```
 
-Bei qualitativen Vergleich fällt auf dass Random Forest und Maximumlikelihood Klassifikation vergleichbare Ergebnisse liefern.  
+Bei einem qualitativen Vergleich fällt auf, dass die `Random Forest` und `Maximumlikelihood` Klassifikation sehr ähnliche Ergebnisse von vergleichbarer Güte liefern.  
 
 
 ```{r vergleichkalssifikationen}
@@ -607,7 +609,7 @@ mapview::viewRGB(mask*pred_stack_2020, r = 4, g =3, b = 2,maxpixels =  1693870)+
 
 ##  Weiterführende Unterstützung
 
-Betrachten sie sie nachfolgenden Ressourcen als Beispiele dafür, wie aus solchen vielfältig verfügbaren Ressourcen eine bestimmte technische und konzeptionelle Vorgehensweise zur Bearbeitung einer Fragestellung *"entsteht"*. Nach viel Recherche und kritischer Gegenprüfung wird ein aktuell als gesichert betrachter Stand innerhalb der wissenschaftlcihen Gemeinschaft identifiziert und der eine gute Grundlage guter wissenschaftlicher Praxis darstellt. 
+Betrachten Sie die nachfolgenden Ressourcen als Beispiele dafür, wie aus solchen, im Internet vielfältig verfügbaren Anleitungen, sich schrittweise eine bestimmte konzeptionelle und technische Vorgehensweise zur Bearbeitung einer Fragestellung *"herauskristallisiert"*. Nach viel Recherchearbeit und kritischer Gegenprüfung wird so ein aktuell innerhalb der wissenschaftlcihen Gemeinschaft als gesichert geltender *"Stand der Forschung"*  identifiziert, der als zureichende Grundlage guter wissenschaftlicher Praxis betrachtet werden kann. 
 
 Arbeiten/Lesen Sie, auch zu Übungszwecken,  die nachstehende Auswahl von Blogs und Hilfestellungen einmal durch. 
 

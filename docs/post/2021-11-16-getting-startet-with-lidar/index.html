@@ -240,6 +240,8 @@ epsg_number = 25832
 
 # MANDANTORY: calling the setup script also DO NOT change this line
 source(paste0(root_folder,&quot;src/000-rspatial-setup.R&quot;), echo = FALSE, verbose = FALSE)</code></pre>
+<pre><code>Warning in CPL_crs_from_input(x): GDAL Error 1: PROJ: proj_create_from_database:
+Cannot find proj.db</code></pre>
 <pre class="r"><code># NOTE file size is about 12MB
 utils::download.file(url=&quot;https://github.com/gisma/gismaData/raw/master/uavRst/data/lidR_data.zip&quot;,
                      destfile=paste0(envrmt$path_tmp,&quot;/chm.zip&quot;))
