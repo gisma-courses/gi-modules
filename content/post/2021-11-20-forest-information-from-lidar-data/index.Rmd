@@ -61,10 +61,11 @@ Please note that dealing with `lidR` catalogs is pretty stressful for the memory
 
 
 
-### lidR catalog script to derive a canopy height model
-The following scripts will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/omf5DvyhL) (VPN required) . Store the the data to the e.g. `envrmt$path_l_raw` folder. 
+### Using `lidR catalog` to derive a canopy height model
 
+The following script will setup a `lidR catalog` and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related [LiDAR data set of the MOF area](http://gofile.me/3Z8AJ/omf5DvyhL) (VPN required) . Store the the data to the e.g. `envrmt$path_l_raw` folder. 
 
+#### VRT workaround
 
 ```{r echo=FALSE} 
 
@@ -72,10 +73,10 @@ blogdown::shortcode("collapse", "Workaround for the IO error problem with the li
                     "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files")
 ```
 
-
+#### Complete catalog script
 <p>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_json" aria-expanded="false" aria-controls="collapse_json">
-    Vollständiges Skript
+    Show complete script for `lidR catalog`
   </button>
 <div class="collapse" id="collapse_json">
   <div class="card card-body">
@@ -126,7 +127,7 @@ unzip(paste0(envrmt$path_tmp,"/chm.zip"),
 
 las_files = list.files(envrmt$path_tmp,
                        pattern = glob2rx("*.las"),
-                       full.names = TRUE)
+                       full.names = TRUE)#### VRT workaround
 
 #--- create CHM with lidR catalog
 #- source: https://github.com/Jean-Romain/lidR/wiki/Rasterizing-perfect-canopy-height-models
@@ -172,6 +173,7 @@ mapview(chm, zcol="Max.Z",col.region=viridis::viridis(16))
 
 
 ## Let's plot the results
+You will find below some very common approaches to visualize the results as a map. Please note this are just very basic maps for getting a first impression of the data.
 
 ### mapview 
 <div class="fold s ">

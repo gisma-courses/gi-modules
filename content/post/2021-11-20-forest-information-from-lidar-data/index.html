@@ -27,7 +27,7 @@ weight: 101
 <script src="{{< blogdown/postref >}}index_files/leaflet-binding/leaflet.js"></script>
 <script src="{{< blogdown/postref >}}index_files/leaflet-providers/leaflet-providers_1.9.0.js"></script>
 <script src="{{< blogdown/postref >}}index_files/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
-<script src="{{< blogdown/postref >}}index_files/chm_1c2d34/data_stars_chm978cde.txt"></script>
+<script src="{{< blogdown/postref >}}index_files/chm_c8b3a6/data_stars_chmf2dea9.txt"></script>
 <script src="{{< blogdown/postref >}}index_files/joda/joda.js"></script>
 <script src="{{< blogdown/postref >}}index_files/joda/addImageQuery-bindings.js"></script>
 <script src="{{< blogdown/postref >}}index_files/clipboard/setClipboardText.js"></script>
@@ -36,7 +36,7 @@ weight: 101
 <script src="{{< blogdown/postref >}}index_files/HomeButton/easy-button-src.min.js"></script>
 <link href="{{< blogdown/postref >}}index_files/mapviewCSS/mapview-popup.css" rel="stylesheet" />
 <link href="{{< blogdown/postref >}}index_files/mapviewCSS/mapview.css" rel="stylesheet" />
-<script src="{{< blogdown/postref >}}index_files/pitfree chm 1sqm tree height [m]_84d162/data_stars_pitfreechm1sqmtreeheightm53ba8d.txt"></script>
+<script src="{{< blogdown/postref >}}index_files/pitfree chm 1sqm tree height [m]_1742df/data_stars_pitfreechm1sqmtreeheightm3764cb.txt"></script>
 
 <div id="TOC">
 
@@ -72,17 +72,23 @@ weight: 101
 <p><strong>But</strong> you have to keep in mind that even if a tile based processing can easily be handled with loops but has some pitfalls. E.g. if you compute some focal operations, you have to make sure that if the filter is close to the boundary of the tile that data from the neighboring tile is loaded in addition. Also the<code>las</code> tile size may be a problem for your memory availability.</p>
 <p>The <code>lidR</code> package comes with a feature called catalog and a set of catalog functions which make tile-based life easier. A catalog meta object also holds information on e.g. the cartographic reference system of the data or the cores used for parallel processing. So we start over again - this time with a <strong>real</strong> data set.</p>
 <p>Please note that dealing with <code>lidR</code> catalogs is pretty stressful for the memory administration of your <code>rsession</code>. So best practices is to <strong>Restart your Rsesseion and clean up your environment</strong>. This will help you to avoid frustrating situation like restarting your PC after hours of waiting…</p>
-<div id="lidr-catalog-script-to-derive-a-canopy-height-model" class="section level3">
-<h3>lidR catalog script to derive a canopy height model</h3>
-<p>The following scripts will setup a lidR catalog and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related <a href="http://gofile.me/3Z8AJ/omf5DvyhL">LiDAR data set of the MOF area</a> (VPN required) . Store the the data to the e.g. <code>envrmt$path_l_raw</code> folder.</p>
+<div id="using-lidr-catalog-to-derive-a-canopy-height-model" class="section level3">
+<h3>Using <code>lidR catalog</code> to derive a canopy height model</h3>
+<p>The following script will setup a <code>lidR catalog</code> and a more sophisticated approach to calculate the DEM, DSM and CHM. Please note that you have to exchange the code snippet dealing with the LiDAR data, If not already done download the course related <a href="http://gofile.me/3Z8AJ/omf5DvyhL">LiDAR data set of the MOF area</a> (VPN required) . Store the the data to the e.g. <code>envrmt$path_l_raw</code> folder.</p>
+<div id="vrt-workaround" class="section level4">
+<h4>VRT workaround</h4>
 <p>{{% collapse "Workaround for the IO error problem with the lidR catalog" "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files" %}}</p>
+</div>
+<div id="complete-catalog-script" class="section level4">
+<h4>Complete catalog script</h4>
 <p>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_json" aria-expanded="false" aria-controls="collapse_json">
-Vollständiges Skript
+Show complete script for <code>lidR catalog</code>
 </button>
 <div id="collapse_json" class="collapse">
 <div class="card card-body">
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
+</div>
 </div>
 </div>
 </div>
@@ -120,6 +126,7 @@ mapview(chm, zcol=&quot;Max.Z&quot;,col.region=viridis::viridis(16))</code></pre
 </div>
 <div id="lets-plot-the-results" class="section level2">
 <h2>Let’s plot the results</h2>
+<p>You will find below some very common approaches to visualize the results as a map. Please note this are just very basic maps for getting a first impression of the data.</p>
 <div id="mapview" class="section level3">
 <h3>mapview</h3>
 <div class="fold s">
