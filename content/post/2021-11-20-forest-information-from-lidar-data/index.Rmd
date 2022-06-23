@@ -37,13 +37,16 @@ After revisiting the tutorial is seems to be a good choice to follow the tutoria
 
 ## Basic Script to derive a Canopy Height Model
 
+
+
 <script src="https://gist.github.com/gisma/89881e23f5c2da91d161a9668386b715.js"></script>
+
 
       
 
-```{r echo=FALSE}
-blogdown::shortcode("hp5", "/gi-modules/assets/misc/chm_one_tile.html","700", "680","center", "Canopy Height Model map")
-```
+
+<iframe src="/gi-modules/assets/misc/chm_one_tile.html" width="700" height="680" frameborder="0" allowfullscreen="allowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *" ></iframe>
+<figcaption>*Canopy Height Model map*</figcaption>
 
 ## lidR catalog - coping with computer memory resources
 
@@ -66,13 +69,22 @@ The following scripts will setup a lidR catalog and a more sophisticated approac
 ```{r echo=FALSE} 
 
 blogdown::shortcode("collapse", "Workaround for the IO error problem with the lidR catalog",
-                    "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files",
-                    .type = "html")
+                    "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files")
 ```
 
 
-
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_json" aria-expanded="false" aria-controls="collapse_json">
+    Vollständiges Skript
+  </button>
+<div class="collapse" id="collapse_json">
+  <div class="card card-body">
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
+
+
+ </div>
+</div>
+
 
 ```{r warmup, include= FALSE,echo=FALSE, error=FALSE,message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
 knitr::knit_global()
@@ -150,9 +162,10 @@ las_check(norm_ctg)
 The `ctg` catalog  shows the extent of the original `las` file as provided by the the data server. The vector that is visualized is the resulting `lidR` catalog containing all extracted parameters. Same with the `ctg` here you see the extracted maximum Altitude of each tile used for visualization. Feel free to investigate the catalog parameters by clicking on the tiles.  
 
 
+
 ```{r vis-ctg,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 #--- plots
-plot(norm_ctg, zcol="Max.Z")
+mapview(chm, zcol="Max.Z",col.region=viridis::viridis(16))
 ```
 
 
@@ -161,14 +174,16 @@ plot(norm_ctg, zcol="Max.Z")
 ## Let's plot the results
 
 ### mapview 
+<div class="fold s ">
 ```{r mapview,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 #- mapview plot
 mapview::mapview(chm,layer.name = "pitfree chm 1sqm tree height [m]",col.regions=lidR::height.colors(20))
 ```
+</div>
 
 
-
-### Classical plot 
+### Base plot 
+<div class="fold s ">
 ```{r classic_plot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- classic plot
@@ -177,8 +192,10 @@ plot( chm,
       main = "pitfree chm 1 m² cells",
       cex.main = 1) 
 ```
-
+</div>
 ### tmap plot 
+
+<div class="fold s ">
 ```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- tmap plot
@@ -187,8 +204,10 @@ tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.color
   tm_grid()+
   tm_layout(legend.outside = TRUE)
 ```
-
+</div>
 ### ggplot 
+
+<div class="fold s ">
 ```{r ggplot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- ggplot plot with stars
@@ -200,7 +219,7 @@ ggplot2::guides(fill=guide_legend(title="pitfree chm 1 m² cells"))
   
 ```
 
-
+</div>
 
 [Download Script](https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587)
 

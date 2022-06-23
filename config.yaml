@@ -13,6 +13,10 @@ googleAnalytics: ''
 preserveTaxonomyNames: yes
 #paginate: 10
 hasCJKLanguage: yes
+# Set to true to disable code folding
+disable_codefolding: false
+# Set to "hide" or "show" all codes by default
+codefolding_show: "hide"
 outputs:
   home:
     - HTML

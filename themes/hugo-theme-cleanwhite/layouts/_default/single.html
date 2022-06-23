@@ -1,14 +1,8 @@
 {{ define "header" }}
 
 <!-- Post Header -->
-{{ if and (not .Site.Params.disable_codefolding) (not .Params.disable_codefolding) (in (string .Content) "</pre>") }} 
-  <script>
-  $(document).ready(function () {
-    window.initializeCodeFolding("show" === {{ if isset .Params "codefolding_show" }}{{ .Params.codefolding_show }}{{ else }}{{ default ("hide") .Site.Params.codefolding_show }}{{ end }});
-  });
-  </script>
-  <script src="{{ "js/codefolding.js" | relURL }}"></script>
-{{ end }}
+<script src="{{ "js/toggle.js" | relURL }}"></script>
+
 
 <style type="text/css">
     header.intro-header {
@@ -72,6 +66,7 @@
 
 <!-- Post Content -->
 <article>
+  
     <div class="container">
         <div class="row">
 

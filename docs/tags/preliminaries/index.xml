@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Preliminaries on gi-modules</title>
+    <link>https://gisma-courses.github.io/gi-modules/tags/preliminaries/</link>
+    <description>Recent content in Preliminaries on gi-modules</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us^</language>
+    <lastBuildDate>Thu, 23 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/preliminaries/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>test</title>
+      <link>https://gisma-courses.github.io/gi-modules/post/2022-06-23-test/</link>
+      <pubDate>Thu, 23 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gisma-courses.github.io/gi-modules/post/2022-06-23-test/</guid>
+      <description>Stackoverflow question https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
+# Add a common class name for every chunks knitr::opts_chunk$set( echo = TRUE) codejs &amp;lt;- readr::read_lines(&amp;#34;js/codefolding.js&amp;#34;) collapsejs &amp;lt;- readr::read_lines(&amp;#34;js/collapse.js&amp;#34;) transitionjs &amp;lt;- readr::read_lines(&amp;#34;js/transition.js&amp;#34;) htmlhead &amp;lt;- paste(&amp;#39; &amp;lt;script&amp;gt;&amp;#39;, paste(transitionjs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;&amp;#39;, paste(collapsejs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;&amp;#39;, paste(codejs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;style type=&amp;#34;text/css&amp;#34;&amp;gt; .code-folding-btn { margin-bottom: 4px; } .row { display: flex; } .collapse { display: none; } .in { display:block } &amp;lt;/style&amp;gt; &amp;lt;script&amp;gt; $(document).ready(function () { window.</description>
+    </item>
+    
+  </channel>
+</rss>
