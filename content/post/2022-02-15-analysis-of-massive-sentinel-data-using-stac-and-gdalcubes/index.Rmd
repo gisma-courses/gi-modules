@@ -206,6 +206,8 @@ if (!file.exists((file.path(tutorialDir,"MOF_10.nc"))))
 }
 ```
 
+We will show in the following examples a straightforward plotting in a generic pipe. However a more common visualization is pretty straighforward. A typical pipe could be: Save a resulting netCDF file `->` Convert it to a `stars` object `->` Visualize the results with `tmap`, `mapview`, `ggplot2` or whatever preferred package to create (interactive) map(s).     
+
 ## Reductions
 
 Possible reducers include `"min"`, `"mean"`, `"median"`, `"max"`, `"count"` (count non-missing values), `"sum"`, `"var"` (variance), and `"sd"` (standard deviation). Reducer expressions are always given as a string starting with the reducer name followed by the band name in parentheses. Notice that it is possible to mix reducers and bands.
@@ -449,17 +451,15 @@ tm_shape(osm_forest) + tm_rgb() +
 ```
 
 
-Running `bfastmonitor()` is computationally expensive. However, since in common ^(not in our case) the data is located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()`.
+Running `bfastmonitor()` is computationally expensive. However, since in common (*not in our case*) the data should be located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()` which is extremly simple.
 
-The visualisation is pretty straighforward. A typical pip is save a resulting netCDF file, convert it to a `stars` object, and finally use the `tmap` or `mapview` package to create an (interactive) map(s).     
-
-From a scientific point of view we need to tune some aspects. Teh kNDVI Index together with the bfastmonitor approach is somewhat ssophisticated and need a validation strategy. Also the correlation to the different treespecies could be promising. So there is certainly a need for more analysis to understand the processes and to identify false results.
+From a scientific point of view we need to tune some aspects. The kNDVI Index together with the `bfastmonitor` approach is somewhat sophisticated and need a validation strategy. Also the correlation to the different tree species could be promising. So there is certainly a need for more analysis to understand the processes and to identify false results.
 
 # Summary
 
-This example has shown, how simple and more more complex methods can be applied on data cubes. Especially the choosen aproach to "download" the data and perform the processing on the local machine is kond of promising due to the fact that the code can be run almost identically on a cloud instance. The use of more common or well know functionalities and packages helps a lot migrating to gdalcubes concept.
+This examples have shown, how simple and more more complex methods can be applied on data cubes. Especially the chosen approach to just *"download"* the data from a COG server and perform the processing on the local machine is kind of promising due to the fact that the code can be run almost identically on a cloud instance. The use of more common or well known functionalities and packages helps a lot migrating to `gdalcubes` concept.
 
-It is even more powerful to use this workflow for extremly comfortable multisensor multiscale approaches. 
+It is even more powerful to use this workflow for extremely comfortable multisensor multiscale approaches. 
 
 
 # References
