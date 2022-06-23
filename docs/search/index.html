@@ -102,6 +102,10 @@
                         </li>
                         
                         <li>
+                            <a href="/gi-modules/categories/workflows">workflows</a>
+                        </li>
+                        
+                        <li>
                             <a href="/gi-modules/categories/xtra">xtra</a>
                         </li>
                         
@@ -440,31 +444,91 @@ search.start();
     });
     
 </script>
-    
+<script src="js/toggle.js"></script>
 
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
-
-    
-  <script src="/gi-modules/js/collapse.js"></script>
-  <script src="/gi-modules/js/dropdown.js"></script>
-  <script src="/gi-modules/js/transition.js"></script>
 
 <script src="//yihui.name/js/math-code.js"></script>
 <script async
 src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+<script>
+$(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show Source</div>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show Output</div>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show Plot</div>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  
+  $('.folded').css('display', 'none')
+
+  
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+<style>
+.showopt {
+  class: btn btn-primary;
+  padding-bottom: 2px;
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 80px;
+  height: 14px;
+  font-size:80%;
+  text-align: center;
+  vertical-align: middle !important;
+    font-family: sans-serif;
+  border-radius: 2px;
+}
+
+.showopt:hover {
+    background-color: green;
+    color: #FFD400;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+
+.figcaption {
+  padding-right: 50px;
+  padding-left: 50px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-style: italic;
+  bottom: 0;
+  text-align: justify;
+  font-size: 13px;
+  border: 0px solid blue;
+}
+</style>
+
 
 
 </body>

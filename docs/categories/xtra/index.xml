@@ -6,7 +6,7 @@
     <description>Recent content in xtra on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Thu, 23 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/xtra/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/categories/xtra/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About GI-Modules</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-15-howto-gi-modules/</link>
@@ -46,16 +46,6 @@ Once you have a GitHub account, you can create as many repositories as you like 
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-21-impressum/</guid>
       <description>Teaching Framework This course is brought with the background of Open Educational Resources initiative coordinated by the Leibniz-Institut für Bildungsforschung und Bildungsinformation and integrated in the official teaching framework of the Marburg University, Germany. It is developed at the Department of Geography under responsibility of the gisma-courses site.
 Content Responsibility The responsibility for the content rests with the instructors. Statements, opinions and/or conclusions are the ones from the instructors and do not necessarily reflect the opinion of the representatives of Marburg University.</description>
-    </item>
-    
-    <item>
-      <title>test</title>
-      <link>https://gisma-courses.github.io/gi-modules/post/2022-06-23-test/</link>
-      <pubDate>Thu, 23 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://gisma-courses.github.io/gi-modules/post/2022-06-23-test/</guid>
-      <description>Stackoverflow question https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
-# Add a common class name for every chunks knitr::opts_chunk$set( echo = TRUE) codejs &amp;lt;- readr::read_lines(&amp;#34;js/codefolding.js&amp;#34;) collapsejs &amp;lt;- readr::read_lines(&amp;#34;js/collapse.js&amp;#34;) transitionjs &amp;lt;- readr::read_lines(&amp;#34;js/transition.js&amp;#34;) htmlhead &amp;lt;- paste(&amp;#39; &amp;lt;script&amp;gt;&amp;#39;, paste(transitionjs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;&amp;#39;, paste(collapsejs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;&amp;#39;, paste(codejs, collapse = &amp;#34;\n&amp;#34;), &amp;#39;&amp;lt;/script&amp;gt; &amp;lt;style type=&amp;#34;text/css&amp;#34;&amp;gt; .code-folding-btn { margin-bottom: 4px; } .row { display: flex; } .collapse { display: none; } .in { display:block } &amp;lt;/style&amp;gt; &amp;lt;script&amp;gt; $(document).ready(function () { window.</description>
     </item>
     
   </channel>

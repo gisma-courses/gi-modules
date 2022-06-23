@@ -94,6 +94,10 @@
                     
                         
                         <li>
+                            <a href="/gi-modules/categories/modules">modules</a>
+                        </li>
+                        
+                        <li>
                             <a href="/gi-modules/categories/scidoc">scidoc</a>
                         </li>
                         
@@ -179,101 +183,8 @@
             col-xs-12
             post-container
         ">
+
             
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/">
-        <h2 class="post-title">
-            Analysis of massive Remote Sensing data
-        </h2>
-	
-        <h3 class="post-subtitle">
-            gdalcubes and STAC - new dimensions in time series and change detection analysis
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level. However it data pre-, processing and post processing is challenging. gdalcubes following the STAC protocol and COG are extremly promising for massive data analysis task
-        
-        </div>
-    </a>
-
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/">
-        <h2 class="post-title">
-            Getting startet with LiDAR
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            Light detection and ranging (LiDAR) observations are point clouds representing the returns of laser pulses reflected from objects, e.g. a tree canopy. Processing LiDAR (or optical point cloud) data generally  requires more computational resources than 2D optical observations.
-        
-        </div>
-    </a>
-
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/">
-        <h2 class="post-title">
-            Forest Information from LiDAR data
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            How to get started? For this first example we take a typical situation: - we have no idea about the software and possible solutions - we have no idea about LiDAR data processing and analysis - we just google something like lidR package tutorial
-Among the top ten is The lidR package book . So let’s follow the white rabbit…
-       
-        </div>
-    </a>
-
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/">
-        <h2 class="post-title">
-            Change Detection - Entwaldung im Harz
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt  als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
-        
-        </div>
-    </a>
-
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/">
-        <h2 class="post-title">
-            Change Detection - Klassifikationsverfahren
-        </h2>
-	
-        <h3 class="post-subtitle">
-            Clusteranalyse, Maximum-Likelihood und Maschinenlernverfahren
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.
-        
-        </div>
-    </a>
-
-
-</div>
-<hr>
 
 <div class="post-preview">
     <a href="https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/">
@@ -303,6 +214,8 @@ Among the top ten is The lidR package book . So let’s follow the white rabbit�
      
 	</div>
 </div>
+
+  <script src="/gi-modules/js/toogle2.js"></script>
 
 
 
@@ -453,27 +366,91 @@ Among the top ten is The lidR package book . So let’s follow the white rabbit�
     });
     
 </script>
-    
+<script src="js/toggle.js"></script>
 
 
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
-
-    
 <script src="//yihui.name/js/math-code.js"></script>
 <script async
 src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+<script>
+$(document).ready(function() {
+
+  $chunks = $('.fold');
+
+  $chunks.each(function () {
+
+    
+    if ( $(this).hasClass('s') ) {
+      $('pre.r', this).prepend("<div class=\"showopt\">Show Source</div>");
+      $('pre.r', this).children('code').attr('class', 'folded');
+    }
+
+    
+    if ( $(this).hasClass('o') ) {
+      $('pre:not(.r)', this).has('code').prepend("<div class=\"showopt\">Show Output</div>");
+      $('pre:not(.r)', this).children('code:not(r)').addClass('folded');
+
+      
+      $(this).find('img').wrap('<pre class=\"plot\"></pre>');
+      $('pre.plot', this).prepend("<div class=\"showopt\">Show Plot</div>");
+      $('pre.plot', this).children('img').addClass('folded');
+
+    }
+  });
+
+  
+  $('.folded').css('display', 'none')
+
+  
+  $('.showopt').click(function() {
+    var label = $(this).html();
+    if (label.indexOf("Show") >= 0) {
+      $(this).html(label.replace("Show", "Hide"));
+    } else {
+      $(this).html(label.replace("Hide", "Show"));
+    }
+    $(this).siblings('code, img').slideToggle('fast', 'swing');
+  });
+});
+</script>
+
+<style>
+.showopt {
+  class: btn btn-primary;
+  padding-bottom: 2px;
+  background-color: #004c93;
+  color: #FFFFFF; 
+  width: 80px;
+  height: 14px;
+  font-size:80%;
+  text-align: center;
+  vertical-align: middle !important;
+    font-family: sans-serif;
+  border-radius: 2px;
+}
+
+.showopt:hover {
+    background-color: green;
+    color: #FFD400;
+}
+
+pre.plot {
+  background-color: white !important;
+}
+
+.figcaption {
+  padding-right: 50px;
+  padding-left: 50px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-style: italic;
+  bottom: 0;
+  text-align: justify;
+  font-size: 13px;
+  border: 0px solid blue;
+}
+</style>
+
 
 
 </body>
