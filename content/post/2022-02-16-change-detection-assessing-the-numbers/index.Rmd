@@ -73,7 +73,7 @@ source(file.path(root_folder, "src/functions/fun_kappa.R"))
 
 
 ## Einlesen der Datensätze
-In den Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/) und [Klassifikation von Landuse/Landcover Veränderungen](/gi-modules/post/2021-12-16-change-detection/) sind verschiedene Klassifikationsverfahren angewendet worden. Diese sollen nun sowohlhinsichtlich ihrer Qualität als auch die quantitativen Ähnlichkeiten/Unähnlichkeiten (also die Veränderung) untersucht werden. 
+In den Beiträgen [Forstflächenverluste im Harz](/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/) und [Klassifikation von Landuse/Landcover Veränderungen](/gi-modules/post/2021-12-16-change-detection/) sind verschiedene Klassifikationsverfahren angewendet worden. Diese sollen nun sowohl hinsichtlich ihrer Qualität als auch die quantitativen Ähnlichkeiten/Unähnlichkeiten (also die Veränderung) untersucht werden. 
 
 
 
@@ -109,7 +109,7 @@ mask = reclassify(corine,c(-100,22,0,22,26,1,26,500,0))
 
 ## Fehlereinschätzung 
 
-Die Bewertung der Genauigkeit von Fernerkundungsklassifizierungen basiert üblicherweise auf der Verwendung einer Fehlermatrix oder Konfusionstabelle, für die Referenzdaten das so genannte "Ground Truthing" benötigt werden. Diese Bewertungen können sowohl qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/satellitenbild) als auch quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.
+Die Bewertung der Genauigkeit von Fernerkundungsklassifizierungen basiert üblicherweise auf der Verwendung einer Fehlermatrix oder Konfusionstabelle, für die Referenzdaten das so genannte "Ground Truthing" benötigt werden. Diese Bewertungen können sowohl qualitativ, d. h. in der Regel durch einen visuellen Vergleich zwischen dem klassifizierten Datensatz und der Situation vor Ort (im Luft-/Satellitenbild) als auch quantitativ durch den Vergleich der klassifizierten Daten untereinander oder mit unabhängigen Referenzdaten erfolgen.
 
 
 Die wichtigsten Fehlerursachen bei Klassifikationen sind:
@@ -124,15 +124,13 @@ Zur Einschätzung ist es notwendig die folgenden Bereiche zu betrachten:
 * Fehlklassifikation je Klasse (inkl. Fehlzuordnung je Klasse)
 
 
-Die Validierungsdaten bzw. der sog *Ground Truth* ist für die Berechnung elementar. Üblich ist es hierzu Punktdaten zu verwenden, komplexer wird es wenn kategoriale, räumlichen Referenzdaten verglichen werden. 
-
-Der gebräuchlichste Ansatz ist eine Fehlermatrix oder Konfusionstabelle und die auf dieser Grundlage berechneten Kappa-Koeffizienten als grundlegende Kennzahlen der Genauigkeitsbewertung.
+Die Validierungsdaten bzw. der sog *Ground Truth* ist für die Berechnung elementar. Üblich ist es hierzu Punktdaten zu verwenden, komplexer wird es wenn kategoriale, räumlichen Referenzdaten verglichen werden. Der gebräuchlichste Ansatz ist eine Fehlermatrix oder Konfusionstabelle und die auf dieser Grundlage berechneten Kappa-Koeffizienten als grundlegende Kennzahlen der Genauigkeitsbewertung.
 
 
 
 ### Berechnung einer Kreuztabelle
 
-Die Berechnung vom Qualitätsmaßen basiert auf einer Kreuztabelle von zwei Karten. Dabei ist die eine Karte in Zeilen und die andere in Spalten abgebildet. Die Zeilensummen zeigen den Anteil der Pixel für jede Klasse in Karte A, die Spaltensummen für Karte B. Die Tabelle gibt an, wie viel Prozent der Pixel in beiden Karten übereinstimmen (Diagonale) sowie wie viel Prozent der Pixel in jeder Klasse *nicht* übereinstimmen. In den nachfolgenden Beipielen vergleichen wir die Random Forest Klassifikation mit der korrespondierenden Maximum Likelihood Klassifikation. Ziel ist es die Vergleichbarkeit beider Klassifikation zu bewerten. Konkret berechnen wir also Metriken, die eine Aussage erlauben wie gut die beiden Klassifikation übreinstimmen. 
+Die Berechnung der Qualitätsmaße basiert auf einer Kreuztabelle erstellt aus zwei kategorialen Datensätzen (Karten). Dabei ist die eine Karte in den Zeilen und die andere in den Spalten der Tabelle abgetragen. Die Zeilensummen zeigen den Anteil der Pixel für jede Klasse in Karte A, die Spaltensummen korrespondierend für Karte B. Die Tabelle gibt an, wie viel Prozent der Pixel in beiden Karten übereinstimmen (Diagonale) sowie wie viel Prozent der Pixel in jeder Klasse *nicht* übereinstimmen. In den nachfolgenden Beispielen vergleichen wir die *Random Forest Klassifikation* mit der korrespondierenden *Maximum Likelihood Klassifikation*. Ziel ist es die Vergleichbarkeit beider Klassifikation zu bewerten. Konkret berechnen wir also Metriken, die eine Aussage erlauben wie gut die beiden Klassifikation übreinstimmen. 
 
 ```{r Fehlermatrix}
 
