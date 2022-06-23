@@ -421,14 +421,15 @@ system.time(
     write_ncdf(paste0(tutorialDir,"bf_results.nc"),overwrite = TRUE))
 ```
 
-```{r plot_bfast, messages=FALSE, warnings=FALSE}
+```{r plot_bfast, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 library(tmap)
+
 mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
 # plotting it from the local ncdf  
 tmap_mode("view")
 gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
   stars::st_as_stars() -> x
-m1 = tm_shape(osm_forest) + tm_rgb() +
+tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[1] * st_as_stars(mask )) + 
   tm_raster(n = 6)  +
   tm_layout(
@@ -437,26 +438,64 @@ m1 = tm_shape(osm_forest) + tm_rgb() +
     panel.label.size=0.6,
     legend.text.size = 0.4,
     legend.outside = TRUE) +
-  tm_grid() 
+  tm_grid()
 
-m2 = tm_shape(osm_forest) + tm_rgb() +
+tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[2]* st_as_stars(mask ))  + tm_raster() +
   tm_layout(legend.title.size = 1,
             panel.label.height=0.6,
             panel.label.size=0.6,
             legend.text.size = 0.4,
             legend.outside = TRUE) +
-  tm_grid() 
+  tm_grid()
 
 ```
 
-```{r }
-library(widgetframe)
-frameWidget(m1)
-frameWidget(m2)
+
+```{r plot_bfast_worker, echo=FALSE, message=FALSE, warning=FALSE}
+library(tmap)
+
+mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
+# plotting it from the local ncdf  
+tmap_mode("view")
+gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
+  stars::st_as_stars() -> x
+tmap::tmap_save(tm_shape(osm_forest) + tm_rgb() +
+  tm_shape(x[1] * st_as_stars(mask )) + 
+  tm_raster(n = 6)  +
+  tm_layout(
+    legend.show = TRUE,
+    panel.label.height=0.6,
+    panel.label.size=0.6,
+    legend.text.size = 0.4,
+    legend.outside = TRUE) +
+  tm_grid(), file = "m1.html" ) 
+
+tmap::tmap_save(tm_shape(osm_forest) + tm_rgb() +
+  tm_shape(x[2]* st_as_stars(mask ))  + tm_raster() +
+  tm_layout(legend.title.size = 1,
+            panel.label.height=0.6,
+            panel.label.size=0.6,
+            legend.text.size = 0.4,
+            legend.outside = TRUE) +
+  tm_grid(),file = "m2.html" ) 
+
 ```
 
-Running `bfastmonitor()` is computationally expensive. However, since in common (*not in our case*) the data should be located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()` which is extremly simple.
+
+<iframe align="center" src="m2.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+</iframe>
+<figcaption>*Magnitude Change Map *</figcaption>
+
+<p>
+
+<iframe align="center" src="m1.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+</iframe>
+<figcaption>*Period of Change Map *</figcaption>
+
+
+
+Running `bfastmonitor()` is computationally expensive. However, since in common (*not in our case*) the data should be located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()` which is extremely simple.
 
 From a scientific point of view we need to tune some aspects. The kNDVI Index together with the `bfastmonitor` approach is somewhat sophisticated and need a validation strategy. Also the correlation to the different tree species could be promising. So there is certainly a need for more analysis to understand the processes and to identify false results.
 
