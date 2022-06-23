@@ -366,7 +366,7 @@ To apply a more complex time series method such as `bfastmonitor()`, the data cu
 | `reduce_space` | Three-dimensional array with dimensions bands, x, and y | Vector of band values              |
 +----------------+---------------------------------------------------------+------------------------------------+
 | `apply_time`   | Multi-band time series as a matrix                      | Multi-band time series as a matrix |
-+----------------+---------------------------------------------------------+------------------------------------+
++----------------+---------------------------------------------------------+---------dir("content/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/"---------------------------+
 ```
 
 There is no limit in what we can do in the provided R function, but we must take care of a few things:
@@ -451,8 +451,9 @@ m2 = tm_shape(osm_forest) + tm_rgb() +
 ```
 
 ```{r }
-m1
-m2
+library(widgetframe)
+frameWidget(m1)
+frameWidget(m2)
 ```
 
 Running `bfastmonitor()` is computationally expensive. However, since in common (*not in our case*) the data should be located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()` which is extremly simple.
