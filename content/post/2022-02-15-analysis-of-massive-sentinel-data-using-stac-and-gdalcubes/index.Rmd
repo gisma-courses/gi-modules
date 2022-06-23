@@ -426,7 +426,7 @@ mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
 tmap_mode("view")
 gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
   stars::st_as_stars() -> x
-m1 = tm_shape(osm_forest) + tm_rgb() +
+tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[1] * st_as_stars(mask )) + 
   tm_raster(n = 6)  +
   tm_layout(
@@ -437,7 +437,7 @@ m1 = tm_shape(osm_forest) + tm_rgb() +
     legend.outside = TRUE) +
   tm_grid() 
 
-m2 =  tm_shape(osm_forest) + tm_rgb() +
+tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[2]* st_as_stars(mask ))  + tm_raster() +
   tm_layout(legend.title.size = 1,
             panel.label.height=0.6,
@@ -445,14 +445,9 @@ m2 =  tm_shape(osm_forest) + tm_rgb() +
             legend.text.size = 0.4,
             legend.outside = TRUE) +
   tm_grid() 
-#tmap_arrange(m1,m2,asp=NA,nrow = 2)
 
 ```
 
-```{r plotbfast, echo=FALSE}
-m1
-m2
-```
 
 Running `bfastmonitor()` is computationally expensive. However, since in common ^(not in our case) the data is located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()`.
 
