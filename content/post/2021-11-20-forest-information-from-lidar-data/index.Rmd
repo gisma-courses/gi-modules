@@ -11,6 +11,7 @@ toc: true
 output:
   blogdown::html_page:
     keep_md: yes
+
 weight: 101
 
 ---
@@ -63,6 +64,7 @@ The following scripts will setup a lidR catalog and a more sophisticated approac
 
 
 ```{r echo=FALSE} 
+
 blogdown::shortcode("collapse", "Workaround for the IO error problem with the lidR catalog",
                     "Please download and copy the [get_vrt_img.R](https://gist.github.com/gisma/5127a360728666eddb96807ad37bb475) script into the subfolder *functions* of your project src folder.Depending on your installation it might be necessary to work around an unexpected behaviour with the returnd vrt files",
                     .type = "html")
