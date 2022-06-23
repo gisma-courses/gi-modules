@@ -15,8 +15,6 @@ tags:
 subtitle: 'gdalcubes and STAC - new dimensions in time series and change detection analysis'
 description: 'Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level. However it data pre-, processing and post processing is challenging. gdalcubes following the STAC protocol and COG are extremly promising for massive data analysis task'
 image: '/assets/images/restefond-sp.jpg'
-editor_options: 
-  chunk_output_type: console
 toc: true
 output:
   blogdown::html_page:
@@ -312,7 +310,7 @@ for (i in 1:nrow(ts)){
 # now we may create a mask according to the NDVI extent and resolution
 stars::write_stars(ndvi[[1]] * 0, paste0(tutorialDir,"forest/only_forestmask.tif"))
 gi=link2GI::linkGDAL(searchLocation = "/usr/bin/")
-cmd=gi$bin[[1]]$gdal_bin[11]
+cmd=gi$bin[[1]]$gdal_bin[14]
 system(paste(cmd ,'-burn 1.0 -tr 10.0 10.0 -a_nodata 0.0 -te ', st_bbox(ndvi[[1]])$xmin,' ',st_bbox(ndvi[[1]])$ymin,' ',st_bbox(ndvi[[1]])$xmax,' ',st_bbox(ndvi[[1]])$ymax,' -ot Float32 -of GTiff', paste0(tutorialDir,"forest/MOF_mask_pr.shp "),paste0(tutorialDir,"forest/only_forestmask.tif")))
 mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
 plot(mask)                                
@@ -342,7 +340,9 @@ tm_ndvi = lapply(seq(2:length(names_ndvi) -1),function(i){
 #### Resulting maps
 ```{r tm_ndvi, echo=FALSE, messages=FALSE, warnings=FALSE}
 
-tm_ndvi
+tm_ndvi[[1]]
+tm_ndvi[[2]]
+tm_ndvi[[3]]
 
 ```
 
@@ -446,6 +446,10 @@ m2 =  tm_shape(osm_forest) + tm_rgb() +
             legend.outside = TRUE) +
   tm_grid() 
 #tmap_arrange(m1,m2,asp=NA,nrow = 2)
+
+```
+
+```{r plotbfast, echo=FALSE}
 m1
 m2
 ```
