@@ -90,14 +90,12 @@ plot(lidar_file, bg = "green", color = "Z",colorPalette = mvTop(256))
 ```
 
 ![](/gi-modules/assets/videos/las_mof_plot.gif)
-<figure>
-  <figcaption> 
-  Example forest LiDAR data set.
-  </figcaption>
-</figure>
+
+<figcaption>  Example forest LiDAR data set.</figcaption>
 
 
-If this works, you're [good to go]( {{< ref "2021-11-20-forest-information-from-lidar-data" >}}) for LiDAR data analysis.
+
+If this works, you're [good to go](https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/) for LiDAR data analysis.
 
 
 ## Comments & Suggestions  
