@@ -63,11 +63,6 @@ epsg_number = 25832
 source(paste0(root_folder,"src/000-rspatial-setup.R"), echo = FALSE, verbose = FALSE)
 ```
 
-```
-Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb
-= FALSE
-```
-
 
 
 ```r

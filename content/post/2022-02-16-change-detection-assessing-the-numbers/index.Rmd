@@ -5,11 +5,12 @@ date: '2022-02-16'
 bibliography: references.bib
 slug: []
 categories:
-  - workflows
+  - modules
 tags:
   - change detection  
-  - forest
   - remote sensing
+  - forest
+  - validation
 
 subtitle: ''
 description: 'Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit den grundständigen Auswertungskonzepten.'
