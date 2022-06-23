@@ -394,8 +394,8 @@ tmap_mode(&quot;plot&quot;)</code></pre>
 </div>
 </div>
 </div>
-<div id="applying-bfastmonitor-as-a-user-defined-reducer-function" class="section level2">
-<h2>Applying bfastmonitor as a user-defined reducer function</h2>
+<div id="use-case-spatial-identification-of-magnitudes-and-time-periods-of-kndvi-changes" class="section level2">
+<h2>Use case: Spatial identification of magnitudes and time periods of kNDVI changes</h2>
 <p>To apply a more complex time series method such as <code>bfastmonitor()</code>, the data cube operations below allow to provide custom user-defined R functions instead of string expressions, which translate to built-in reducers. It is very important that these functions receive arrays as input and must return arrays as output, too. Depending on the operation, the dimensionality of the arrays is different:</p>
 <table>
 <colgroup>
@@ -433,16 +433,14 @@ tmap_mode(&quot;plot&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>There is almost no limit of what R function we use, but we must take care of a few things:</p>
-<ol style="list-style-type: decimal">
-<li>The reducer function is executed in a new R process without access to the current workspace. It is not possible to access variables defined outside of the function and packages must be loaded <strong>within</strong> the function.</li>
-<li>The reducer function <strong>must</strong> always return a vector with the same length (for all time series).</li>
-<li>It is a good idea to think about <code>NA</code> values, i.e. you should check whether the complete time series is <code>NA</code>, and that missing values do not produce errors.</li>
-</ol>
+<p>There is almost no limit of what R function we use, but we must take care of a few things:
+1. The reducer function is executed in a new R process without access to the current workspace. It is not possible to access variables defined outside of the function and packages must be loaded <strong>within</strong> the function.
+2. The reducer function <strong>must</strong> always return a vector with the same length (for all time series).
+3. It is a good idea to think about <code>NA</code> values, i.e. you should check whether the complete time series is <code>NA</code>, and that missing values do not produce errors.</p>
 <p>Another possibility to apply R functions to data cubes is of course to convert data cubes to <code>stars</code> objects and use the <code>stars</code> package for further analysis.</p>
-<div id="use-case-spatial-identification-of-magnitudes-and-time-periods-of-kndvi-changes" class="section level3">
-<h3>Use case: Spatial identification of magnitudes and time periods of kNDVI changes</h3>
-<p>In our example, <code>bfastmonitor()</code> returns change date and change magnitude values per time series and we can use <code>reduce_time()</code>. The script below calculates the <a href="https://advances.sciencemag.org/content/7/9/eabc7447">kNDVI</a>, applies <code>bfastmonitor()</code>, and properly handles errors e.g. due to missing data with <code>tryCatch()</code>. Finally, the resulting change dates and magnitudes of change for all pixel of the time series are written to disk as a netCDF file. The results shows the changes starting at 1/2019 until 12/2021 and Identify pretty well the dynamical impacts of drought and bark beetle in the Marburg University Forest (MOF).</p>
+<div id="applying-bfastmonitor-as-a-user-defined-reducer-function" class="section level3">
+<h3>Applying <code>bfastmonitor</code> as a user-defined reducer function</h3>
+<p>In our example, <code>bfastmonitor</code> returns change date and change magnitude values per time series so we can use <code>reduce_time()</code>. The script below (1) calculates the <a href="https://advances.sciencemag.org/content/7/9/eabc7447">kNDVI</a>, (2) applies <code>bfastmonitor()</code>, and properly handles errors e.g. due to missing data with <code>tryCatch()</code>, and (3) finally writes out the resulting change dates and magnitudes of change for all pixels of the time series as a netCDF file. The results shows the changes starting at 1/2019 until 12/2021 and identify pretty well the dynamical impacts of drought and bark beetle in the Marburg University Forest (MOF).</p>
 <pre class="r"><code>library(sf)
 library(tmap)
 library(tmaptools)
@@ -460,6 +458,7 @@ figtrim &lt;- function(path) {
   path
 }
 gdalcubes_options(parallel = 12)
+## start analysis
 system.time(
   ncdf_cube(file.path(tutorialDir,&quot;MOF_10.nc&quot;)) |&gt;
     reduce_time(names = c(&quot;change_date&quot;, &quot;change_magnitude&quot;,&quot;kndvi&quot;), FUN = function(x) {
@@ -479,7 +478,8 @@ system.time(
     }) |&gt;
     write_ncdf(paste0(tutorialDir,&quot;bf_results.nc&quot;),overwrite = TRUE))</code></pre>
 <pre><code>##        User      System verstrichen 
-##      73.747       1.654      18.582</code></pre>
+##      71.765       1.648      17.983</code></pre>
+<p>Now we can use the netCDF file and map the results with any preferred visualisation tool. In this case <code>tmap</code>.</p>
 <pre class="r"><code>library(tmap)
 
 mask &lt;- raster(paste0(tutorialDir,&quot;forest/only_forestmask.tif&quot;))
