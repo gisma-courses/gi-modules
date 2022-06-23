@@ -118,7 +118,6 @@ las_files = list.files(envrmt$path_tmp,
 #- source: https://github.com/Jean-Romain/lidR/wiki/Rasterizing-perfect-canopy-height-models
 future::plan(future::multisession)
 ctg <- lidR::readLAScatalog(las_files[[1]])
-lidR::projection(ctg) <- 25832
 lidR::opt_chunk_size(ctg) = 100
 lidR::opt_chunk_buffer(ctg) <- 5
 lidR::opt_progress(ctg) <- FALSE
@@ -132,6 +131,10 @@ norm_ctg <- lidR::normalize_height(ctg,lidR::tin())
 # calculate chm
 chm <- grid_canopy(norm_ctg, res = 1.0, lidR::pitfree(thresholds = c(0,2,5,10,15), c(0,1.5)))
 chm = get_vrt_img("chm",envrmt$path_l_norm,"_norm_height")
+chm=raster(chm)
+crs(chm) <- 25832
+#writeRaster(chm,paste0(envrmt$path_l_raster,"chm.tif"))
+
 ```
 
 ### Check the catalog
@@ -158,7 +161,7 @@ plot(norm_ctg, zcol="Max.Z")
 ### mapview 
 ```{r mapview,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 #- mapview plot
-mapview::mapview(raster(chm),layer.name = "pitfree chm 1sqm tree height [m]",col.regions=lidR::height.colors(20))
+mapview::mapview(chm,layer.name = "pitfree chm 1sqm tree height [m]",col.regions=lidR::height.colors(20))
 ```
 
 
@@ -167,7 +170,7 @@ mapview::mapview(raster(chm),layer.name = "pitfree chm 1sqm tree height [m]",col
 ```{r classic_plot,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- classic plot
-plot( raster(chm),
+plot( chm,
       col = lidR::height.colors(20),
       main = "pitfree chm 1 m² cells",
       cex.main = 1) 
@@ -177,7 +180,7 @@ plot( raster(chm),
 ```{r tmap,  message=FALSE, warning=FALSE, cache=FALSE, render=TRUE}
 
 #- tmap plot
-tmap::tm_shape(raster(chm)) +
+tmap::tm_shape(chm) +
 tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.colors(20)) +
   tm_grid()+
   tm_layout(legend.outside = TRUE)
@@ -188,7 +191,7 @@ tmap::tm_raster( title = "pitfree chm 1 m² cells", palette = lidR::height.color
 
 #- ggplot plot with stars
 ggplot2::ggplot() + 
-stars::geom_stars(data = stars::st_as_stars(raster(chm))) + 
+stars::geom_stars(data = stars::st_as_stars(chm)) + 
 ggplot2::scale_fill_gradientn(colours=lidR::height.colors(20)) +
 ggplot2::coord_equal()+
 ggplot2::guides(fill=guide_legend(title="pitfree chm 1 m² cells"))
