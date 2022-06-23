@@ -202,7 +202,7 @@ Only calling a final *action* will start the processing on the COG-Server. In th
 if (!file.exists((file.path(tutorialDir,"MOF_10.nc"))))
 {
   s2.mask = image_mask("SCL", values = c(3,8,9))
-  gdalcubes_options(threads = 24, ncdf_compression_level = 5)
+  gdalcubes_options(parallel = 24, ncdf_compression_level = 5)
   raster_cube(s2_collection, v, mask = s2.mask) |>
     write_ncdf(file.path(tutorialDir,"MOF_10.nc"),overwrite=TRUE)
 }
@@ -254,14 +254,13 @@ ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
 ```{r zonal, messages=FALSE, warnings=FALSE}
 
 
-ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
+zstats = ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
   apply_pixel("(B08-B04)/(B08+B04)", "NDVI") |>
-  extract_geom(forest_32632,
-                   expr = "median(NDVI)",
-                   out_path = file.path(tutorialDir,"MOF_10.gpkg"),
-                   overwrite = TRUE,  as_stars = TRUE) |>
-  plot(max.plot = 48, col = ano.col, nbreaks=8)
+  extract_geom(forest_32632,FUN = median) 
 
+forest_32632$FID = rownames(forest_32632)
+x = merge(forest_32632, zstats, by = "FID")
+mapview(x[x$time == "2018-07", "NDVI"],col.regions = ndvi.col)
 ```
 
 ### Timeseries
@@ -276,11 +275,12 @@ ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
 ```
 
 
-### Using functions 
+### Calculate the annual NDVI difference - using functions 
+The following function will iterate through 3 years of NDVI data and calculating NDVI difference maps for each pair of years. 
 
-```{r automatic ,messages=FALSE, warnings=FALSE}
+```{r automatic, messages=FALSE, warnings=FALSE}
 
-gdalcubes_options(threads = 12)
+gdalcubes_options(parallel =  12)
 
 # ndvi operand
 ndvi_type = "median(kNDVI)"
@@ -311,10 +311,12 @@ for (i in 1:nrow(ts)){
 
 # now we may create a mask according to the NDVI extent and resolution
 stars::write_stars(ndvi[[1]] * 0, paste0(tutorialDir,"forest/only_forestmask.tif"))
-mask <- gdalUtils::gdal_rasterize(src_datasource=paste0(tutorialDir,"forest/MOF_mask.shp"),
-                                  dst_filename=paste0(tutorialDir,"forest/only_forestmask.tif"),
-                                  burn= 1,
-                                  output_Raster=TRUE)
+gi=link2GI::linkGDAL(searchLocation = "/usr/bin/")
+cmd=gi$bin[[1]]$gdal_bin[11]
+system(paste(cmd ,'-burn 1.0 -tr 10.0 10.0 -a_nodata 0.0 -te ', st_bbox(ndvi[[1]])$xmin,' ',st_bbox(ndvi[[1]])$ymin,' ',st_bbox(ndvi[[1]])$xmax,' ',st_bbox(ndvi[[1]])$ymax,' -ot Float32 -of GTiff', paste0(tutorialDir,"forest/MOF_mask_pr.shp "),paste0(tutorialDir,"forest/only_forestmask.tif")))
+mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
+plot(mask)                                
+
 mask[mask == 0] = NA
 
 # mapping the results
@@ -334,10 +336,11 @@ tm_ndvi = lapply(seq(2:length(names_ndvi) -1),function(i){
 })
 
 
-#tmap_arrange(tm_ndvi,ncol = 1,asp = NA,widths = c(0.33,0.33,0.33),outer.margins = 0.001)
+# tmap_arrange(tm_ndvi,nrow = 1,asp = NA,widths = c(0.33,0.33,0.33),outer.margins = 0.001)
 ```
 
-```{r tm_ndvi,  messages=FALSE, warnings=FALSE}
+#### Resulting maps
+```{r tm_ndvi, echo=FALSE, messages=FALSE, warnings=FALSE}
 
 tm_ndvi
 
@@ -395,7 +398,7 @@ figtrim <- function(path) {
   magick::image_write(img, path)
   path
 }
-gdalcubes_options(threads = 12)
+gdalcubes_options(parallel = 12)
 system.time(
   ncdf_cube(file.path(tutorialDir,"MOF_10.nc")) |>
     reduce_time(names = c("change_date", "change_magnitude","kndvi"), FUN = function(x) {
@@ -417,7 +420,8 @@ system.time(
 ```
 
 ```{r plot_bfast, messages=FALSE, warnings=FALSE}
-
+library(tmap)
+mask <- raster(paste0(tutorialDir,"forest/only_forestmask.tif"))
 # plotting it from the local ncdf  
 tmap_mode("view")
 gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
@@ -446,7 +450,7 @@ m1
 m2
 ```
 
-Running `bfastmonitor()` is computationally expensive. However, since in common (not in our case) the data is located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()`.
+Running `bfastmonitor()` is computationally expensive. However, since in common ^(not in our case) the data is located in the cloud, it would be obvious to launch one of the (payed) more powerful machine instance types with many processors. Parallelization within one instance can be controlled entirely by `gdalcubes` using `gdalcubes_options()`.
 
 The visualisation is pretty straighforward. A typical pip is save a resulting netCDF file, convert it to a `stars` object, and finally use the `tmap` or `mapview` package to create an (interactive) map(s).     
 

@@ -64,8 +64,8 @@ source(paste0(root_folder,"src/000-rspatial-setup.R"), echo = FALSE, verbose = F
 ```
 
 ```
-Warning in CPL_crs_from_input(x): GDAL Error 1: PROJ: proj_create_from_database:
-Cannot find proj.db
+Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb
+= FALSE
 ```
 
 
