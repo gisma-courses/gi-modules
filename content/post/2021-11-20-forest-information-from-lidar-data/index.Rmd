@@ -74,7 +74,7 @@ blogdown::shortcode("collapse", "Workaround for the IO error problem with the li
 
 <script src="https://gist.github.com/gisma/4172ef049b116abb1454233c8950d587.js"></script>
 
-```{r warmup, include= FALSE,echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
+```{r warmup, include= FALSE,echo=FALSE, error=FALSE,message=FALSE, warning=FALSE, cache=FALSE, include=FALSE}
 knitr::knit_global()
 require(envimaR)
 
