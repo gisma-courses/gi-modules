@@ -102,10 +102,6 @@
                         </li>
                         
                         <li>
-                            <a href="/gi-modules/categories/workflows">workflows</a>
-                        </li>
-                        
-                        <li>
                             <a href="/gi-modules/categories/xtra">xtra</a>
                         </li>
                         
@@ -218,7 +214,7 @@ installieren:</p>
 
 </p>
 <p>Doppelklicken Sie auf das Verzeichnis <code>src</code> und dann den Unterordner <code>functions</code>. Hier öffnen Sie die Datei <code>000_setup.R</code> durch Doppelklick. Ersetzen Sie den kompletten Inhalt dieser Datei durch den Inhalt des folgenden Scripts:</p>
-<script src="https://gist.github.com/gisma/3dfbdd4de0d5b23e51df9885475da82f.js"></script>
+<!-- raw HTML omitted -->
 <p>Dann speichern und schliessen Sie bitte die Datei. Fürs Erste ist damit die Vorbereitung abgeschlossen.</p>
 <h2 id="sentinel-satellitendaten---sen2r">Sentinel-Satellitendaten - sen2r</h2>
 <p>Satellitendaten sind mittlerweile prinzipiell sowohl als Rohdaten als auch in den unterschiedlichsten Produkten leicht zugänglich. Ein Beispiel für eine Satelliten Mission, deren Daten standardmäßig in der Umwelt-Fernerkundung verwendet werden, ist die <a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2">Sentinel-2-Mission</a> der Europäischen Weltraumorganisation. In R sind diese Daten dank des Pakets <code>sen2r</code> sehr einfach verfügbar.</p>
@@ -247,7 +243,7 @@ installieren:</p>
 <li>Berechnen der Oberflächenalbedo  (beipielhaft)</li>
 </ol>
 <p>Öffnen Sie die Datei <code>main.R</code> im Ordner <code>src</code> durch Doppelklick. Ersetzen sie den Inhalt des Skriptes durch das das nachfolgnden Skript:</p>
-<script src="https://gist.github.com/gisma/5a11edd28cf81cee523e273b0064bcea.js"></script>
+<!-- raw HTML omitted -->
 <p>Speichen Sie die <code>main.R</code></p>
 <p>Im diesem Skript werden Sentinel-2-Daten für den Juni 2019 und ein spezielles Gebiet (Area of Interest AOI) heruntergeladen. Zusätzlich wird exemplarisch die Oberflächenalbedo berechnet.</p>
 <p>Zu Beginn muss ein Ausschnitt digitalisiert werden. Nutzen Sie hierzu den Befehl <code>harz = mapedit::editMap()</code>. Das Interface ist selbsterklärend und schaut (nachdem sie auf den Harz gezoomed haben und die Karte auf Openstreetmap umgesetellt haben) wie folgt aus:</p>
@@ -263,16 +259,7 @@ installieren:</p>
 <li>sen2r liefert Ihnen einen sehr komfortablen und reproduzierbaren Zugriff auf umfangreiche Sentinel Daten</li>
 <li>Prinzipiell kennen Sie nun die zentralen Werkezeuge und Vorgehensweisen um mit Hilfe von R automatisiert und reproduzierbar räumliche Analysen durchzuführen</li>
 </ul>
-<div class="boxInfo">
-<p class="textline"> 
-Sie können alle notwendigen Skripte und Daten aus dem github repository
-    <a href="https://github.com/gisma/geoinfo/archive/refs/heads/main.zip"> laden
-      </a>.
-      Alternativ können sie das Repo auch als Projekt in Rstudio anlegen 
-      <a href="https://www.r-bloggers.com/2015/07/rstudio-and-github/">
-Rstudio github
-      </a>.    
-</div>
+<!-- raw HTML omitted -->
 
                 <style>
 .button {
@@ -456,6 +443,12 @@ Rstudio github
                         
                         
                         
+                        <a href="/gi-modules/tags/validation" title="validation">
+                            validation
+                        </a>
+                        
+                        
+                        
                         <a href="/gi-modules/tags/working-environment" title="working-environment">
                             working-environment
                         </a>
@@ -628,7 +621,12 @@ Rstudio github
     
 </script>
 <script src="js/toggle.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js" integrity="sha512-yUUc0qWm2rhM7X0EFe82LNnv2moqArj5nro/w1bi05A09hRVeIZbN6jlMoyu0+4I/Bu4Ck/85JQIU82T82M28w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/languages/r.min.js" integrity="sha512-EArMU8fPxOr7xC5sNepok4l7Yhahn3NRFSeWH+/zOhbiZVCnY2mLQtC/lUU/Q6+zMH6K22l0tur8D/jTii3ZUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
 
 <script src="//yihui.name/js/math-code.js"></script>
 <script async
@@ -711,6 +709,12 @@ pre.plot {
   border: 0px solid blue;
 }
 </style>
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/Github.min.css' rel='stylesheet' type='text/css' />
+
+
 
 
 

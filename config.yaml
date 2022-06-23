@@ -77,22 +77,14 @@ params:
   stackoverflow : no
   wechat: no
   title_404:  :(
+  highlightjsVersion: "11.5.1"
+  highlightjsCDN: "//cdnjs.cloudflare.com/ajax/libs"
+  highlightjsLang: ["r", "yaml"]
+  highlightjsTheme: "idea"
+  
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5
-  highlightjsVersion: 9.12.0
-  highlightjsCDN:  //cdnjs.cloudflare.com/ajax/libs
-  highlightjsLang:  ["r", "yaml", "python", "bash"]
-  highlightjsTheme:  "idea"  
-markup:
-  defaultMarkdownHandler: goldmark
-  goldmark:
-    extensions:
-      footnote: true
-    renderer:
-      unsafe: yes
-  tableOfContents:
-    startLevel: 2
-    endLevel: 4      
+  
 
 outputFormats:
   Algolia:

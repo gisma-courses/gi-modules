@@ -177,12 +177,13 @@ tibble(
 
 Aus der Kreuztabelle werden $PA$ (Anteil an Übereinstimmung), $PE$ (erwarteter Anteil an Übereinstimmung)  und auf dieser Grundlage Kappa $K$ berechnet.
 
-$PA= \sum_{i=1}^2 p_{i,i}$
+$$PA= \sum_{i=1}^2 p_{i,i}$$
 
-$PE= \sum_{i=1}^2 pT_i*Tp_i$
+$$PE= \sum_{i=1}^2 pT_i*Tp_i$$
 
 
-$K=\frac{PA-PE}{1-PE}$
+$$K=\frac{PA-PE}{1-PE}$$
+
 
 Die Interpretation der Kappa Metrik ist einfach muss jedoch von den Fragestellungen abhängig interpretiert werden. Wichtig ist es die nicht lineare Aufteilung der Metrik zu beachten. Das gilt insbesondere für Werte < 0.2 und > 0.9. Als Grundlage zur Interpretation wird häufig folgende Skala genutzt (vgl. auch [@Landis&Koch1977];[@Monserud&Leemans1992]).
 
