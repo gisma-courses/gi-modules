@@ -34,7 +34,7 @@ There is a growing number of R packages, such as e.g. [`workflowR`](https://jdbl
 For this introduction to a structured organization of R-based development projects, we suggest the [`envimaR`](https://github.com/envima/envimaR)  package  which was written for the needs of this course. It is a lightweight project management package that takes care of the basic project related tasks with respect to the special features of the University Labs. It can be installed as follows.
 
 
-```
+```r
 devtools::install_github("envima/envimaR")
 ```
 
@@ -56,14 +56,14 @@ Example: Create a top-level folder name which hosts all of your student projects
 
 To create this link on Windows flavor systems, start a command prompt window (e.g. press [Windows], type "CMD", press [Return]) and change the directory of the command prompt window to your R home directory which is by default `C:\Users\your-user-name\Documents`. Then use the `mklink \J` command to create the symbolic link. In summary and given the paths above:
 
-```bash
+```R
 cd C:\Users\your-user-name\Documents
 mklink /J edu D:\stuff\important\edu
 ```
 
 On Linux flavor systems, the R home directory is your home directory by default, i.e. `/home/your-user-name/`. If you create your edu folder on `/media/memory/interesting/edu`, the symbolic link can be created using your bash environment:
 
-```bash
+```R
 cd /home/<your-user-name>/
 ln -s /media/memory/interesting/edu edu
 ```

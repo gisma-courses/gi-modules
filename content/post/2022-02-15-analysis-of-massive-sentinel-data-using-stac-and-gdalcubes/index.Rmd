@@ -459,7 +459,7 @@ gdalcubes::ncdf_cube(paste0(tutorialDir,"bf_results.nc")) |>
 tmap::tmap_save(tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[1] * st_as_stars(mask )) + 
   tm_raster(n = 6)  +
-  tm_layout(
+  tm_layout(legend.title.size = 1,
     legend.show = TRUE,
     panel.label.height=0.6,
     panel.label.size=0.6,
@@ -470,22 +470,23 @@ tmap::tmap_save(tm_shape(osm_forest) + tm_rgb() +
 tmap::tmap_save(tm_shape(osm_forest) + tm_rgb() +
   tm_shape(x[2]* st_as_stars(mask ))  + tm_raster() +
   tm_layout(legend.title.size = 1,
-            panel.label.height=0.6,
-            panel.label.size=0.6,
-            legend.text.size = 0.4,
-            legend.outside = TRUE) +
+    legend.show = TRUE,
+    panel.label.height=0.6,
+    panel.label.size=0.6,
+    legend.text.size = 0.4,
+    legend.outside = TRUE) +
   tm_grid(),file = "m2.html" ) 
 
 ```
 
 
-<iframe align="center" src="m2.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+<iframe valign="center" src="m2.html" width="1024" height="960" frameborder="0" allowfullscreen="allowfullscreen">
 </iframe>
 <figcaption>*Magnitude Change Map *</figcaption>
 
 <p>
 
-<iframe align="center" src="m1.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+<iframe valign="center" src="m1.html" width="1024" height="960" frameborder="0" allowfullscreen="allowfullscreen">
 </iframe>
 <figcaption>*Period of Change Map *</figcaption>
 

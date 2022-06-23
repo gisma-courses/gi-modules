@@ -79,7 +79,7 @@ params:
   title_404:  :(
   highlightjsVersion: "11.5.1"
   highlightjsCDN: "//cdnjs.cloudflare.com/ajax/libs"
-  highlightjsLang: ["r", "yaml"]
+  highlightjsLang: ["r", "yaml", "bash", "sh", "python"]
   highlightjsTheme: "idea"
   
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs

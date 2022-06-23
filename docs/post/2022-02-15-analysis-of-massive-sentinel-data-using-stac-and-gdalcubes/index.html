@@ -654,7 +654,7 @@ system.time(
     }) |&gt;
     write_ncdf(paste0(tutorialDir,&quot;bf_results.nc&quot;),overwrite = TRUE))</code></pre>
 <pre><code>##        User      System verstrichen 
-##      71.765       1.648      17.983</code></pre>
+##      71.864       1.718      18.170</code></pre>
 <p>Now we can use the netCDF file and map the results with any preferred visualisation tool. In this case <code>tmap</code>.</p>
 <pre class="r"><code>library(tmap)
 
@@ -682,13 +682,13 @@ tm_shape(osm_forest) + tm_rgb() +
             legend.text.size = 0.4,
             legend.outside = TRUE) +
   tm_grid()</code></pre>
-<iframe align="center" src="m2.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+<iframe valign="center" src="m2.html" width="1024" height="960" frameborder="0" allowfullscreen="allowfullscreen">
 </iframe>
 <figcaption>
 <em>Magnitude Change Map </em>
 </figcaption>
 <p>
-<iframe align="center" src="m1.html" width="800" height="680" frameborder="0" allowfullscreen="allowfullscreen">
+<iframe valign="center" src="m1.html" width="1024" height="960" frameborder="0" allowfullscreen="allowfullscreen">
 </iframe>
 <figcaption>
 <em>Period of Change Map </em>
