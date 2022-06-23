@@ -394,7 +394,7 @@ s2_collection = stac_image_collection(items$features, asset_names = assets, prop
 ## 10  B11      0     1                      91
 ## 11  B8A      0     1                      91
 ## 12  SCL      0     1                      91</code></pre>
-<p>The result contains 9blogdown::build_dir(“content/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/”)1 images which means roughly 1.5 images per month, from which we can now create a data cube. For doinfg so we will use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling (for the coarsere Sentinel channels) and also defined derive monthly median values for all pixel values from the available images within a month. Notice that we add a border seam to each side of the cube.</p>
+<p>The result contains 91 images which means roughly 1.5 images per month, from which we can now create a data cube. For doinfg so we will use the transformed (UTM) bounding box of our polygon as spatial extent, 10 meter spatial resolution, bilinear spatial resampling (for the coarsere Sentinel channels) and also defined derive monthly median values for all pixel values from the available images within a month. Notice that we add a border seam to each side of the cube.</p>
 <div class="boxSuccess">
 <br>
 <p class="textline">
@@ -573,27 +573,52 @@ tmap_mode(&quot;plot&quot;)</code></pre>
 <div id="applying-bfastmonitor-as-a-user-defined-reducer-function" class="section level2">
 <h2>Applying bfastmonitor as a user-defined reducer function</h2>
 <p>To apply a more complex time series method such as <code>bfastmonitor()</code>, the data cube operations below allow to provide custom user-defined R functions instead of string expressions, which translate to built-in reducers. It is very important that these functions receive arrays as input and must return arrays as output, too. Depending on the operation, the dimensionality of the arrays is different:</p>
-<pre><code>+----------------+---------------------------------------------------------+------------------------------------+
-| Operator       | Input                                                   | Output                             |
-+================+=========================================================+====================================+
-| `apply_pixel`  | Vector of band values for one pixel                     | Vector of band values of one pixel |
-+----------------+---------------------------------------------------------+------------------------------------+
-| `reduce_time`  | Multi-band time series as a matrix                      | Vector of band values              |
-+----------------+---------------------------------------------------------+------------------------------------+
-| `reduce_space` | Three-dimensional array with dimensions bands, x, and y | Vector of band values              |
-+----------------+---------------------------------------------------------+------------------------------------+
-| `apply_time`   | Multi-band time series as a matrix                      | Multi-band time series as a matrix |
-+----------------+---------------------------------------------------------+---------dir(&quot;content/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/&quot;---------------------------+</code></pre>
-<p>There is no limit in what we can do in the provided R function, but we must take care of a few things:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Operator</th>
+<th align="left">Input</th>
+<th align="left">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>apply_pixel</code></td>
+<td align="left">Vector of band values for one pixel</td>
+<td align="left">Vector of band values of one pixel</td>
+</tr>
+<tr class="even">
+<td align="left"><code>reduce_time</code></td>
+<td align="left">Multi-band time series as a matrix</td>
+<td align="left">Vector of band values</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>reduce_space</code></td>
+<td align="left">Three-dimensional array with dimensions bands, x, and y</td>
+<td align="left">Vector of band values</td>
+</tr>
+<tr class="even">
+<td align="left"><code>apply_time</code></td>
+<td align="left">Multi-band time series as a matrix</td>
+<td align="left">Multi-band time series as a matrix</td>
+</tr>
+</tbody>
+</table>
+<p>There is almost no limit of what R function we use, but we must take care of a few things:</p>
 <ol style="list-style-type: decimal">
-<li><p>The reducer function is executed in a new R process without access to the current workspace. It is not possible to access variables defined outside of the function and packages must be loaded <strong>within</strong> the function.</p></li>
-<li><p>The reducer function <strong>must</strong> always return a vector with the same length (for all time series).</p></li>
-<li><p>It is a good idea to think about <code>NA</code> values, i.e. you should check whether the complete time series is <code>NA</code>, and that missing values do not produce errors.</p></li>
+<li>The reducer function is executed in a new R process without access to the current workspace. It is not possible to access variables defined outside of the function and packages must be loaded <strong>within</strong> the function.</li>
+<li>The reducer function <strong>must</strong> always return a vector with the same length (for all time series).</li>
+<li>It is a good idea to think about <code>NA</code> values, i.e. you should check whether the complete time series is <code>NA</code>, and that missing values do not produce errors.</li>
 </ol>
-<p>Another possibility to apply R functions to data cubes is of course to convert data cubes to <code>stars</code> objects and use the <code>stars</code> package.</p>
-<div id="detecting-magnitudes-and-time-of-kndvi-changes" class="section level3">
-<h3>Detecting magnitudes and time of kNDVI changes</h3>
-<p>In our example, <code>bfastmonitor()</code> returns change date and change magnitude values per time series and we can use <code>reduce_time()</code>. The script below calculates the <a href="https://advances.sciencemag.org/content/7/9/eabc7447">kNDVI</a>, applies <code>bfastmonitor()</code>, and properly handles errors e.g. due to missing data with <code>tryCatch()</code>. Finally, resulting change dates and magnitudes for all pixel time series are written to disk as a netCDF file. The results shows the changes starting at 1/2019 until 12/2021 and Identify pretty well the impacts of drought an beetle in the MArburg University Forest (MOF).</p>
+<p>Another possibility to apply R functions to data cubes is of course to convert data cubes to <code>stars</code> objects and use the <code>stars</code> package for further analysis.</p>
+<div id="use-case-spatial-identification-of-magnitudes-and-time-periods-of-kndvi-changes" class="section level3">
+<h3>Use case: Spatial identification of magnitudes and time periods of kNDVI changes</h3>
+<p>In our example, <code>bfastmonitor()</code> returns change date and change magnitude values per time series and we can use <code>reduce_time()</code>. The script below calculates the <a href="https://advances.sciencemag.org/content/7/9/eabc7447">kNDVI</a>, applies <code>bfastmonitor()</code>, and properly handles errors e.g. due to missing data with <code>tryCatch()</code>. Finally, the resulting change dates and magnitudes of change for all pixel of the time series are written to disk as a netCDF file. The results shows the changes starting at 1/2019 until 12/2021 and Identify pretty well the dynamical impacts of drought and bark beetle in the Marburg University Forest (MOF).</p>
 <pre class="r"><code>library(sf)
 library(tmap)
 library(tmaptools)
@@ -630,7 +655,7 @@ system.time(
     }) |&gt;
     write_ncdf(paste0(tutorialDir,&quot;bf_results.nc&quot;),overwrite = TRUE))</code></pre>
 <pre><code>##        User      System verstrichen 
-##      70.093       1.712      17.569</code></pre>
+##      73.747       1.654      18.582</code></pre>
 <pre class="r"><code>library(tmap)
 
 mask &lt;- raster(paste0(tutorialDir,&quot;forest/only_forestmask.tif&quot;))
