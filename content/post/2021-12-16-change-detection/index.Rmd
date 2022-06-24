@@ -50,7 +50,7 @@ Wir werden uns mit den folgenden Themen beschäftigen:
 
 #  Klassifizierung von Fernerkundungsdaten
 
-Bitte beachten Sie, dass alle Arten der Klassifizierung eine in der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung, die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können, um schließlich  in der Datennachverarbeitung die inhaltliche Interpretation der Ergebnisse abzuleiten. Wir werden schrittweise die notwendigen Aufgaben erarbeiten.
+Bitte beachten Sie, dass alle Arten der Klassifizierung eine in der Regel aufwendige Datenvorverarbeitung erfordern. Im Zentrum stehen dann Modellbildung und Qualitätsschätzung, die als handwerkliche Grundlagen der Klassifizierung betrachtet werden können, um schließlich  in der Datennachverarbeitung die inhaltliche Interpretation der Ergebnisse abzuleiten. Wir werden schrittweise durch diesen Ablauf gehen.
 
 
 ## Überwachte Klassifizierung
@@ -132,7 +132,7 @@ Diese Daten müssen für den gewünschten Zeitslot und Raumausschnitt besorgt un
 <div class="collapse" id="collapse_json">
   <div class="card card-body">
 
-```
+```r
 {
   "preprocess": [true],
   "s2_levels": ["l1c", "l2a"],
@@ -317,7 +317,7 @@ Die wohl bekannteste unüberwachte Klassifizierungstechnik ist das K-means-Clust
 
 In unserem Beispiel (auf 5 Klassen angewendet und mit `unsuperClass` Funktion aus dem `RStoolbox` Paket ausgeführt) sieht das wie folgt aus. Der Clusteralgorithmus kann mit 5 Clustern eine recht passable Trennung der Lichtungen/Kahlschläge hinbekommen was eine Klassifikation vielversprechend erscheinen läßt. Experimetiren sie auch  mit anderen Clustereinstellungen und diskutieren sie die Ergebnisse. 
 
-```{r kmeans}
+```r
 ## k-means über RStoolbox
 # Modell
 prediction_kmeans_2019 = RStoolbox::unsuperClass(pred_stack_2019, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
@@ -327,7 +327,8 @@ plot(prediction_kmeans_2019$map)
 prediction_kmeans_2020 = RStoolbox::unsuperClass(pred_stack_2020, nClasses = 5,norm = TRUE, algorithm = "MacQueen")
 plot(prediction_kmeans_2020$map)
 ```
-
+![](images/kmeans-2020.png)
+![](images/kmeans-2019.png)
 
 
 ## Schritt 2 - Trainingsdaten erstellen
@@ -360,7 +361,7 @@ Exkurs: Trainingsgebiete mit mapedit erfassen
 
 Für diese Übung verwenden wir `mapedit`, ein kleines, aber feines Paket, das die Digitalisieren und Editieren  von Vektordaten im Rstudio- oder externen -browser ermöglicht. In Kombination mit `mapview` können auch beliebige  [Farbkomposita](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/composites/) als Grundlage für die Digitalisierung verwendet werden. 
 
-```{r farbkomposita, echo=TRUE, messages=FALSE, warnings=FALSE}
+```r
 
 m1 = tm_shape(pred_stack_2019) + tm_rgb(r=4, g=3, b=2) +
   tm_layout(legend.outside.position = "right",
@@ -380,7 +381,7 @@ m2 = tm_shape(pred_stack_2019) + tm_rgb(r=8, g=4, b=3) +
 tmap::tmap_arrange(m1,m2)
   
 ```
-
+![](images/rgb.png)
 
 Verwenden Sie die Ebenensteuerung, um die Ebenen umzuschalten.
   Bei Echtfarbkompositen werden die sichtbaren Spektralkanäle Rot (B04), Grün (B03) und Blau (B02) den entsprechenden roten, grünen bzw. blauen Farbkanälen zugeordnet, wodurch ein quasi natürliches *"farbiges"* Bild der Oberfläche entsteht, wie es ein Mensch sehen würde, der auf dem Satelliten sitzt.
@@ -487,7 +488,7 @@ tDF = readRDS(paste0(envrmt$path_data,"tDF.rds"))
 set.seed(123)
 
 # Zufälliges Ziehen von 15% der Daten (Training/Test)
-idx = createDataPartition(tDF$class,list = FALSE,p = 0.15)
+idx = createDataPartition(tDF$class,list = FALSE,p = 0.05)
 trainDat = tDF[idx,]
 testDat = tDF[-idx,]
 
@@ -508,11 +509,12 @@ crs(sp_testDat) = crs(pred_stack_2019)
 
 
 # superClass method "mlc" trainiert das Modell und klassifiziert im Anschluss
-raster::beginCluster(30)
-prediction_mlc_2019   <- superClass(pred_stack_2019, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class", model = "mlc", tuneLength = 1, trainPartition = 0.7,verbose = TRUE)
+#raster::beginCluster(30)
+prediction_mlc_2019   <- superClass(pred_stack_2019, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class", model = "mlc", tuneLength = 1, trainPartition = 0.3,verbose = TRUE)
 
-prediction_mlc_2020       <- superClass(pred_stack_2020, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class",model = "mlc", tuneLength = 1, trainPartition = 0.7,verbose = TRUE)
-raster::endCluster()
+prediction_mlc_2020       <- superClass(pred_stack_2020, trainData = sp_trainDat[,1:16],valData = sp_testDat[,1:16], responseCol = "class",model = "mlc", tuneLength = 1, trainPartition = 0.3,verbose = TRUE)
+saveRDS(prediction_mlc_2019, paste0(envrmt$path_data,"prediction_mlc_2019.rds"))
+saveRDS(prediction_mlc_2020, paste0(envrmt$path_data,"prediction_mlc_2020.rds"))
 ```
 
 
@@ -520,13 +522,12 @@ raster::endCluster()
 
 ### Random forest
 
-Random Forests können sowohl für Regressions- als auch für Klassifizierungsaufgaben verwendet werden, wobei letztere besonders in der Umwelt-Fernerkundung relevant sind. Wie bei jeder maschinellen Lernmethode lernt auch das Random-Forest-Modell, Muster und Strukturen in den Daten selbst zu erkennen. Da auch der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich EBENFALLS um eine überwachte Lernmethode.
+Random Forests können sowohl für Regressions- als auch für Klassifizierungsaufgaben verwendet werden, wobei letztere besonders in der Umwelt-Fernerkundung relevant sind. Wie bei jeder maschinellen Lernmethode lernt auch das Random-Forest-Modell, Muster und Strukturen in den Daten selbst zu erkennen. Da auch der Random-Forest-Algorithmus Trainingsdaten benötigt, handelt es sich ebenfalls um eine überwachte Lernmethode.
 ![](images/Random_forest_diagram_complete.png)!
 
 Abbildung: Vereinfachte Darstellung der Klassifizierung von Daten durch Random Forest während des Trainings. Venkata Jagannath [CC BY-SA 4.0] via wikipedia.org
 
-Ein Random-Forest-Algorithmus lernt über die Daten, indem er  Entscheidungsbäume erstellt - daher auch der Name "Forest". Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz eines Entscheidungsbaumes aus dem Trainingsdatensatz und weist dem Pixel die korrespondierende Klasse zu. Dies wird mit allen verfügbaren Entscheidungsbäuumen wiederholt. Letzlichwird nach dem Winner-takes-it-all Prinzip das Pixel der Klasse zugeordnet, die die meisten Bäume aufweist.
-
+Ein Random-Forest-Algorithmus lernt über die Daten, indem zufällige Entscheidungsbäume erstellt werden - daher auch der Name. Für Klassifizierungsaufgaben nimmt der Algorithmus eine passende Instanz eines Entscheidungsbaumes aus dem Trainingsdatensatz und weist dem Pixel die korrespondierende Klasse zu. Dies wird mit allen verfügbaren Entscheidungsbäuumen wiederholt. Letzlichwird nach dem Winner-takes-it-all Prinzip das Pixel der Klasse zugeordnet, die die meisten Bäume aufweist.
 
 
 ```{r random_forest , message = FALSE, warnings = FALSE}
@@ -546,7 +547,7 @@ rf_model = train(trainDat[,2:16],      # in den Spalten 2 bis 16 stehen die Trai
 
 rf_model
 
-saveRDS(rf_model, paste0(envrmt$path_data,"rf_model.rds"))
+#saveRDS(rf_model, paste0(envrmt$path_data,"rf_model.rds"))
 ```
 
 
@@ -587,13 +588,16 @@ saveRDS(prediction_rf_2020, paste0(envrmt$path_data,"prediction_rf_2020.rds"))
 
 ```
 
-Bei einem qualitativen Vergleich fällt auf, dass die `Random Forest` und `Maximumlikelihood` Klassifikation sehr ähnliche Ergebnisse von vergleichbarer Güte liefern.  
+ 
 
 
-```{r vergleichkalssifikationen}
-
+```{r vergleichklassifikationen}
+prediction_rf_2019 = readRDS(paste0(envrmt$path_data,"prediction_rf_2019.rds"))
+prediction_rf_2020 = readRDS(paste0(envrmt$path_data,"prediction_rf_2020.rds"))
+prediction_mlc_2019 = readRDS(paste0(envrmt$path_data,"prediction_mlc_2019.rds"))
+prediction_mlc_2020 = readRDS(paste0(envrmt$path_data,"prediction_mlc_2020.rds"))
 ## ---- Visualisierung mit mapview ----
-mapview::viewRGB(mask*pred_stack_2020, r = 4, g =3, b = 2,maxpixels =  1693870)+
+mapview::mapshot(mapview::viewRGB(mask*pred_stack_2020, r = 4, g =3, b = 2,maxpixels =  1693870)+
   mapview(mask*prediction_rf_2019 , alpha.regions = 0.5, maxpixels =  1693870,
           col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = TRUE) +
   mapview(mask*prediction_rf_2020, alpha.regions = 0.5, maxpixels =  1693870,
@@ -601,11 +605,16 @@ mapview::viewRGB(mask*pred_stack_2020, r = 4, g =3, b = 2,maxpixels =  1693870)+
   mapview(mask*prediction_mlc_2019$map,alpha.regions = 0.5, maxpixels =  1693870,
           col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE) +
   mapview(mask*prediction_mlc_2020$map,alpha.regions = 0.5, maxpixels =  1693870,
-          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE)
+          col.regions = mapviewPalette("mapviewRasterColors"),at = seq(0, nclasses, 1), legend = FALSE),url = "compare-class.html")
 
 ```
 
+<iframe valign="center" src="compare-class.html" width="1024" height="960" frameborder="0" allowfullscreen="allowfullscreen">
+</iframe>
+<figcaption>*Comparison of the two years and RF and MLC classification *</figcaption>
 
+<p>
+Bei einem visuellen Vergleich fällt auf, dass die `Random Forest` und `Maximumlikelihood` Klassifikationen Ergebnisse von vergleichbarer Güte liefern. Doch hält dieser Eindruck einer quantitativen Überprüfung Stand?
 
 ##  Weiterführende Unterstützung
 
