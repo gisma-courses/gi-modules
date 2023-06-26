@@ -2,8 +2,7 @@
 
 
 
-This course is brought to you from the working group on Geoinformatics Science of the [Department of Geography](https://www.uni-marburg.de/fb19).
-
+This course is part of [gisma spatial science ressources](https://gisma-courses.github.io/gc/) of the [Department of Geography](https://www.uni-marburg.de/fb19).
 
 The course content is developed and hosted on Github. 
 
