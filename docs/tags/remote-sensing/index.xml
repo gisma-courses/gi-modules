@@ -6,64 +6,56 @@
     <description>Recent content in remote sensing on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/remote-sensing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://gisma-courses.github.io/gi-modules/tags/remote-sensing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Analysis of massive Remote Sensing data</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</link>
       <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-15-analysis-of-massive-sentinel-data-using-stac-and-gdalcubes/</guid>
       <description>Introduction Big thanks to Marius Appel, who beside other contributions, gave 2021 at OpenGeoHub Summer School 2021 a great workshop. This blog post builds on that workshop and integrates some additional application aspects.
-Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.</description>
+Sentinel-2 is currently the most important platform for Earth observation in all areas, but especially for climate change, land use and ecological issues at all levels, from the upper micro level to the global level.
+There are two operational Sentinel-2 satellites: Sentinel-2A and Sentinel-2B, both in sun-synchronous polar orbits and 180 degrees out of phase.</description>
     </item>
-    
     <item>
       <title>Getting startet with LiDAR</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</guid>
       <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
     </item>
-    
     <item>
       <title>Forest Information from LiDAR data</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</link>
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</guid>
       <description>How to get started? For this first example we take a typical situation: - we have no idea about the software and possible solutions - we have no idea about LiDAR data processing and analysis - we just google something like lidR package tutorial
-Among the top ten is The lidR package book .</description>
+Among the top ten is The lidR package book . So let’s follow the white rabbit…
+Creating a Canopy Height Model (CHM) reloaded After successful application of the tutorial we will transfer it into a suitable script for our workflow.</description>
     </item>
-    
     <item>
       <title>Change Detection - Entwaldung im Harz</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</link>
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-03-r-spatial-in-der-nussschale/</guid>
       <description>Am Beispiel eines typischen Arbeitsablaufs könne sowohl die frisch erworbenen R-Fertigkeiten gefestigt als auch eine gute Arbeitspraxis eingeübt werden. Die Fragestellung mit der wir uns beschäftigen wollen ist die Erfassung der flächenhaften Verluste von Fichtenwald am Beispiel des Westharzes.
 Setup Grundsätzlich können Sie dies bereits mit ihren Basis-Fähigkeiten erfolgreich bearbeiten. Damit Sie sofort mit einer guten Struktur starten treffen wir noch ein paar Vorbereitungen. Zunächst installieren sie bitte das Paket envimaR.</description>
     </item>
-    
     <item>
       <title>Change Detection - Klassifikationsverfahren</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</link>
       <pubDate>Thu, 16 Dec 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-12-16-change-detection/</guid>
       <description>In den Geowissenschaften ist die Fernerkundung das einzige Messverfahren, das eine vollständige meßtechnische Abdeckung großer räumlicher Gebiete bis hin zur gesamten Erdoberfläche ermöglicht. Zur erfolgreichen Nutzung gehört sowohl die Anwendung existierender als auch die Anpassung und Entwicklung eigener Methoden.
 Einleitung In der Geo- oder Umweltinformatik ist die Erfassung von Landoberflächen-Veränderungen mittels Satelliten-, Flugzeug- oder Drohnenbildern, die sogenannte Change Detection Analysis ein wichtiger Anwendungsfall. Oft werden solche Ergebnisse mit bio- und geophysikalischen oder anthropogenen Prozessen in Verbindung gebracht, um ein sowohl ein tieferes Verständnis als auch die Möglichkeit zur Entwicklung von Vorhersagemodellen zu erhalten.</description>
     </item>
-    
     <item>
       <title>Change Detection - Auswertung</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2022-02-16-change-detection-assessing-the-numbers/</guid>
-      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit grundständigen Auswertungskonzepten.</description>
+      <description>Da in jeder Klassifizierung von Daten immer Fehlklassifikationen vorkommen und die Ursachen vielfältiger Art sein können und häufig nicht bestimmbar sind, ist ist die Bewertung der statistisch ermittelten Klassifikationsqualität von zentraler Bedeutung um die Belastbarkeit der Klassifikation einschätzen zu können. Der nachfolgende Artikel beschäftigt sich mit grundständigen Auswertungskonzepten.
+Setup root_folder = &amp;quot;~/edu/geoinfo/&amp;quot; # # Type: script # Name: change_detection_workflow.R # Description: basic reproducible Change Detection workflow for Sentinel data # data download -&amp;gt; digitizing training areas -&amp;gt; # extracting and preparing training data -&amp;gt; # example classifications: cluster analysis, random forest, MaxLike # quality assesment and comparison with basic tools, kappa, and motif # basic visualisation examples with tmap and mapview # Dependencies: # Output: original sentinel tile # AOI window of this tile (research_area) # training areas # Copyright: GPL (&amp;gt;= 3), Chris Reudenbach, creuden@gmail.</description>
     </item>
-    
   </channel>
 </rss>

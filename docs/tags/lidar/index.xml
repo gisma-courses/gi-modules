@@ -6,25 +6,23 @@
     <description>Recent content in lidar on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/lidar/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://gisma-courses.github.io/gi-modules/tags/lidar/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting startet with LiDAR</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-getting-startet-with-lidar/</guid>
       <description>LiDAR data and LAS data format Technically spoken the LiDAR data comes in the LAS file format (for a format definition i.e. have a look at the American Society for Photogrammetry &amp;amp; Remote Sensing LAS documentation file). One LAS data set typically but not necessarily covers an area of 1 km by 1 km. Since the point clouds in the LAS data sets are large, a spatial index file (LAX) considerably reduces search and select operations in the data.</description>
     </item>
-    
     <item>
       <title>Forest Information from LiDAR data</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</link>
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-20-forest-information-from-lidar-data/</guid>
       <description>How to get started? For this first example we take a typical situation: - we have no idea about the software and possible solutions - we have no idea about LiDAR data processing and analysis - we just google something like lidR package tutorial
-Among the top ten is The lidR package book .</description>
+Among the top ten is The lidR package book . So let’s follow the white rabbit…
+Creating a Canopy Height Model (CHM) reloaded After successful application of the tutorial we will transfer it into a suitable script for our workflow.</description>
     </item>
-    
   </channel>
 </rss>

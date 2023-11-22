@@ -6,132 +6,105 @@
     <description>Recent content in Tags on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://gisma-courses.github.io/gi-modules/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>change detection</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/change-detection/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/change-detection/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>forest</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/forest/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/forest/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>remote sensing</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/remote-sensing/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>validation</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/validation/</link>
       <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/validation/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ecology</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/ecology/</link>
       <pubDate>Tue, 15 Feb 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/ecology/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>lidar</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/lidar/</link>
       <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/lidar/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>aGIS</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/agis/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/agis/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>project management</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/project-management/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/project-management/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>reproducibility</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/reproducibility/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/reproducibility/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>resources</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/resources/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/resources/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Rmarkdown</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/rmarkdown/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/rmarkdown/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>xtra</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/xtra/</link>
       <pubDate>Mon, 15 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/xtra/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>scripts</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/scripts/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/scripts/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>working environment</title>
       <link>https://gisma-courses.github.io/gi-modules/tags/working-environment/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/tags/working-environment/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
