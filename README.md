@@ -1,8 +1,8 @@
-![Course Header](https://gisma-courses.github.io/gi-modules///assets/images/face-sp.jpg "Image source: C.Reudenbach")
+![Course Header](https://gisma-courses.github.io/gi-modules///assets/images/face-sp.jpg "Image source: C.Reudenbach ")
 
 
 
-This course is part of [gisma spatial science ressources](https://gisma-courses.github.io/gc/) of the [Department of Geography](https://www.uni-marburg.de/fb19).
+This course is part of the [gisma spatial science ressources](https://gisma-courses.github.io/gc/) of the [Department of Geography](https://www.uni-marburg.de/fb19).
 
 The course content is developed and hosted on Github. 
 
