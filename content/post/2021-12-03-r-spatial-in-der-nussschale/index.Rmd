@@ -52,11 +52,6 @@ Dann speichern und schliessen Sie bitte die Datei. Fürs Erste ist damit die Vor
 
 ## Sentinel-Satellitendaten - sen2r
 
-```{r echo=FALSE}
-blogdown::shortcode("alert", "Achtung", "danger" ,"red", "black", "`sen2r` ist seit November 2023 nicht mehr verfügbar")
-```
-
-
 Satellitendaten sind mittlerweile prinzipiell sowohl als Rohdaten als auch in den unterschiedlichsten Produkten leicht zugänglich. Ein Beispiel für eine Satelliten Mission, deren Daten standardmäßig in der Umwelt-Fernerkundung verwendet werden, ist die [Sentinel-2-Mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) der Europäischen Weltraumorganisation. In R sind diese Daten dank des Pakets `sen2r` sehr einfach verfügbar.
 
 Um `sen2r` zu installieren, müssen Sie `Rtools` installiert haben.

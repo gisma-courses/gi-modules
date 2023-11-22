@@ -6,24 +6,27 @@
     <description>Recent content in reproducibility on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Tue, 16 Nov 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://gisma-courses.github.io/gi-modules/tags/reproducibility/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/reproducibility/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Project-Oriented Workflow</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</guid>
       <description>Flexible but reproducible setup To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.
 If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</description>
     </item>
+    
     <item>
       <title>Academic writing made easy</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-16-making-of-academic-websites/</link>
       <pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate>
+      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-16-making-of-academic-websites/</guid>
       <description>Setting up the blogdown Project We will use blogdown as an incredible easy to use an effiecient tool for setting up websites and producing content. First you need to install the neccessary packages:
-# Install blogdown install.packages(&amp;#34;blogdown&amp;#34;) # Install the &amp;#34;hugo&amp;#34; website framework blogdown::install_hugo(force = TRUE) library(blogdown) To initialize a blogdown website I strongly recommend to use the menu bar of RStudio.
-RStudio toolbar -&amp;gt; File -&amp;gt; New Project -&amp;gt; New Directory -&amp;gt; blogdown website Copy gisma-courses/hugo-theme-cleanwhite-gc into the Hugo theme field activate Open in new session Click on Create Project After some seconds you will see the new website project.</description>
+# Install blogdown  install.packages(&amp;#34;blogdown&amp;#34;) # Install the &amp;#34;hugo&amp;#34; website framework blogdown::install_hugo(force = TRUE) library(blogdown) To initialize a blogdown website I strongly recommend to use the menu bar of RStudio.
+ RStudio toolbar -&amp;gt; File -&amp;gt; New Project -&amp;gt; New Directory -&amp;gt; blogdown website Copy gisma-courses/hugo-theme-cleanwhite-gc into the Hugo theme field activate Open in new session Click on Create Project  After some seconds you will see the new website project.</description>
     </item>
+    
   </channel>
 </rss>
