@@ -33,7 +33,7 @@ However all solution can be linked to R (we did it over the years) the `lidr` pa
 
 ## Start up test 
 
-For the following, make sure these libraries are part of your setup (should be the case if you follow [project oriented workflow post]( {{< ref "2021-11-13-project-oriented-workflow" >}})).
+For the following, make sure these libraries are part of your setup (should be the case if you follow [project oriented workflow post](https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow).
 
 We make a short general check that we can start over with the real processing, i.e. we check if everything is ready to use. first set up your project environment:
 

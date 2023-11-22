@@ -6,16 +6,15 @@
     <description>Recent content in scripts on gi-modules</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us^</language>
-    <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://gisma-courses.github.io/gi-modules/tags/scripts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://gisma-courses.github.io/gi-modules/tags/scripts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Project-Oriented Workflow</title>
       <link>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://gisma-courses.github.io/gi-modules/post/2021-11-13-project-oriented-workflow/</guid>
       <description>Flexible but reproducible setup To set up a working or project environment, (normally) the first steps are defining different folder paths and loading the necessary R packages as well as additional functions.
 If you also need to access additional software, like GIS, the appropriate binaries and software environments must be linked, too. Factoring in the major operating systems and the potentially multiple versions of software installed on a single system results in almost unlimited combinations of set ups.</description>
     </item>
-    
   </channel>
 </rss>
